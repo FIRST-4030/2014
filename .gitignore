@@ -54,6 +54,7 @@ build
 dist
 nbproject/private
 nbproject/project.bak.xml
+nbproject/project.xml
 atlassian-ide-plugin.xml
 *.iml
 *.ipr
