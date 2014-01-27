@@ -14,25 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ingrahamrobotics.robot2014.variablestore;
+package org.ingrahamrobotics.robot2014;
 
-/**
- * This is the main variable store, holding all static cable-related values.
- */
-public final class Vst {
+import org.ingrahamrobotics.robot2014.commands.ExampleCommand;
+import org.ingrahamrobotics.robot2014.subsystems.ExampleSubsystem;
 
-    /**
-     * PWM Statics
-     */
-    public static final class PWM {
+public class SubsystemStore {
 
-        /**
-         * Port for the left drive motor
-         */
-        public static final int LEFT_MOTOR_PORT = 1;
-        /**
-         * Port for the right drive motor
-         */
-        public static final int RIGHT_MOTOR_PORT = 2;
+    public final ExampleSubsystem exampleSubsystem;
+
+    public SubsystemStore() {
+        this.exampleSubsystem = new ExampleSubsystem();
+    }
+
+    public void initCommands() {
+        // Initialize commands here, for example:
+        ExampleCommand example = new ExampleCommand(this);
     }
 }
