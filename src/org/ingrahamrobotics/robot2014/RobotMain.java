@@ -4,11 +4,12 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.ingrahamrobotics.robot2014.commands.CommandBase;
+import org.ingrahamrobotics.robot2014.commands.SubsystemStore;
 import org.ingrahamrobotics.robot2014.commands.ExampleCommand;
 
 public class RobotMain extends IterativeRobot {
 
+    public SubsystemStore ss;
     Command autonomousCommand;
 
     /**
@@ -16,11 +17,13 @@ public class RobotMain extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-        // instantiate the command used for the autonomous period
-        autonomousCommand = new ExampleCommand();
-
         // Initialize all subsystems
-        CommandBase.init();
+        ss = new SubsystemStore();
+        // instantiate the command used for the autonomous period
+        autonomousCommand = new ExampleCommand(ss);
+        // Initialize all commands
+        ss.initCommands();
+        System.out.println("Robot Ready!");
     }
 
     public void autonomousInit() {

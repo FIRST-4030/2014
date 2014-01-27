@@ -21,7 +21,7 @@ public class Output {
         SmartDashboard.putString(key.replace(':', '|'), value);
     }
 
-    public void outputInfo(String key, String message, boolean dashboard) {
+    public void outputInternal(String key, String message, boolean dashboard) {
         if (key == null || message == null) {
             return;
         }
@@ -62,23 +62,23 @@ public class Output {
     }
 
     public static void output(String key, String value, boolean dashboard) {
-        main.outputInfo(key, value, dashboard);
+        main.outputInternal(key, value, dashboard);
     }
 
     public static void output(String key, int value, boolean dashboard) {
-        main.outputInfo(key, String.valueOf(value), dashboard);
+        main.outputInternal(key, String.valueOf(value), dashboard);
     }
 
     public static void output(String key, double value, boolean dashboard) {
-        main.outputInfo(key, String.valueOf(((int) (value * 100)) / 100.0), dashboard);
+        main.outputInternal(key, String.valueOf(((int) (value * 100)) / 100.0), dashboard);
     }
 
     public static void output(String key, short value, boolean dashboard) {
-        main.outputInfo(key, String.valueOf(value), dashboard);
+        main.outputInternal(key, String.valueOf(value), dashboard);
     }
 
     public static void output(String key, boolean value, boolean dashboard) {
-        main.outputInfo(key, String.valueOf(value ? "Yes" : "No"), dashboard);
+        main.outputInternal(key, String.valueOf(value ? "Yes" : "No"), dashboard);
     }
 
     public static void repushDashboard() {
@@ -94,6 +94,5 @@ public class Output {
             this.message = message;
             this.dashboard = dashboard;
         }
-
     }
 }

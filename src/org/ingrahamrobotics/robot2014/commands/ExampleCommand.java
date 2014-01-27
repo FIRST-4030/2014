@@ -1,14 +1,14 @@
 package org.ingrahamrobotics.robot2014.commands;
 
-/**
- *
- * @author bradmiller
- */
-public class ExampleCommand extends CommandBase {
+import edu.wpi.first.wpilibj.command.Command;
 
+public class ExampleCommand extends Command {
+
+    private final SubsystemStore ss;
     private boolean finished;
 
-    public ExampleCommand() {
+    public ExampleCommand(SubsystemStore ss) {
+        this.ss = ss;
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
@@ -20,6 +20,7 @@ public class ExampleCommand extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        ss.exampleSubsystem.doSomething();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -29,5 +30,8 @@ public class ExampleCommand extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
+    }
+
+    protected void interrupted() {
     }
 }
