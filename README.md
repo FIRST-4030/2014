@@ -1,4 +1,4 @@
-FRC4030-2014Robot
-=================
+2014
+====
 
-Temporary project for FRC code for 2014 robot for FRC team 4030
+2014 FRC Robot code for Team 4030.
