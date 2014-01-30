@@ -18,8 +18,8 @@ package org.ingrahamrobotics.robot2014.cmu;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Vector;
-import org.ingrahamrobotics.robot2014.util.LinkedList;
-import org.ingrahamrobotics.robot2014.util.ListIterator;
+import org.ingrahamrobotics.util.LinkedList;
+import org.ingrahamrobotics.util.ListIterator;
 
 public class CMUUtils {
 

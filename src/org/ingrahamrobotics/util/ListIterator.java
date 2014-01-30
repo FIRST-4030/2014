@@ -22,7 +22,7 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package org.ingrahamrobotics.robot2014.util;
+package org.ingrahamrobotics.util;
 
 /**
  * An iterator for lists that allows the programmer to traverse the list in

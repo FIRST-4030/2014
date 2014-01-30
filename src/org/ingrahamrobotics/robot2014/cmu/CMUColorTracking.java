@@ -19,7 +19,7 @@ package org.ingrahamrobotics.robot2014.cmu;
 import java.io.IOException;
 import org.ingrahamrobotics.robot2014.cmu.api.CMUColorTrackingListener;
 import org.ingrahamrobotics.robot2014.cmu.api.CMUCommandSet;
-import org.ingrahamrobotics.robot2014.util.LinkedList;
+import org.ingrahamrobotics.util.LinkedList;
 
 public class CMUColorTracking extends CMUCommandSet {
 

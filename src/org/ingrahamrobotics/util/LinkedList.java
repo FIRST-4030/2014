@@ -22,7 +22,7 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package org.ingrahamrobotics.robot2014.util;
+package org.ingrahamrobotics.util;
 
 import java.util.NoSuchElementException;
 
