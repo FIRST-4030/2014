@@ -14,29 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ingrahamrobotics.robot2014.cmu.crio;
+package org.ingrahamrobotics.robot2014.log;
 
-import java.io.IOException;
-import org.ingrahamrobotics.robot2014.cmu.AbstractDebug;
-import org.ingrahamrobotics.robot2014.cmu.CMUCamConnection;
-import org.ingrahamrobotics.robot2014.log.Output;
+public class OutputLevel {
 
-public class SerialCMUCamConnection extends CMUCamConnection {
+    public static final OutputLevel LOW = new OutputLevel(1, "Low");
+    public static final OutputLevel MEDIUM = new OutputLevel(2, "Medium");
+    public static final OutputLevel HIGH = new OutputLevel(3, "High");
+    public final int level;
+    public final String name;
 
-    public SerialCMUCamConnection() {
-        super(new FirstDebug());
-    }
-
-    protected void setBaud(int baud) throws IOException {
-    }
-
-    protected void close() throws IOException {
-    }
-
-    public static class FirstDebug implements AbstractDebug {
-
-        public void log(String msg) {
-            Output.output("SerialDebug", msg, false);
-        }
+    public OutputLevel(int level, String name) {
+        this.level = level;
+        this.name = name;
     }
 }

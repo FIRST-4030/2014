@@ -20,6 +20,9 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.io.IOException;
+import org.ingrahamrobotics.dotnettables.DotNetTables;
 import org.ingrahamrobotics.robot2014.commands.ExampleCommand;
 
 public class RobotMain extends IterativeRobot {
@@ -32,6 +35,13 @@ public class RobotMain extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+        try {
+            DotNetTables.startServer();
+        } catch (IOException ex) {
+            System.out.println("Failed to start DotNetTables server");
+            SmartDashboard.putString("error", "Failed to start DotNetTables!");
+            ex.printStackTrace();
+        }
         // Initialize all subsystems
         ss = new SubsystemStore();
         // instantiate the command used for the autonomous period
