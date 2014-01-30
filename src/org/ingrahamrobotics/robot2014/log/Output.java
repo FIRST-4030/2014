@@ -16,7 +16,6 @@
  */
 package org.ingrahamrobotics.robot2014.log;
 
-import edu.wpi.first.wpilibj.networktables2.util.List;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import org.ingrahamrobotics.dotnettables.DotNetTable;
@@ -29,44 +28,43 @@ import org.ingrahamrobotics.util.LinkedList;
 public class Output {
 
     private static final Output instance = new Output();
-    private final Hashtable valueTable = new Hashtable();
-    private final Hashtable tablesTable = new Hashtable();
-    private final Hashtable lastSendDates = new Hashtable();
+    private final Hashtable values = new Hashtable();
+    private final Hashtable tables = new Hashtable();
     private final Object needUpdateLock = new Object();
-    private final LinkedList tablesNeedingUpdate = new LinkedList();
-    private boolean updating = false;
+    private final LinkedList updatingTables = new LinkedList();
+    private boolean updateRunning = false;
 
-    private void outputConsole(String key, String value) {
-        System.out.println("[Output] [" + key + "] " + value);
+    private void outputConsole(OutputLevel level, String key, String value) {
+        System.out.println("[Output][" + level + "][" + key + "] " + value);
     }
 
     private void outputDash(OutputLevel level, String key, String value) {
-        DotNetTable table = (DotNetTable) tablesTable.get(level);
+        DotNetTable table = (DotNetTable) tables.get(level);
         if (table == null) {
             table = DotNetTables.publish(String.valueOf(level.level));
             table.setValue("table.name", level.name);
-            tablesTable.put(level, table);
+            tables.put(level, table);
         }
         table.setValue(key, value);
         synchronized (needUpdateLock) {
-            if (!tablesNeedingUpdate.contains(table)) {
-                tablesNeedingUpdate.add(table);
+            if (!updatingTables.contains(table)) {
+                updatingTables.add(table);
             }
-            if (!updating) {
-                updating = true;
+            if (!updateRunning) {
+                updateRunning = true;
                 new Thread() {
                     public void run() {
                         try {
                             Thread.sleep(100);
                         } catch (InterruptedException ex) {
                             ex.printStackTrace();
-                            updating = false;
+                            updateRunning = false;
                             return;
                         }
                         synchronized (needUpdateLock) {
-                            updating = false;
+                            updateRunning = false;
                             DotNetTable table;
-                            while ((table = (DotNetTable) tablesNeedingUpdate.poll()) != null) {
+                            while ((table = (DotNetTable) updatingTables.poll()) != null) {
                                 table.send();
                             }
                         }
@@ -81,34 +79,27 @@ public class Output {
         if (key == null || message == null) {
             return;
         }
-        StoredInfo old;
-        synchronized (valueTable) {
-            old = (StoredInfo) valueTable.get(key);
-            if (old == null) {
-                valueTable.put(key, new StoredInfo(message, level));
-            } else if (!message.equals(old.message)) {
-                old.message = message;
+        boolean changed = false;
+        synchronized (values) {
+            String oldMessage = (String) values.get(key);
+            if (oldMessage == null || !message.equals(oldMessage)) {
+                values.put(key, message);
+                changed = true;
             }
         }
-        if (old == null || !message.equals(old.message)) {
-            outputConsole(key, message);
+        if (changed) {
+            outputConsole(level, key, message);
+            outputDash(level, key, message);
         }
-        outputDash(level, key, message);
     }
 
     /**
-     * Re-push all tables.
+     * Resends all tables.
      */
     public void pushAll() {
-        for (Enumeration e = tablesTable.elements(); e.hasMoreElements();) {
+        for (Enumeration e = tables.elements(); e.hasMoreElements();) {
             ((DotNetTable) e.nextElement()).send();
         }
-//        Enumeration e = valueTable.keys();
-//        while (e.hasMoreElements()) {
-//            String key = (String) e.nextElement();
-//            StoredInfo info = (StoredInfo) valueTable.get(key);
-//            outputDash(info.level, key, info.message);
-//        }
     }
 
     public static void output(OutputLevel level, String key, String value) {
@@ -133,16 +124,5 @@ public class Output {
 
     public static void repushDashboard() {
         instance.pushAll();
-    }
-
-    public static class StoredInfo {
-
-        private String message;
-        private final OutputLevel level;
-
-        public StoredInfo(String message, OutputLevel level) {
-            this.message = message;
-            this.level = level;
-        }
     }
 }
