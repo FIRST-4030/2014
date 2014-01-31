@@ -18,9 +18,11 @@ package org.ingrahamrobotics.robot2014.log;
 
 public class OutputLevel {
 
-    public static final OutputLevel LOW = new OutputLevel(1, "Low");
-    public static final OutputLevel MEDIUM = new OutputLevel(2, "Medium");
-    public static final OutputLevel HIGH = new OutputLevel(3, "High");
+    public static final OutputLevel RAW_MOTORS = new OutputLevel(0, "Raw Motors");
+    public static final OutputLevel RAW_SENSORS = new OutputLevel(1, "Raw Sensors");
+    public static final OutputLevel LOW = new OutputLevel(2, "Low");
+    public static final OutputLevel MEDIUM = new OutputLevel(3, "Medium");
+    public static final OutputLevel HIGH = new OutputLevel(4, "High");
     public final int level;
     public final String name;
 

@@ -110,7 +110,7 @@ public class CMUCamSubsystem extends CMUCamConnection {
     public static class FirstDebug implements AbstractDebug {
 
         public void log(String msg) {
-            Output.output(OutputLevel.LOW, "SerialDebug", msg);
+            Output.output(OutputLevel.RAW_SENSORS, "SerialDebug", msg);
         }
     }
 }

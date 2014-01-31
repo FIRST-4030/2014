@@ -32,6 +32,7 @@ public class Output {
     private final Hashtable tables = new Hashtable();
     private final Object needUpdateLock = new Object();
     private final LinkedList updatingTables = new LinkedList();
+    private final DotNetTable tableNames = DotNetTables.publish("output-tables");
     private boolean updateRunning = false;
 
     private void outputConsole(OutputLevel level, String key, String value) {
@@ -39,11 +40,11 @@ public class Output {
     }
 
     private void outputDash(OutputLevel level, String key, String value) {
-        DotNetTable table = (DotNetTable) tables.get(level);
+        DotNetTable table = (DotNetTable) tables.get("output-" + level.level);
         if (table == null) {
             table = DotNetTables.publish(String.valueOf(level.level));
-            table.setValue("table.name", level.name);
             tables.put(level, table);
+            tableNames.setValue("output-" + level.level, level.name);
         }
         table.setValue(key, value);
         synchronized (needUpdateLock) {
@@ -52,24 +53,7 @@ public class Output {
             }
             if (!updateRunning) {
                 updateRunning = true;
-                new Thread() {
-                    public void run() {
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException ex) {
-                            ex.printStackTrace();
-                            updateRunning = false;
-                            return;
-                        }
-                        synchronized (needUpdateLock) {
-                            updateRunning = false;
-                            DotNetTable table;
-                            while ((table = (DotNetTable) updatingTables.poll()) != null) {
-                                table.send();
-                            }
-                        }
-                    }
-                }.start();
+                new UpdateThread().start();
             }
         }
 //        SmartDashboard.putString(key, value);
@@ -124,5 +108,23 @@ public class Output {
 
     public static void repushDashboard() {
         instance.pushAll();
+    }
+
+    private class UpdateThread extends Thread {
+
+        public void run() {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            synchronized (needUpdateLock) {
+                updateRunning = false;
+                DotNetTable table;
+                while ((table = (DotNetTable) updatingTables.poll()) != null) {
+                    table.send();
+                }
+            }
+        }
     }
 }
