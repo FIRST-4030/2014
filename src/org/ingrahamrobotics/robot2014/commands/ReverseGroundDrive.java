@@ -14,21 +14,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ingrahamrobotics.robot2014;
+package org.ingrahamrobotics.robot2014.commands;
 
-import org.ingrahamrobotics.robot2014.commands.ExampleCommand;
-import org.ingrahamrobotics.robot2014.subsystems.ExampleSubsystem;
+import edu.wpi.first.wpilibj.command.Command;
+import org.ingrahamrobotics.robot2014.Subsystems;
 
-public class SubsystemStore {
+public class ReverseGroundDrive extends Command {
 
-    public final ExampleSubsystem exampleSubsystem;
+    private final Subsystems ss = Subsystems.instance;
+    private boolean finished;
 
-    public SubsystemStore() {
-        this.exampleSubsystem = new ExampleSubsystem();
+    protected void initialize() {
+        finished = false;
     }
 
-    public void initCommands() {
-        // Initialize commands here, for example:
-        ExampleCommand example = new ExampleCommand(this);
+    protected void execute() {
+        ss.groundDrive.setReversed(!ss.groundDrive.isReversed());
+        finished = true;
+    }
+
+    protected boolean isFinished() {
+        return finished;
+    }
+
+    protected void end() {
+    }
+
+    protected void interrupted() {
     }
 }

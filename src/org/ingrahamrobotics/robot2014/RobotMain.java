@@ -24,10 +24,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.io.IOException;
 import org.ingrahamrobotics.dotnettables.DotNetTables;
 import org.ingrahamrobotics.robot2014.commands.ExampleCommand;
+import org.ingrahamrobotics.robot2014.log.Output;
+import org.ingrahamrobotics.robot2014.log.OutputLevel;
 
 public class RobotMain extends IterativeRobot {
 
-    public SubsystemStore ss;
     Command autonomousCommand;
 
     /**
@@ -42,13 +43,11 @@ public class RobotMain extends IterativeRobot {
             SmartDashboard.putString("error", "Failed to start DotNetTables!");
             ex.printStackTrace();
         }
-        // Initialize all subsystems
-        ss = new SubsystemStore();
-        // instantiate the command used for the autonomous period
-        autonomousCommand = new ExampleCommand(ss);
         // Initialize all commands
-        ss.initCommands();
-        System.out.println("Robot Ready!");
+        Subsystems.instance.initCommands();
+        // instantiate the command used for the autonomous period
+        autonomousCommand = new ExampleCommand();
+        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "Robot:State", "Ready!");
     }
 
     public void autonomousInit() {

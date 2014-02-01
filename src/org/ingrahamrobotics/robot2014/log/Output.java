@@ -103,7 +103,7 @@ public class Output {
     }
 
     public static void output(OutputLevel level, String key, boolean value) {
-        instance.outputInternal(level, key, String.valueOf(value ? "Yes" : "No"));
+        instance.outputInternal(level, key, value ? "true" : "false");
     }
 
     public static void repushDashboard() {

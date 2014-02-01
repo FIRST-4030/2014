@@ -14,22 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ingrahamrobotics.robot2014.subsystems;
+package org.ingrahamrobotics.robot2014.input;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
-import org.ingrahamrobotics.robot2014.log.Output;
-import org.ingrahamrobotics.robot2014.log.OutputLevel;
+public class BMap {
 
-public class ExampleSubsystem extends Subsystem {
+    public static final BMap reverseGroundDrive = new BMap(JMap.DRIVE_JOYSTICK, JMap.Button.JoystickTop.BOTTOM);
+    public static final BMap groundDriveFastLeft = new BMap(JMap.DRIVE_JOYSTICK, JMap.Button.JoystickTop.LEFT);
+    public static final BMap groundDriveFastRight = new BMap(JMap.DRIVE_JOYSTICK, JMap.Button.JoystickTop.RIGHT);
+    private final int joystick;
+    private final int button;
 
-    public ExampleSubsystem() {
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "ExampleSubsystem:Initialized", true);
+    private BMap(int joystick, int button) {
+        this.joystick = joystick;
+        this.button = button;
     }
 
-    public void initDefaultCommand() {
+    public int getJoystick() {
+        return joystick;
     }
 
-    public void doSomething() {
-        // Example subsystem method
+    public int getButton() {
+        return button;
     }
 }
