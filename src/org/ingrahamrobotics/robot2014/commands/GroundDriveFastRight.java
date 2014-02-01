@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Ingraham Robotics Team 4030
+ * Copyright (C) 2013-2014 Ingraham Robotics Team 4030
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,25 +49,16 @@ public class GroundDriveFastRight extends Command {
      */
     private long doneTimeStamp;
 
-    /**
-     * New FastTurnRobotDriveRight()
-     */
     public GroundDriveFastRight() {
         requires(ss.groundDrive);
     }
 
-    /**
-     * Initializes this command. (Preparation for execute())
-     */
     protected void initialize() {
         state = 0;
         finished = false;
         speed = 0;
     }
 
-    /**
-     * Execute this command. (Called multiple times through execution)
-     */
     protected void execute() {
         if (state == 0) {
             if (speed + speedDif >= 1) {
