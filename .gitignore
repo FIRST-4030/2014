@@ -52,10 +52,9 @@ dependency-reduced-pom.xml
 .settings
 build
 dist
-nbproject/private
-nbproject/project.bak.xml
-nbproject/project.xml
+nbproject/
 atlassian-ide-plugin.xml
+nbactions.xml
 *.iml
 *.ipr
 *.iws
