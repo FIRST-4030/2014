@@ -16,34 +16,35 @@
  */
 package org.ingrahamrobotics.robot2014.commands;
 
-import org.ingrahamrobotics.robot2014.Subsystems;
 import edu.wpi.first.wpilibj.command.Command;
+import org.ingrahamrobotics.robot2014.Subsystems;
+import org.ingrahamrobotics.robot2014.input.AMap;
+import org.ingrahamrobotics.robot2014.input.JInput;
 
-public class ExampleCommand extends Command {
+public class RunGroundDrive extends Command {
 
     private final Subsystems ss = Subsystems.instance;
-    private boolean finished;
 
-    public ExampleCommand() {
-        requires(ss.exampleSubsystem);
+    public RunGroundDrive() {
+        requires(ss.groundDrive);
     }
 
     protected void initialize() {
-        finished = false;
     }
 
     protected void execute() {
-        ss.exampleSubsystem.doSomething();
-        finished = true;
+        ss.groundDrive.arcadeDrive(JInput.getAxis(AMap.driveY), JInput.getAxis(AMap.driveX));
     }
 
     protected boolean isFinished() {
-        return finished;
+        return false;
     }
 
     protected void end() {
+        ss.groundDrive.stop();
     }
 
     protected void interrupted() {
+        ss.groundDrive.stop();
     }
 }

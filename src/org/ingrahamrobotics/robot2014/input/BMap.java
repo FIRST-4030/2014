@@ -14,21 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ingrahamrobotics.robot2014;
+package org.ingrahamrobotics.robot2014.input;
 
-import org.ingrahamrobotics.robot2014.commands.ExampleCommand;
-import org.ingrahamrobotics.robot2014.subsystems.ExampleSubsystem;
+public class BMap {
 
-public class SubsystemStore {
+    public static final BMap reverseGroundDrive = new BMap(JMap.DRIVE_JOYSTICK, JMap.Button.JoystickTop.BOTTOM);
+    public static final BMap groundDriveFastLeft = new BMap(JMap.DRIVE_JOYSTICK, JMap.Button.JoystickTop.LEFT);
+    public static final BMap groundDriveFastRight = new BMap(JMap.DRIVE_JOYSTICK, JMap.Button.JoystickTop.RIGHT);
+    private final int joystick;
+    private final int button;
 
-    public final ExampleSubsystem exampleSubsystem;
-
-    public SubsystemStore() {
-        this.exampleSubsystem = new ExampleSubsystem();
+    private BMap(int joystick, int button) {
+        this.joystick = joystick;
+        this.button = button;
     }
 
-    public void initCommands() {
-        // Initialize commands here, for example:
-        ExampleCommand example = new ExampleCommand(this);
+    public int getJoystick() {
+        return joystick;
+    }
+
+    public int getButton() {
+        return button;
     }
 }

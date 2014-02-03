@@ -14,29 +14,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ingrahamrobotics.robot2014.cmu.crio;
+package org.ingrahamrobotics.robot2014.commands;
 
-import java.io.IOException;
-import org.ingrahamrobotics.robot2014.cmu.AbstractDebug;
-import org.ingrahamrobotics.robot2014.cmu.CMUCamConnection;
-import org.ingrahamrobotics.robot2014.log.Output;
+import edu.wpi.first.wpilibj.command.Command;
+import org.ingrahamrobotics.robot2014.Subsystems;
 
-public class SerialCMUCamConnection extends CMUCamConnection {
+public class ReverseGroundDrive extends Command {
 
-    public SerialCMUCamConnection() {
-        super(new FirstDebug());
+    private final Subsystems ss = Subsystems.instance;
+    private boolean finished;
+
+    protected void initialize() {
+        finished = false;
     }
 
-    protected void setBaud(int baud) throws IOException {
+    protected void execute() {
+        ss.groundDrive.setReversed(!ss.groundDrive.isReversed());
+        finished = true;
     }
 
-    protected void close() throws IOException {
+    protected boolean isFinished() {
+        return finished;
     }
 
-    public static class FirstDebug implements AbstractDebug {
+    protected void end() {
+    }
 
-        public void log(String msg) {
-            Output.output("SerialDebug", msg, false);
-        }
+    protected void interrupted() {
     }
 }

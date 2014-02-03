@@ -14,22 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ingrahamrobotics.robot2014.subsystems;
+package org.ingrahamrobotics.robot2014.log;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
-import org.ingrahamrobotics.robot2014.log.Output;
-import org.ingrahamrobotics.robot2014.log.OutputLevel;
+public class OutputLevel {
 
-public class ExampleSubsystem extends Subsystem {
+    public static final OutputLevel INITIALIZED_SYSTEMS = new OutputLevel(-3, "Initialized");
+    public static final OutputLevel RAW_MOTORS = new OutputLevel(-2, "Raw Motors");
+    public static final OutputLevel RAW_SENSORS = new OutputLevel(-1, "Raw Sensors");
+    public static final OutputLevel LOW = new OutputLevel(1, "Low");
+    public static final OutputLevel MEDIUM = new OutputLevel(2, "Medium");
+    public static final OutputLevel HIGH = new OutputLevel(3, "High");
+    public final int level;
+    public final String name;
 
-    public ExampleSubsystem() {
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "ExampleSubsystem:Initialized", true);
-    }
-
-    public void initDefaultCommand() {
-    }
-
-    public void doSomething() {
-        // Example subsystem method
+    public OutputLevel(int level, String name) {
+        this.level = level;
+        this.name = name;
     }
 }

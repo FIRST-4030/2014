@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import org.ingrahamrobotics.robot2014.cmu.AbstractDebug;
 import org.ingrahamrobotics.robot2014.cmu.CMUCamConnection;
 import org.ingrahamrobotics.robot2014.log.Output;
+import org.ingrahamrobotics.robot2014.log.OutputLevel;
 
 public class CMUCamSubsystem extends CMUCamConnection {
 
@@ -109,7 +110,7 @@ public class CMUCamSubsystem extends CMUCamConnection {
     public static class FirstDebug implements AbstractDebug {
 
         public void log(String msg) {
-            Output.output("SerialDebug", msg, false);
+            Output.output(OutputLevel.RAW_SENSORS, "SerialDebug", msg);
         }
     }
 }

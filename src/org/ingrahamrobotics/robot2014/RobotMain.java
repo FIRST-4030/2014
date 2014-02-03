@@ -20,11 +20,15 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.io.IOException;
+import org.ingrahamrobotics.dotnettables.DotNetTables;
 import org.ingrahamrobotics.robot2014.commands.ExampleCommand;
+import org.ingrahamrobotics.robot2014.log.Output;
+import org.ingrahamrobotics.robot2014.log.OutputLevel;
 
 public class RobotMain extends IterativeRobot {
 
-    public SubsystemStore ss;
     Command autonomousCommand;
 
     /**
@@ -32,13 +36,18 @@ public class RobotMain extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-        // Initialize all subsystems
-        ss = new SubsystemStore();
-        // instantiate the command used for the autonomous period
-        autonomousCommand = new ExampleCommand(ss);
+        try {
+            DotNetTables.startServer();
+        } catch (IOException ex) {
+            System.out.println("Failed to start DotNetTables server");
+            SmartDashboard.putString("error", "Failed to start DotNetTables!");
+            ex.printStackTrace();
+        }
         // Initialize all commands
-        ss.initCommands();
-        System.out.println("Robot Ready!");
+        Subsystems.instance.initCommands();
+        // instantiate the command used for the autonomous period
+        autonomousCommand = new ExampleCommand();
+        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "Robot:State", "Ready!");
     }
 
     public void autonomousInit() {
