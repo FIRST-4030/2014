@@ -79,8 +79,8 @@ public class DynamicTableSend {
                         threadPausedLock.wait(MAX_TIME);
                     }
                     time = System.currentTimeMillis();
-                    if (time > lastPartialUpdate + MIN_TIME) {
-                        Thread.sleep(MIN_TIME - (time - lastPartialUpdate));
+                    if (time < lastPartialUpdate + MIN_TIME) {
+                        Thread.sleep(MIN_TIME + lastPartialUpdate - time);
                     }
                     lastPartialUpdate = time = System.currentTimeMillis();
                     if (time > lastFullUpdate + MAX_TIME) {
@@ -105,7 +105,6 @@ public class DynamicTableSend {
                 if (table == null) {
                     break;
                 }
-                System.out.println("Updating table " + table.name());
                 table.send();
             }
         }
@@ -123,7 +122,6 @@ public class DynamicTableSend {
                 }
             }
             for (ListIterator iterator = list.listIterator(0); iterator.hasNext();) {
-                System.out.println("Updating table " + ((DotNetTable) iterator.next()).name());
                 ((DotNetTable) iterator.next()).send();
             }
         }

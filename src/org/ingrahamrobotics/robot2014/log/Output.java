@@ -60,8 +60,6 @@ public class Output {
         if (changed) {
             outputConsole(level, key, message);
             outputDash(level, key, message);
-        } else {
-            System.out.println("Value updated but not changed '" + key + "'.");
         }
     }
 
