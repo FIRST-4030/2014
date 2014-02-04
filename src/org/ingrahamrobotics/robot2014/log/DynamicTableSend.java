@@ -16,21 +16,45 @@
  */
 package org.ingrahamrobotics.robot2014.log;
 
+import java.util.Enumeration;
 import java.util.Hashtable;
 import org.ingrahamrobotics.dotnettables.DotNetTable;
+import org.ingrahamrobotics.dotnettables.DotNetTables;
 import org.ingrahamrobotics.util.LinkedList;
+import org.ingrahamrobotics.util.ListIterator;
 
 public class DynamicTableSend {
 
+    private static final long MIN_TIME = 300;
+    private static final long MAX_TIME = 5000;
     private final LinkedList tablesNeedingUpdate = new LinkedList();
-    private Boolean needsFullUpdate;
     private final Hashtable tables = new Hashtable();
     private final Object threadPausedLock = new Object();
 
     public DynamicTableSend() {
+        start();
+    }
+
+    private void start() {
         new UpdateThread().start();
     }
 
+    public DotNetTable getPublished(String name) {
+        synchronized (tables) {
+            return (DotNetTable) tables.get(name);
+        }
+    }
+
+    public DotNetTable publish(String name) {
+        synchronized (tables) {
+            DotNetTable table = (DotNetTable) tables.get(name);
+            if (table == null) {
+                table = DotNetTables.publish(name);
+                tables.put(name, table);
+            }
+            return table;
+        }
+    }
 
     public void tableChanged(DotNetTable table) {
         synchronized (tablesNeedingUpdate) {
@@ -46,21 +70,29 @@ public class DynamicTableSend {
     private class UpdateThread extends Thread {
 
         public void run() {
-            while (true) {
-                long lastFullUpdate;
-
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-                synchronized (needUpdateLock) {
-                    long currentTime = System.currentTimeMillis();
-                    while ((table = (DotNetTable) tablesNeedingUpdate.poll()) != null) {
-                        System.out.println("Updating table " + table.name());
-                        table.send();
+            long lastFullUpdate = System.currentTimeMillis();
+            long lastPartialUpdate = System.currentTimeMillis();
+            long time;
+            try {
+                while (true) {
+                    synchronized (threadPausedLock) {
+                        threadPausedLock.wait(MAX_TIME);
+                    }
+                    time = System.currentTimeMillis();
+                    if (time > lastPartialUpdate + MIN_TIME) {
+                        Thread.sleep(MIN_TIME - (time - lastPartialUpdate));
+                    }
+                    lastPartialUpdate = time = System.currentTimeMillis();
+                    if (time > lastFullUpdate + MAX_TIME) {
+                        lastFullUpdate = time;
+                        updateAllTables();
+                    } else {
+                        updateTables();
                     }
                 }
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+                start();
             }
         }
 
@@ -73,12 +105,27 @@ public class DynamicTableSend {
                 if (table == null) {
                     break;
                 }
+                System.out.println("Updating table " + table.name());
                 table.send();
             }
         }
 
         private void updateAllTables() {
-            DotNetTable table;
+            synchronized (tablesNeedingUpdate) {
+                tablesNeedingUpdate.clear();
+            }
+            LinkedList list = new LinkedList();
+            synchronized (tables) {
+                Enumeration e = tables.elements();
+                ListIterator iterator = list.listIterator(0);
+                while (e.hasMoreElements()) {
+                    iterator.add(e.nextElement());
+                }
+            }
+            for (ListIterator iterator = list.listIterator(0); iterator.hasNext();) {
+                System.out.println("Updating table " + ((DotNetTable) iterator.next()).name());
+                ((DotNetTable) iterator.next()).send();
+            }
         }
     }
 }

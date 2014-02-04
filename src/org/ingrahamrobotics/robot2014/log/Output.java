@@ -18,7 +18,6 @@ package org.ingrahamrobotics.robot2014.log;
 
 import java.util.Hashtable;
 import org.ingrahamrobotics.dotnettables.DotNetTable;
-import org.ingrahamrobotics.dotnettables.DotNetTables;
 
 /**
  * Output, for user feedback.
@@ -27,18 +26,17 @@ public class Output {
 
     private static final Output instance = new Output();
     private final Hashtable values = new Hashtable();
-    private final DotNetTable nameTable = DotNetTables.publish("output-tables");
     private final DynamicTableSend tableSend = new DynamicTableSend();
+    private final DotNetTable nameTable = tableSend.publish("output-tables");
 
     private void outputConsole(OutputLevel level, String key, String value) {
         System.out.println("[Output][" + level + "][" + key + "] " + value);
     }
 
     private void outputDash(OutputLevel level, String key, String value) {
-        DotNetTable table = (DotNetTable) tables.get("output:" + level.level);
+        DotNetTable table = tableSend.getPublished("output:" + level.level);
         if (table == null) {
-            table = DotNetTables.publish(String.valueOf(level.level));
-            tables.put(level, table);
+            table = tableSend.publish("output:" + level.level);
             nameTable.setValue("output:" + level.level, level.name);
             tableSend.tableChanged(nameTable);
         }
@@ -62,6 +60,8 @@ public class Output {
         if (changed) {
             outputConsole(level, key, message);
             outputDash(level, key, message);
+        } else {
+            System.out.println("Value updated but not changed '" + key + "'.");
         }
     }
 
@@ -83,9 +83,5 @@ public class Output {
 
     public static void output(OutputLevel level, String key, boolean value) {
         instance.outputInternal(level, key, value ? "true" : "false");
-    }
-
-    public static void repushDashboard() {
-        instance.pushAll();
     }
 }
