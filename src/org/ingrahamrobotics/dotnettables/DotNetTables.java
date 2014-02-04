@@ -34,7 +34,10 @@ public class DotNetTables {
 
             // Attempt to init the underlying NetworkTable
             try {
-                NetworkTable.initialize();
+                try {
+                    NetworkTable.initialize();
+                } catch (IllegalStateException ex) {
+                }
                 nt_table = NetworkTable.getTable(TABLE_NAME);
                 connected = true;
             } catch (IOException ex) {

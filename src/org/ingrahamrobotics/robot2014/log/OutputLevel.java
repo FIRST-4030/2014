@@ -18,17 +18,22 @@ package org.ingrahamrobotics.robot2014.log;
 
 public class OutputLevel {
 
-    public static final OutputLevel INITIALIZED_SYSTEMS = new OutputLevel(-3, "Initialized");
-    public static final OutputLevel RAW_MOTORS = new OutputLevel(-2, "Raw Motors");
-    public static final OutputLevel RAW_SENSORS = new OutputLevel(-1, "Raw Sensors");
-    public static final OutputLevel LOW = new OutputLevel(1, "Low");
-    public static final OutputLevel MEDIUM = new OutputLevel(2, "Medium");
-    public static final OutputLevel HIGH = new OutputLevel(3, "High");
+    public static final OutputLevel INITIALIZED_SYSTEMS = new OutputLevel(0, "Initialized");
+    public static final OutputLevel RAW_MOTORS = new OutputLevel(1, "Raw Motors");
+    public static final OutputLevel RAW_SENSORS = new OutputLevel(2, "Raw Sensors");
+    public static final OutputLevel NO_CONSOLE = new OutputLevel(3, "NonConsole (Test)");
+    public static final OutputLevel LOW = new OutputLevel(4, "Low");
+    public static final OutputLevel MEDIUM = new OutputLevel(5, "Medium");
+    public static final OutputLevel HIGH = new OutputLevel(6, "High");
     public final int level;
     public final String name;
 
     public OutputLevel(int level, String name) {
         this.level = level;
         this.name = name;
+    }
+
+    public String toString() {
+        return name;
     }
 }
