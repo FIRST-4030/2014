@@ -19,7 +19,6 @@ package org.ingrahamrobotics.robot2014;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveFastLeft;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveFastRight;
 import org.ingrahamrobotics.robot2014.commands.ReverseGroundDrive;
-import org.ingrahamrobotics.robot2014.commands.TableTestCommand;
 import org.ingrahamrobotics.robot2014.input.BMap;
 import org.ingrahamrobotics.robot2014.input.JInput;
 import org.ingrahamrobotics.robot2014.subsystems.ExampleSubsystem;
@@ -40,6 +39,5 @@ public class Subsystems {
         JInput.getButton(BMap.reverseGroundDrive).whenPressed(new ReverseGroundDrive());
         JInput.getButton(BMap.groundDriveFastLeft).whenPressed(new GroundDriveFastLeft());
         JInput.getButton(BMap.groundDriveFastRight).whenPressed(new GroundDriveFastRight());
-        new TableTestCommand().start();
     }
 }

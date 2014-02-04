@@ -105,6 +105,7 @@ public class DynamicTableSend {
                 if (table == null) {
                     break;
                 }
+                System.out.println("Sending table " + table.name() + ".");
                 table.send();
             }
         }
