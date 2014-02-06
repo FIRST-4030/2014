@@ -135,15 +135,15 @@ public class DynamicTableSend {
          * doesn't work if the number of keys is the same as last time.
          * <br>
          * This method is a hack to get around that issue. It will add or remove
-         * the 'bump' key depending if it already exists.
+         * the '_bump' key depending if it already exists.
          *
          * @param table the table to 'bump'.
          */
         private void bump(DotNetTable table) {
-            if (table.exists("bump")) {
-                table.remove("bump");
+            if (table.exists("_bump")) {
+                table.remove("_bump");
             } else {
-                table.setValue("bump", "bump");
+                table.setValue("_bump", "_bump");
             }
         }
     }
