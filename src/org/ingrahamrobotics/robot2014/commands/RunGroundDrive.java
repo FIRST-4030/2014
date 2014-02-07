@@ -33,7 +33,8 @@ public class RunGroundDrive extends Command {
     }
 
     protected void execute() {
-        ss.groundDrive.arcadeDrive(JInput.getAxis(AMap.driveY), JInput.getAxis(AMap.driveX));
+//        ss.groundDrive.arcadeDrive(JInput.getAxis(AMap.arcadeDriveY), JInput.getAxis(AMap.arcadeDriveX));
+        ss.groundDrive.tankDrive(JInput.getAxis(AMap.tankDriveLeft),JInput.getAxis(AMap.tankDriveRight));
     }
 
     protected boolean isFinished() {

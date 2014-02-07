@@ -18,10 +18,14 @@ package org.ingrahamrobotics.robot2014.input;
 
 public class BMap {
 
-    public static final BMap reverseGroundDrive = new BMap(JMap.DRIVE_JOYSTICK, JMap.Button.JoystickTop.BOTTOM);
-    public static final BMap groundDriveFastLeft = new BMap(JMap.DRIVE_JOYSTICK, JMap.Button.JoystickTop.LEFT);
-    public static final BMap groundDriveFastRight = new BMap(JMap.DRIVE_JOYSTICK, JMap.Button.JoystickTop.RIGHT);
-    public static final BMap groundDriveToggleHighSpeed = new BMap(JMap.DRIVE_JOYSTICK, JMap.Button.JoystickTop.TRIGGER);
+    public static final BMap reverseGroundDrive1 = new BMap(JMap.DRIVE_JOYSTICK1, JMap.Button.JoystickTop.BOTTOM);
+    public static final BMap groundDriveFastLeft1 = new BMap(JMap.DRIVE_JOYSTICK1, JMap.Button.JoystickTop.LEFT);
+    public static final BMap groundDriveFastRight1 = new BMap(JMap.DRIVE_JOYSTICK1, JMap.Button.JoystickTop.RIGHT);
+    public static final BMap groundDriveToggleHighSpeed1 = new BMap(JMap.DRIVE_JOYSTICK1, JMap.Button.JoystickTop.TRIGGER);
+    public static final BMap reverseGroundDrive2 = new BMap(JMap.DRIVE_JOYSTICK2, JMap.Button.JoystickTop.BOTTOM);
+    public static final BMap groundDriveFastLeft2 = new BMap(JMap.DRIVE_JOYSTICK2, JMap.Button.JoystickTop.LEFT);
+    public static final BMap groundDriveFastRight2 = new BMap(JMap.DRIVE_JOYSTICK2, JMap.Button.JoystickTop.RIGHT);
+    public static final BMap groundDriveToggleHighSpeed2 = new BMap(JMap.DRIVE_JOYSTICK2, JMap.Button.JoystickTop.TRIGGER);
     private final int joystick;
     private final int button;
 

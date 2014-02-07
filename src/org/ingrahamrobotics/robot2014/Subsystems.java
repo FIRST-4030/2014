@@ -43,9 +43,13 @@ public class Subsystems {
     }
 
     public void initCommands() {
-        JInput.getButton(BMap.reverseGroundDrive).whenPressed(new ReverseGroundDrive());
-        JInput.getButton(BMap.groundDriveFastLeft).whenPressed(new GroundDriveFastLeft());
-        JInput.getButton(BMap.groundDriveFastRight).whenPressed(new GroundDriveFastRight());
-        JInput.getButton(BMap.groundDriveToggleHighSpeed).whenActive(new GroundDriveToggleHighSpeed());
+        JInput.getButton(BMap.reverseGroundDrive1).whenPressed(new ReverseGroundDrive());
+        JInput.getButton(BMap.groundDriveFastLeft1).whenPressed(new GroundDriveFastLeft());
+        JInput.getButton(BMap.groundDriveFastRight1).whenPressed(new GroundDriveFastRight());
+        JInput.getButton(BMap.groundDriveToggleHighSpeed1).whenActive(new GroundDriveToggleHighSpeed());
+        JInput.getButton(BMap.reverseGroundDrive2).whenPressed(new ReverseGroundDrive());
+        JInput.getButton(BMap.groundDriveFastLeft2).whenPressed(new GroundDriveFastLeft());
+        JInput.getButton(BMap.groundDriveFastRight2).whenPressed(new GroundDriveFastRight());
+        JInput.getButton(BMap.groundDriveToggleHighSpeed2).whenActive(new GroundDriveToggleHighSpeed());
     }
 }

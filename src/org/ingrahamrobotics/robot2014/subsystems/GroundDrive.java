@@ -48,7 +48,19 @@ public class GroundDrive extends Subsystem {
         }
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Speed", speed);
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Turn", turn);
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankLeft", -1);
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankRight", -1);
         roboDrive.arcadeDrive(speed, turn);
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftMotor.get());
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());
+    }
+
+    public void tankDrive(double leftSpeed, double rightSpeed) {
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Speed", -1);
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Turn", -1);
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankLeft", leftSpeed);
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankRight", rightSpeed);
+        roboDrive.tankDrive(leftSpeed, rightSpeed);
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftMotor.get());
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());
     }

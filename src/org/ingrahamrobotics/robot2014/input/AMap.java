@@ -18,8 +18,10 @@ package org.ingrahamrobotics.robot2014.input;
 
 public class AMap {
 
-    public static final AMap driveX = new AMap(JMap.DRIVE_JOYSTICK, JMap.Axis.X);
-    public static final AMap driveY = new AMap(JMap.DRIVE_JOYSTICK, JMap.Axis.Y);
+    public static final AMap arcadeDriveX = new AMap(JMap.DRIVE_JOYSTICK1, JMap.Axis.X);
+    public static final AMap arcadeDriveY = new AMap(JMap.DRIVE_JOYSTICK1, JMap.Axis.Y);
+    public static final AMap tankDriveLeft = new AMap(JMap.DRIVE_JOYSTICK1, JMap.Axis.Y);
+    public static final AMap tankDriveRight = new AMap(JMap.DRIVE_JOYSTICK2, JMap.Axis.Y);
     public static final AMap turnTable = new AMap(JMap.SHOOTER_JOYSTICK, JMap.Axis.Y);
     private final int joystick;
     private final int axis;

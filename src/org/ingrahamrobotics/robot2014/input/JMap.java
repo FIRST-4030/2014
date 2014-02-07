@@ -8,8 +8,9 @@ package org.ingrahamrobotics.robot2014.input;
  */
 public class JMap {
 
-    public static final int DRIVE_JOYSTICK = 0;
-    public static final int SHOOTER_JOYSTICK = 1;
+    public static final int SHOOTER_JOYSTICK = 0;
+    public static final int DRIVE_JOYSTICK1 = 1;
+    public static final int DRIVE_JOYSTICK2 = 2;
 
     public static class Axis {
 
