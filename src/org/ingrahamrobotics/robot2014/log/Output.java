@@ -16,6 +16,7 @@
  */
 package org.ingrahamrobotics.robot2014.log;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.Hashtable;
 import org.ingrahamrobotics.dotnettables.DotNetTable;
 
@@ -42,7 +43,7 @@ public class Output {
         }
         table.setValue(key, value);
         tableSend.tableChanged(table);
-//        SmartDashboard.putString(key, value);
+        SmartDashboard.putString(key, value);
     }
 
     public void outputInternal(OutputLevel level, String key, String message) {

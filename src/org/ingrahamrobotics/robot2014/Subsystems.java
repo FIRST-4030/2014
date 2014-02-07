@@ -16,16 +16,16 @@
  */
 package org.ingrahamrobotics.robot2014;
 
-import org.ingrahamrobotics.robot2014.commands.GroundDriveDisableHighSpeed;
-import org.ingrahamrobotics.robot2014.commands.GroundDriveEnableHighSpeed;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveFastLeft;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveFastRight;
+import org.ingrahamrobotics.robot2014.commands.GroundDriveToggleHighSpeed;
 import org.ingrahamrobotics.robot2014.commands.ReverseGroundDrive;
 import org.ingrahamrobotics.robot2014.input.BMap;
 import org.ingrahamrobotics.robot2014.input.JInput;
 import org.ingrahamrobotics.robot2014.subsystems.ExampleSubsystem;
 import org.ingrahamrobotics.robot2014.subsystems.GroundDrive;
 import org.ingrahamrobotics.robot2014.subsystems.GroundDriveShifter;
+import org.ingrahamrobotics.robot2014.subsystems.TurnTable;
 
 public class Subsystems {
 
@@ -33,18 +33,19 @@ public class Subsystems {
     public final ExampleSubsystem exampleSubsystem;
     public final GroundDrive groundDrive;
     public final GroundDriveShifter groundDriveShifter;
+    public final TurnTable turnTable;
 
     public Subsystems() {
         exampleSubsystem = new ExampleSubsystem();
         groundDrive = new GroundDrive();
         groundDriveShifter = new GroundDriveShifter();
+        turnTable = new TurnTable();
     }
 
     public void initCommands() {
         JInput.getButton(BMap.reverseGroundDrive).whenPressed(new ReverseGroundDrive());
         JInput.getButton(BMap.groundDriveFastLeft).whenPressed(new GroundDriveFastLeft());
         JInput.getButton(BMap.groundDriveFastRight).whenPressed(new GroundDriveFastRight());
-        JInput.getButton(BMap.groundDriveEnableHighSpeed).whenActive(new GroundDriveEnableHighSpeed());
-        JInput.getButton(BMap.groundDriveDisableHighSpeed).whenActive(new GroundDriveDisableHighSpeed());
+        JInput.getButton(BMap.groundDriveToggleHighSpeed).whenActive(new GroundDriveToggleHighSpeed());
     }
 }

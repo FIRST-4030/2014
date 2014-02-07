@@ -18,32 +18,33 @@ package org.ingrahamrobotics.robot2014.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.ingrahamrobotics.robot2014.Subsystems;
+import org.ingrahamrobotics.robot2014.input.AMap;
+import org.ingrahamrobotics.robot2014.input.JInput;
 
-public class GroundDriveEnableHighSpeed extends Command {
+public class RunTurnTable extends Command {
 
     private final Subsystems ss = Subsystems.instance;
-    private boolean finished;
 
-    public GroundDriveEnableHighSpeed() {
-        requires(ss.groundDriveShifter);
+    public RunTurnTable() {
+        requires(ss.turnTable);
     }
 
     protected void initialize() {
-        finished = false;
     }
 
     protected void execute() {
-        ss.groundDriveShifter.setSpeed(true);
-        finished = true;
+        ss.turnTable.drive((JInput.getAxis(AMap.turnTable1) + JInput.getAxis(AMap.turnTable2)) / 2);
     }
 
     protected boolean isFinished() {
-        return finished;
+        return false;
     }
 
     protected void end() {
+        ss.turnTable.stop();
     }
 
     protected void interrupted() {
+        ss.turnTable.stop();
     }
 }

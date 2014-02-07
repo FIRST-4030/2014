@@ -19,12 +19,12 @@ package org.ingrahamrobotics.robot2014.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.ingrahamrobotics.robot2014.Subsystems;
 
-public class GroundDriveDisableHighSpeed extends Command {
+public class GroundDriveToggleHighSpeed extends Command {
 
     private final Subsystems ss = Subsystems.instance;
     private boolean finished;
 
-    public GroundDriveDisableHighSpeed() {
+    public GroundDriveToggleHighSpeed() {
         requires(ss.groundDriveShifter);
     }
 
@@ -33,7 +33,7 @@ public class GroundDriveDisableHighSpeed extends Command {
     }
 
     protected void execute() {
-        ss.groundDriveShifter.setSpeed(false);
+        ss.groundDriveShifter.setSpeed(!ss.groundDriveShifter.getSpeed());
         finished = true;
     }
 

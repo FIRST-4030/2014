@@ -16,29 +16,35 @@
  */
 package org.ingrahamrobotics.robot2014.subsystems;
 
+import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.ingrahamrobotics.robot2014.commands.RunGroundDrive;
+import org.ingrahamrobotics.robot2014.commands.RunTurnTable;
 import org.ingrahamrobotics.robot2014.log.Output;
 import org.ingrahamrobotics.robot2014.log.OutputLevel;
-import org.ingrahamrobotics.robot2014.util.SolenoidPair;
 import org.ingrahamrobotics.robot2014.variablestore.Vst;
 
-public class GroundDriveShifter extends Subsystem {
+public class TurnTable extends Subsystem {
 
-    private final SolenoidPair shifterPair = new SolenoidPair(Vst.SOLENOID.GROUND_DRIVE_SHIFTER_EXTEND, Vst.SOLENOID.GROUND_DRIVE_SHIFTER_RETRACT, true);
+    private final Jaguar firstMotor = new Jaguar(Vst.PWM.LEFT_MOTOR_PORT);
+    private final Jaguar secondMotor = new Jaguar(Vst.PWM.RIGHT_MOTOR_PORT);
 
-    public GroundDriveShifter() {
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "GroundDriveShifter:Initialized", true);
+    public TurnTable() {
+        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "TurnTable:Initialized", true);
     }
 
     protected void initDefaultCommand() {
+        setDefaultCommand(new RunTurnTable());
     }
 
-    public void setSpeed(boolean speed) {
-        Output.output(OutputLevel.MEDIUM, "GroundDrive:HighSpeed", speed);
-        shifterPair.setExtending(speed);
+    public void drive(double speed) {
+        Output.output(OutputLevel.RAW_MOTORS, "TurnTable:Speed", speed);
+        firstMotor.set(speed);
+        secondMotor.set(speed);
     }
 
-    public boolean getSpeed() {
-        return shifterPair.isExtending();
+    public void stop() {
+        firstMotor.stopMotor();
+        secondMotor.stopMotor();
     }
 }
