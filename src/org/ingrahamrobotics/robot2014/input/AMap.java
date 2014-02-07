@@ -20,8 +20,7 @@ public class AMap {
 
     public static final AMap driveX = new AMap(JMap.DRIVE_JOYSTICK, JMap.Axis.X);
     public static final AMap driveY = new AMap(JMap.DRIVE_JOYSTICK, JMap.Axis.Y);
-    public static final AMap turnTable1 = new AMap(JMap.SHOOTER_JOYSTICK, JMap.Axis.Y);
-    public static final AMap turnTable2 = new AMap(JMap.SHOOTER_JOYSTICK, JMap.Axis.X);
+    public static final AMap turnTable = new AMap(JMap.SHOOTER_JOYSTICK, JMap.Axis.Y);
     private final int joystick;
     private final int axis;
 
