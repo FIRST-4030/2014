@@ -21,6 +21,8 @@ public class BMap {
     public static final BMap reverseGroundDrive = new BMap(JMap.DRIVE_JOYSTICK, JMap.Button.JoystickTop.BOTTOM);
     public static final BMap groundDriveFastLeft = new BMap(JMap.DRIVE_JOYSTICK, JMap.Button.JoystickTop.LEFT);
     public static final BMap groundDriveFastRight = new BMap(JMap.DRIVE_JOYSTICK, JMap.Button.JoystickTop.RIGHT);
+    public static final BMap groundDriveEnableHighSpeed = new BMap(JMap.DRIVE_JOYSTICK, JMap.Button.JoystickStand.BOTTOM_LEFT);
+    public static final BMap groundDriveDisableHighSpeed = new BMap(JMap.DRIVE_JOYSTICK, JMap.Button.JoystickStand.BOTTOM_RIGHT);
     private final int joystick;
     private final int button;
 

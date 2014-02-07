@@ -35,12 +35,20 @@ public class SolenoidPair {
         extending = extendingFirst;
     }
 
+    public boolean setExtending(boolean extending) {
+        retractingSolenoid.set(!extending);
+        extendingSolenoid.set(extending);
+        boolean lastExtending = this.extending;
+        this.extending = extending;
+        return lastExtending != extending;
+    }
+
     /**
      * Extends this SolenoidPair. (Sets the extendingSolenoid to true, and the
      * retractingSolenoid to false).
      *
-     * @return Whether or not the solenoid state was changed. (basically
-     * returns whether or not the solenoid was retracting before.)
+     * @return Whether or not the solenoid state was changed. (basically returns
+     * whether or not the solenoid was retracting before.)
      */
     public boolean extend() {
         retractingSolenoid.set(false);
