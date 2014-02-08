@@ -25,6 +25,8 @@ import org.ingrahamrobotics.robot2014.input.JInput;
 import org.ingrahamrobotics.robot2014.subsystems.ExampleSubsystem;
 import org.ingrahamrobotics.robot2014.subsystems.GroundDrive;
 import org.ingrahamrobotics.robot2014.subsystems.GroundDriveShifter;
+import org.ingrahamrobotics.robot2014.subsystems.PressureCompressor;
+import org.ingrahamrobotics.robot2014.subsystems.PressureSwitch;
 import org.ingrahamrobotics.robot2014.subsystems.TurnTable;
 
 public class Subsystems {
@@ -34,12 +36,16 @@ public class Subsystems {
     public final GroundDrive groundDrive;
     public final GroundDriveShifter groundDriveShifter;
     public final TurnTable turnTable;
+    public final PressureSwitch pressureSwitch;
+    public final PressureCompressor compressor;
 
     public Subsystems() {
         exampleSubsystem = new ExampleSubsystem();
         groundDrive = new GroundDrive();
         groundDriveShifter = new GroundDriveShifter();
         turnTable = new TurnTable();
+        pressureSwitch = new PressureSwitch();
+        compressor = new PressureCompressor();
     }
 
     public void initCommands() {

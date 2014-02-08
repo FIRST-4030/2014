@@ -39,7 +39,30 @@ public final class Vst {
     }
 
     public static final class SOLENOID {
+
         public static final int GROUND_DRIVE_SHIFTER_EXTEND = 1;
         public static final int GROUND_DRIVE_SHIFTER_RETRACT = 2;
+    }
+
+    /**
+     * Digital IO Statics
+     */
+    public static final class DIGITAL_IO {
+
+        /**
+         * Port for the pressure switch
+         */
+        public static final int PRESSURE_SWITCH = 1;
+    }
+
+    /**
+     * Relay Statics
+     */
+    public static final class RELAY {
+
+        /**
+         * Port for the compressor spike
+         */
+        public static final int COMPRESSOR_SPIKE = 1;
     }
 }
