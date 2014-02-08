@@ -21,11 +21,13 @@ public class BMap {
     public static final BMap reverseGroundDrive1 = new BMap(JMap.DRIVE_JOYSTICK1, JMap.Button.JoystickTop.BOTTOM);
     public static final BMap groundDriveFastLeft1 = new BMap(JMap.DRIVE_JOYSTICK1, JMap.Button.JoystickTop.LEFT);
     public static final BMap groundDriveFastRight1 = new BMap(JMap.DRIVE_JOYSTICK1, JMap.Button.JoystickTop.RIGHT);
-    public static final BMap groundDriveToggleHighSpeed1 = new BMap(JMap.DRIVE_JOYSTICK1, JMap.Button.JoystickTop.TRIGGER);
+    public static final BMap groundDriveToggleShifter1 = new BMap(JMap.DRIVE_JOYSTICK1, JMap.Button.JoystickTop.TRIGGER);
+    public static final BMap groundDriveToggleSoftwareLow1 = new BMap(JMap.DRIVE_JOYSTICK1, JMap.Button.JoystickTop.TRIGGER);
     public static final BMap reverseGroundDrive2 = new BMap(JMap.DRIVE_JOYSTICK2, JMap.Button.JoystickTop.BOTTOM);
     public static final BMap groundDriveFastLeft2 = new BMap(JMap.DRIVE_JOYSTICK2, JMap.Button.JoystickTop.LEFT);
     public static final BMap groundDriveFastRight2 = new BMap(JMap.DRIVE_JOYSTICK2, JMap.Button.JoystickTop.RIGHT);
-    public static final BMap groundDriveToggleHighSpeed2 = new BMap(JMap.DRIVE_JOYSTICK2, JMap.Button.JoystickTop.TRIGGER);
+    public static final BMap groundDriveToggleShifter2 = new BMap(JMap.DRIVE_JOYSTICK2, JMap.Button.JoystickTop.TRIGGER);
+    public static final BMap groundDriveToggleSoftwareLow2 = new BMap(JMap.DRIVE_JOYSTICK2, JMap.Button.JoystickTop.TRIGGER);
     private final int joystick;
     private final int button;
 

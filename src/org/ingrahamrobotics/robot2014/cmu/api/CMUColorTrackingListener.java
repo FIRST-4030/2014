@@ -19,8 +19,8 @@ package org.ingrahamrobotics.robot2014.cmu.api;
 public interface CMUColorTrackingListener {
 
     /**
-     * @param values int[8]  containing color tracking information
-     *                  (mx my x1 y1 x2 y2 pixels confidence)
+     * @param values int[8] containing color tracking information (mx my x1 y1
+     * x2 y2 pixels confidence)
      */
     public void onNewColorTrackingData(int[] values);
 }

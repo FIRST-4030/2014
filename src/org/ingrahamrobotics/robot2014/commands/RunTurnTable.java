@@ -33,7 +33,7 @@ public class RunTurnTable extends Command {
     }
 
     protected void execute() {
-        ss.turnTable.drive(JInput.getAxis(AMap.turnTable) );
+        ss.turnTable.drive(JInput.getAxis(AMap.turnTable));
     }
 
     protected boolean isFinished() {

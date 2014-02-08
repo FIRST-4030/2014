@@ -29,6 +29,7 @@ public class GroundDrive extends Subsystem {
     private final Jaguar leftMotor = new Jaguar(Vst.PWM.LEFT_MOTOR_PORT);
     private final Jaguar rightMotor = new Jaguar(Vst.PWM.RIGHT_MOTOR_PORT);
     private final RobotDrive roboDrive;
+    private boolean softwareLowSpeed;
     private boolean reversed;
 
     public GroundDrive() {
@@ -36,6 +37,8 @@ public class GroundDrive extends Subsystem {
         roboDrive.setSafetyEnabled(false);
         roboDrive.stopMotor();
         Output.output(OutputLevel.INITIALIZED_SYSTEMS, "GroundDrive:Initialized", true);
+        setReversed(false);
+        setSoftwareLowSpeed(false);
     }
 
     protected void initDefaultCommand() {
@@ -46,18 +49,31 @@ public class GroundDrive extends Subsystem {
         if (reversed) {
             speed *= -1;
         }
+        if (softwareLowSpeed) {
+            speed *= 0.5;
+        }
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Speed", speed);
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Turn", turn);
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankLeft", -1);
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankRight", -1);
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankLeft", null);
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankRight", null);
         roboDrive.arcadeDrive(speed, turn);
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftMotor.get());
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());
     }
 
     public void tankDrive(double leftSpeed, double rightSpeed) {
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Speed", -1);
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Turn", -1);
+        if (reversed) {
+            double temp = rightSpeed;
+            leftSpeed = -1 * rightSpeed;
+            rightSpeed = -1 * temp;
+        }
+
+        if (softwareLowSpeed) {
+            leftSpeed *= 0.5;
+            rightSpeed *= 0.5;
+        }
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Speed", null);
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Turn", null);
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankLeft", leftSpeed);
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankRight", rightSpeed);
         roboDrive.tankDrive(leftSpeed, rightSpeed);
@@ -72,6 +88,15 @@ public class GroundDrive extends Subsystem {
 
     public boolean isReversed() {
         return reversed;
+    }
+
+    public void setSoftwareLowSpeed(boolean softwareLowSpeed) {
+        Output.output(OutputLevel.MEDIUM, "GroundDrive:SoftwareLow", softwareLowSpeed);
+        this.softwareLowSpeed = softwareLowSpeed;
+    }
+
+    public boolean isSoftwareLowSpeed() {
+        return softwareLowSpeed;
     }
 
     public void stop() {

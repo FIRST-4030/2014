@@ -31,7 +31,11 @@ public class Output {
     private final DotNetTable nameTable = tableSend.publish("output-tables");
 
     private void outputConsole(OutputLevel level, String key, String value) {
-        System.out.println("[Output][" + level + "][" + key + "] " + value);
+        if (value == null) {
+            System.out.println("[Output][" + level + "] -" + key);
+        } else {
+            System.out.println("[Output][" + level + "][" + key + "] " + value);
+        }
     }
 
     private void outputDash(OutputLevel level, String key, String value) {
@@ -41,19 +45,23 @@ public class Output {
             nameTable.setValue("output:" + level.level, level.name);
             tableSend.tableChanged(nameTable);
         }
-        table.setValue(key, value);
+        if (value == null) {
+            table.remove(key);
+        } else {
+            table.setValue(key, value);
+        }
         tableSend.tableChanged(table);
         SmartDashboard.putString(key, value);
     }
 
     public void outputInternal(OutputLevel level, String key, String message) {
-        if (key == null || message == null) {
+        if (key == null) {
             return;
         }
         boolean changed = false;
         synchronized (values) {
             String oldMessage = (String) values.get(key);
-            if (oldMessage == null || !message.equals(oldMessage)) {
+            if (message == null ? oldMessage != null : !message.equals(oldMessage)) {
                 values.put(key, message);
                 changed = true;
             }

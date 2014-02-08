@@ -58,7 +58,7 @@ public class CMUUtils {
      * @param input The input string
      * @param delimiter The thing to split by
      * @return the split
-     */ 
+     */
     public static String[] split(String input, String delimiter) {
         Vector node = new Vector();
         int index = input.indexOf(delimiter);

@@ -22,7 +22,6 @@ import org.ingrahamrobotics.robot2014.Subsystems;
 public class GroundDriveFastLeft extends Command {
 
     private final Subsystems ss = Subsystems.instance;
-
     private static final double speedDif = -0.1;
     private static final double reverseSpeedDif = -0.3;
     private static final long timeOn = 125;

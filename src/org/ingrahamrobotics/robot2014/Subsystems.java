@@ -18,7 +18,8 @@ package org.ingrahamrobotics.robot2014;
 
 import org.ingrahamrobotics.robot2014.commands.GroundDriveFastLeft;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveFastRight;
-import org.ingrahamrobotics.robot2014.commands.GroundDriveToggleHighSpeed;
+import org.ingrahamrobotics.robot2014.commands.GroundDriveToggleShifter;
+import org.ingrahamrobotics.robot2014.commands.GroundDriveToggleSoftwareLow;
 import org.ingrahamrobotics.robot2014.commands.ReverseGroundDrive;
 import org.ingrahamrobotics.robot2014.input.BMap;
 import org.ingrahamrobotics.robot2014.input.JInput;
@@ -52,10 +53,13 @@ public class Subsystems {
         JInput.getButton(BMap.reverseGroundDrive1).whenPressed(new ReverseGroundDrive());
         JInput.getButton(BMap.groundDriveFastLeft1).whenPressed(new GroundDriveFastLeft());
         JInput.getButton(BMap.groundDriveFastRight1).whenPressed(new GroundDriveFastRight());
-        JInput.getButton(BMap.groundDriveToggleHighSpeed1).whenActive(new GroundDriveToggleHighSpeed());
+        JInput.getButton(BMap.groundDriveToggleShifter1).whenActive(new GroundDriveToggleShifter());
+        JInput.getButton(BMap.groundDriveToggleSoftwareLow1).whenActive(new GroundDriveToggleSoftwareLow());
+
         JInput.getButton(BMap.reverseGroundDrive2).whenPressed(new ReverseGroundDrive());
         JInput.getButton(BMap.groundDriveFastLeft2).whenPressed(new GroundDriveFastLeft());
         JInput.getButton(BMap.groundDriveFastRight2).whenPressed(new GroundDriveFastRight());
-        JInput.getButton(BMap.groundDriveToggleHighSpeed2).whenActive(new GroundDriveToggleHighSpeed());
+        JInput.getButton(BMap.groundDriveToggleShifter2).whenActive(new GroundDriveToggleShifter());
+        JInput.getButton(BMap.groundDriveToggleSoftwareLow2).whenActive(new GroundDriveToggleSoftwareLow());
     }
 }

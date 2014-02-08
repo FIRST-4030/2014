@@ -18,34 +18,32 @@ package org.ingrahamrobotics.robot2014.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.ingrahamrobotics.robot2014.Subsystems;
-import org.ingrahamrobotics.robot2014.input.AMap;
-import org.ingrahamrobotics.robot2014.input.JInput;
 
-public class RunGroundDrive extends Command {
+public class GroundDriveToggleShifter extends Command {
 
     private final Subsystems ss = Subsystems.instance;
+    private boolean finished;
 
-    public RunGroundDrive() {
-        requires(ss.groundDrive);
+    public GroundDriveToggleShifter() {
+        requires(ss.groundDriveShifter);
     }
 
     protected void initialize() {
+        finished = false;
     }
 
     protected void execute() {
-//        ss.groundDrive.arcadeDrive(JInput.getAxis(AMap.arcadeDriveY), JInput.getAxis(AMap.arcadeDriveX));
-        ss.groundDrive.tankDrive(JInput.getAxis(AMap.tankDriveLeft), JInput.getAxis(AMap.tankDriveRight));
+        ss.groundDriveShifter.setSpeed(!ss.groundDriveShifter.getSpeed());
+        finished = true;
     }
 
     protected boolean isFinished() {
-        return false;
+        return finished;
     }
 
     protected void end() {
-        ss.groundDrive.stop();
     }
 
     protected void interrupted() {
-        ss.groundDrive.stop();
     }
 }
