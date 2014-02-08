@@ -18,7 +18,6 @@ package org.ingrahamrobotics.robot2014.subsystems;
 
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.ingrahamrobotics.robot2014.commands.RunGroundDrive;
 import org.ingrahamrobotics.robot2014.commands.RunTurnTable;
 import org.ingrahamrobotics.robot2014.log.Output;
 import org.ingrahamrobotics.robot2014.log.OutputLevel;
@@ -26,8 +25,8 @@ import org.ingrahamrobotics.robot2014.variablestore.Vst;
 
 public class TurnTable extends Subsystem {
 
-    private final Jaguar firstMotor = new Jaguar(Vst.PWM.LEFT_MOTOR_PORT);
-    private final Jaguar secondMotor = new Jaguar(Vst.PWM.RIGHT_MOTOR_PORT);
+    private final Jaguar firstMotor = new Jaguar(Vst.PWM.TURN_TABLE_1_PORT);
+    private final Jaguar secondMotor = new Jaguar(Vst.PWM.TURN_TABLE_2_PORT);
 
     public TurnTable() {
         Output.output(OutputLevel.INITIALIZED_SYSTEMS, "TurnTable:Initialized", true);
