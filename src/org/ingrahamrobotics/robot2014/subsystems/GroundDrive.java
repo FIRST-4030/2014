@@ -36,9 +36,10 @@ public class GroundDrive extends Subsystem {
         this.roboDrive = new RobotDrive(leftMotor, rightMotor);
         roboDrive.setSafetyEnabled(false);
         roboDrive.stopMotor();
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "GroundDrive:Initialized", true);
+        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "GroundDrive:State", "Initialized");
         setReversed(false);
         setSoftwareLowSpeed(false);
+        arcadeDrive(0, 0);
     }
 
     protected void initDefaultCommand() {

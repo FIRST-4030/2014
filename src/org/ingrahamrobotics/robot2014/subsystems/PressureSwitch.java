@@ -16,7 +16,8 @@ public class PressureSwitch extends Subsystem {
     private final DigitalInput pSwitch = new DigitalInput(Vst.DIGITAL_IO.PRESSURE_SWITCH);
 
     public PressureSwitch() {
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "PressureSwitch:Initialized", true);
+        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "PressureSwitch:State", "Initialized");
+        getAtPressure();
     }
 
     public void initDefaultCommand() {

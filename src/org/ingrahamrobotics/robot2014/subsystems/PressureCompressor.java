@@ -15,7 +15,8 @@ public class PressureCompressor extends Subsystem {
     private final Relay compressor = new Relay(Vst.RELAY.COMPRESSOR_SPIKE);
 
     public PressureCompressor() {
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "PressureCompressor:Initialized", true);
+        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "PressureCompressor:State", "Initialized");
+        setRunning(false);
     }
 
     public void initDefaultCommand() {

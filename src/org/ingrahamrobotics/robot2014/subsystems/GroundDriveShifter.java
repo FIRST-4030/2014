@@ -27,7 +27,8 @@ public class GroundDriveShifter extends Subsystem {
     private final SolenoidPair shifterPair = new SolenoidPair(Vst.SOLENOID.GROUND_DRIVE_SHIFTER_EXTEND, Vst.SOLENOID.GROUND_DRIVE_SHIFTER_RETRACT, true);
 
     public GroundDriveShifter() {
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "GroundDriveShifter:Initialized", true);
+        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "GroundDriveShifter:State", "Initialized");
+        setSpeed(false);
     }
 
     protected void initDefaultCommand() {

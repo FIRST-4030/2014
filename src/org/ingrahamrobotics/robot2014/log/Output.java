@@ -62,7 +62,11 @@ public class Output {
         synchronized (values) {
             String oldMessage = (String) values.get(key);
             if (message == null ? oldMessage != null : !message.equals(oldMessage)) {
-                values.put(key, message);
+                if (message == null) {
+                    values.remove(key);
+                } else {
+                    values.put(key, message);
+                }
                 changed = true;
             }
         }

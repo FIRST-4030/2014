@@ -17,19 +17,16 @@
 package org.ingrahamrobotics.robot2014;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.io.IOException;
 import org.ingrahamrobotics.dotnettables.DotNetTables;
-import org.ingrahamrobotics.robot2014.commands.ExampleCommand;
 import org.ingrahamrobotics.robot2014.log.Output;
 import org.ingrahamrobotics.robot2014.log.OutputLevel;
 
 public class RobotMain extends IterativeRobot {
 
-    Command autonomousCommand;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -43,16 +40,13 @@ public class RobotMain extends IterativeRobot {
             SmartDashboard.putString("error", "Failed to start DotNetTables!");
             ex.printStackTrace();
         }
+        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "Robot:State", "Starting");
         // Initialize all commands
         Subsystems.instance.initCommands();
-        // instantiate the command used for the autonomous period
-        autonomousCommand = new ExampleCommand();
         Output.output(OutputLevel.INITIALIZED_SYSTEMS, "Robot:State", "Ready!");
     }
 
     public void autonomousInit() {
-        // schedule the autonomous command (example)
-        autonomousCommand.start();
     }
 
     /**
@@ -63,11 +57,6 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void teleopInit() {
-        // This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to 
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
-        autonomousCommand.cancel();
     }
 
     /**

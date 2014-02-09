@@ -29,7 +29,8 @@ public class TurnTable extends Subsystem {
     private final Jaguar secondMotor = new Jaguar(Vst.PWM.TURN_TABLE_2_PORT);
 
     public TurnTable() {
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "TurnTable:Initialized", true);
+        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "TurnTable:State", "Initialized");
+        drive(0);
     }
 
     protected void initDefaultCommand() {
