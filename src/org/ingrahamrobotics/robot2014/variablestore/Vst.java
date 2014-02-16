@@ -26,13 +26,7 @@ public final class Vst {
      */
     public static final class PWM {
 
-        /**
-         * Port for the left drive motor
-         */
         public static final int LEFT_MOTOR_PORT = 1;
-        /**
-         * Port for the right drive motor
-         */
         public static final int RIGHT_MOTOR_PORT = 2;
         public static final int TURN_TABLE_1_PORT = 3;
         public static final int TURN_TABLE_2_PORT = 4;
