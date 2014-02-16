@@ -36,12 +36,18 @@ public final class Vst {
         public static final int RIGHT_MOTOR_PORT = 2;
         public static final int TURN_TABLE_1_PORT = 3;
         public static final int TURN_TABLE_2_PORT = 4;
+        public static final int COLLECTOR_SIDE_MOTORS = 5;
+        public static final int COLLECTOR_TOP_MOTOR = 6;
     }
 
     public static final class SOLENOID {
 
         public static final int GROUND_DRIVE_SHIFTER_EXTEND = 1;
         public static final int GROUND_DRIVE_SHIFTER_RETRACT = 2;
+        public static final int COLLECTOR_SOLENOID_EXTEND = 3;
+        public static final int COLLECTOR_SOLENOID_RETRACT = 4;
+        public static final int SHOOTER_EXTEND = 5;
+        public static final int SHOOTER_RETRACT = 6;
     }
 
     /**

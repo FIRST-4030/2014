@@ -16,17 +16,24 @@
  */
 package org.ingrahamrobotics.robot2014;
 
+import org.ingrahamrobotics.robot2014.commands.ExtendCollectorSolenoids;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveFastLeft;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveFastRight;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveToggleShifter;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveToggleSoftwareLow;
+import org.ingrahamrobotics.robot2014.commands.RetractCollectorSolenoids;
 import org.ingrahamrobotics.robot2014.commands.ReverseGroundDrive;
+import org.ingrahamrobotics.robot2014.commands.StartCollectorMotors;
+import org.ingrahamrobotics.robot2014.commands.StopCollectorMotors;
 import org.ingrahamrobotics.robot2014.input.BMap;
 import org.ingrahamrobotics.robot2014.input.JInput;
+import org.ingrahamrobotics.robot2014.subsystems.CollectorMotors;
+import org.ingrahamrobotics.robot2014.subsystems.CollectorSolenoids;
 import org.ingrahamrobotics.robot2014.subsystems.GroundDrive;
 import org.ingrahamrobotics.robot2014.subsystems.GroundDriveShifter;
 import org.ingrahamrobotics.robot2014.subsystems.PressureCompressor;
 import org.ingrahamrobotics.robot2014.subsystems.PressureSwitch;
+import org.ingrahamrobotics.robot2014.subsystems.ShooterSolenoids;
 import org.ingrahamrobotics.robot2014.subsystems.TurnTable;
 
 public class Subsystems {
@@ -37,6 +44,9 @@ public class Subsystems {
     public final TurnTable turnTable;
     public final PressureSwitch pressureSwitch;
     public final PressureCompressor compressor;
+    public final ShooterSolenoids shooterSolenoids;
+    public final CollectorSolenoids collectorSolenoids;
+    public final CollectorMotors collectorMotors;
 
     public Subsystems() {
         groundDrive = new GroundDrive();
@@ -44,19 +54,27 @@ public class Subsystems {
         turnTable = new TurnTable();
         pressureSwitch = new PressureSwitch();
         compressor = new PressureCompressor();
+        shooterSolenoids = new ShooterSolenoids();
+        collectorSolenoids = new CollectorSolenoids();
+        collectorMotors = new CollectorMotors();
     }
 
     public void initCommands() {
         JInput.getButton(BMap.reverseGroundDrive1).whenPressed(new ReverseGroundDrive());
         JInput.getButton(BMap.groundDriveFastLeft1).whenPressed(new GroundDriveFastLeft());
         JInput.getButton(BMap.groundDriveFastRight1).whenPressed(new GroundDriveFastRight());
-        JInput.getButton(BMap.groundDriveToggleShifter1).whenActive(new GroundDriveToggleShifter());
-        JInput.getButton(BMap.groundDriveToggleSoftwareLow1).whenActive(new GroundDriveToggleSoftwareLow());
+        JInput.getButton(BMap.groundDriveToggleShifter1).whenPressed(new GroundDriveToggleShifter());
+        JInput.getButton(BMap.groundDriveToggleSoftwareLow1).whenPressed(new GroundDriveToggleSoftwareLow());
 
         JInput.getButton(BMap.reverseGroundDrive2).whenPressed(new ReverseGroundDrive());
         JInput.getButton(BMap.groundDriveFastLeft2).whenPressed(new GroundDriveFastLeft());
         JInput.getButton(BMap.groundDriveFastRight2).whenPressed(new GroundDriveFastRight());
-        JInput.getButton(BMap.groundDriveToggleShifter2).whenActive(new GroundDriveToggleShifter());
-        JInput.getButton(BMap.groundDriveToggleSoftwareLow2).whenActive(new GroundDriveToggleSoftwareLow());
+        JInput.getButton(BMap.groundDriveToggleShifter2).whenPressed(new GroundDriveToggleShifter());
+        JInput.getButton(BMap.groundDriveToggleSoftwareLow2).whenPressed(new GroundDriveToggleSoftwareLow());
+
+        JInput.getButton(BMap.startCollectorMotors).whenPressed(new StartCollectorMotors());
+        JInput.getButton(BMap.stopCollectorMotors).whenPressed(new StopCollectorMotors());
+        JInput.getButton(BMap.extendCollectorSolenoids).whenPressed(new ExtendCollectorSolenoids());
+        JInput.getButton(BMap.retractCollectorSolenoids).whenPressed(new RetractCollectorSolenoids());
     }
 }
