@@ -17,6 +17,7 @@
 package org.ingrahamrobotics.robot2014;
 
 import org.ingrahamrobotics.robot2014.commands.ExtendCollectorSolenoids;
+import org.ingrahamrobotics.robot2014.commands.ExtendShooterSolenoids;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveFastLeft;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveFastRight;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveToggleShifter;
@@ -76,5 +77,7 @@ public class Subsystems {
         JInput.getButton(BMap.stopCollectorMotors).whenPressed(new StopCollectorMotors());
         JInput.getButton(BMap.extendCollectorSolenoids).whenPressed(new ExtendCollectorSolenoids());
         JInput.getButton(BMap.retractCollectorSolenoids).whenPressed(new RetractCollectorSolenoids());
+        JInput.getButton(BMap.shooterSolenoidsControl).whenPressed(new ExtendShooterSolenoids());
+        JInput.getButton(BMap.shooterSolenoidsControl).whenReleased(new RetractCollectorSolenoids());
     }
 }
