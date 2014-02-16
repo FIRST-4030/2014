@@ -34,13 +34,13 @@ package org.ingrahamrobotics.util;
  * {@code n} has {@code n+1} possible cursor positions, as illustrated by the
  * carets ({@code ^}) below:
  * <PRE>
- *                      Element(0)   Element(1)   Element(2)   ... Element(n-1)
+ * Element(0)   Element(1)   Element(2)   ... Element(n-1)
  * cursor positions:  ^            ^            ^            ^                  ^
  * </PRE> Note that the {@link #remove} and {@link #set(Object)} methods are
  * <i>not</i> defined in terms of the cursor position; they are defined to
  * operate on the last element returned by a call to {@link #next} or
  * {@link #previous()}.
- *
+ * <p/>
  * <p>This interface is a member of the
  * <a href="{@docRoot}/../technotes/guides/collections/index.html">
  * Java Collections Framework</a>.
@@ -125,6 +125,7 @@ public interface ListIterator {
     int previousIndex();
 
     // Modification Operations
+
     /**
      * Removes from the list the last element that was returned by {@link
      * #next} or {@link #previous} (optional operation). This call can only be
@@ -133,10 +134,10 @@ public interface ListIterator {
      * {@code next} or {@code previous}.
      *
      * @throws UnsupportedOperationException if the {@code remove} operation is
-     * not supported by this list iterator
-     * @throws IllegalStateException if neither {@code next} nor
-     * {@code previous} have been called, or {@code remove} or {@code add} have
-     * been called after the last call to {@code next} or {@code previous}
+     *                                       not supported by this list iterator
+     * @throws IllegalStateException         if neither {@code next} nor
+     *                                       {@code previous} have been called, or {@code remove} or {@code add} have
+     *                                       been called after the last call to {@code next} or {@code previous}
      */
     void remove();
 
@@ -148,16 +149,16 @@ public interface ListIterator {
      * {@code previous}.
      *
      * @param e the element with which to replace the last element returned by
-     * {@code next} or {@code previous}
+     *          {@code next} or {@code previous}
      * @throws UnsupportedOperationException if the {@code set} operation is not
-     * supported by this list iterator
-     * @throws ClassCastException if the class of the specified element prevents
-     * it from being added to this list
-     * @throws IllegalArgumentException if some aspect of the specified element
-     * prevents it from being added to this list
-     * @throws IllegalStateException if neither {@code next} nor
-     * {@code previous} have been called, or {@code remove} or {@code add} have
-     * been called after the last call to {@code next} or {@code previous}
+     *                                       supported by this list iterator
+     * @throws ClassCastException            if the class of the specified element prevents
+     *                                       it from being added to this list
+     * @throws IllegalArgumentException      if some aspect of the specified element
+     *                                       prevents it from being added to this list
+     * @throws IllegalStateException         if neither {@code next} nor
+     *                                       {@code previous} have been called, or {@code remove} or {@code add} have
+     *                                       been called after the last call to {@code next} or {@code previous}
      */
     void set(Object e);
 
@@ -174,11 +175,11 @@ public interface ListIterator {
      *
      * @param e the element to insert
      * @throws UnsupportedOperationException if the {@code add} method is not
-     * supported by this list iterator
-     * @throws ClassCastException if the class of the specified element prevents
-     * it from being added to this list
-     * @throws IllegalArgumentException if some aspect of this element prevents
-     * it from being added to this list
+     *                                       supported by this list iterator
+     * @throws ClassCastException            if the class of the specified element prevents
+     *                                       it from being added to this list
+     * @throws IllegalArgumentException      if some aspect of this element prevents
+     *                                       it from being added to this list
      */
     void add(Object e);
 }

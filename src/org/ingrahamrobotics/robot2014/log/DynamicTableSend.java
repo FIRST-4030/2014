@@ -107,6 +107,7 @@ public class DynamicTableSend {
                 }
                 bump(table);
                 table.send();
+                System.out.println("Pushing table " + table.name());
             }
         }
 
@@ -127,6 +128,7 @@ public class DynamicTableSend {
                 table = (DotNetTable) iterator.next();
                 bump(table);
                 table.send();
+                System.out.println("Pushing table " + table.name());
             }
         }
 

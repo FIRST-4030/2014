@@ -39,7 +39,6 @@ public class CollectorSolenoids extends Subsystem {
         solenoids.setExtending(extending);
     }
 
-
     public boolean isExtending() {
         return solenoids.isExtending();
     }

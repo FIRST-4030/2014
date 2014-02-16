@@ -33,7 +33,7 @@ public class RetractShooterSolenoids extends Command {
     }
 
     protected void execute() {
-        ss.shooterSolenoids.setExtending(true);
+        ss.shooterSolenoids.setExtending(false);
         finished = true;
     }
 

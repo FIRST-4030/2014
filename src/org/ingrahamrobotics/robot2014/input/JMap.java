@@ -2,7 +2,7 @@ package org.ingrahamrobotics.robot2014.input;
 
 /**
  * This class contains all public static final integer variables.
- *
+ * <p/>
  * It stores what buttons/axis on the Logitech Joysticks correspond to what
  * numbers in getButton or getRawAxis.
  */

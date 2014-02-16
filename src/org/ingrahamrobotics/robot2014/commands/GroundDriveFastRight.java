@@ -30,13 +30,13 @@ public class GroundDriveFastRight extends Command {
     private double speed;
     /**
      * State.
-     *
+     * <p/>
      * 0 for speeding up.
-     *
+     * <p/>
      * 1 for at max speed.
-     *
+     * <p/>
      * 2 for slowing down.
-     *
+     * <p/>
      * 3 is reverse blip.
      */
     private int state;

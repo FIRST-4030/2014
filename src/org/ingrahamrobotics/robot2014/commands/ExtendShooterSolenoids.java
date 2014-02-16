@@ -18,6 +18,8 @@ package org.ingrahamrobotics.robot2014.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.ingrahamrobotics.robot2014.Subsystems;
+import org.ingrahamrobotics.robot2014.log.Output;
+import org.ingrahamrobotics.robot2014.log.OutputLevel;
 
 public class ExtendShooterSolenoids extends Command {
 
@@ -33,7 +35,12 @@ public class ExtendShooterSolenoids extends Command {
     }
 
     protected void execute() {
-        ss.shooterSolenoids.setExtending(true);
+        if (!ss.collectorSolenoids.isExtending()) {
+            Output.output(OutputLevel.HIGH, "ShooterError", "Collector solenoids retracted.");
+        } else {
+            Output.output(OutputLevel.HIGH, "ShooterError", null);
+            ss.shooterSolenoids.setExtending(true);
+        }
         finished = true;
     }
 

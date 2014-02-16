@@ -30,11 +30,11 @@ import java.util.NoSuchElementException;
  * Doubly-linked list implementation of the {@code List} and {@code Deque}
  * interfaces. Implements all optional list operations, and permits all elements
  * (including {@code null}).
- *
+ * <p/>
  * <p>All of the operations perform as could be expected for a doubly-linked
  * list. Operations that index into the list will traverse the list from the
  * beginning or the end, whichever is closer to the specified index.
- *
+ * <p/>
  * <p><strong>Note that this implementation is not synchronized.</strong>
  * If multiple threads access a linked list concurrently, and at least one of
  * the threads modifies the list structurally, it <i>must</i> be synchronized
@@ -42,7 +42,7 @@ import java.util.NoSuchElementException;
  * one or more elements; merely setting the value of an element is not a
  * structural modification.) This is typically accomplished by synchronizing on
  * some object that naturally encapsulates the list.
- *
+ * <p/>
  * If no such object exists, the list should be "wrapped" using the
  * {@link Collections#synchronizedList Collections.synchronizedList} method.
  * This is best done at creation time, to prevent accidental unsynchronized
@@ -83,7 +83,7 @@ public class LinkedList {
      * Structural modifications are those that change the size of the list, or
      * otherwise perturb it in such a fashion that iterations in progress may
      * yield incorrect results.
-     *
+     * <p/>
      * <p>This field is used by the iterator and list iterator implementation
      * returned by the {@code iterator} and {@code listIterator} methods. If the
      * value of this field changes unexpectedly, the iterator (or list iterator)
@@ -91,7 +91,7 @@ public class LinkedList {
      * {@code set} or {@code add} operations. This provides
      * <i>fail-fast</i> behavior, rather than non-deterministic behavior in the
      * face of concurrent modification during iteration.
-     *
+     * <p/>
      * <p><b>Use of this field by subclasses is optional.</b> If a subclass
      * wishes to provide fail-fast iterators (and list iterators), then it
      * merely has to increment this field in its {@code add(int, E)} and
@@ -306,7 +306,7 @@ public class LinkedList {
 
     /**
      * Appends the specified element to the end of this list.
-     *
+     * <p/>
      * <p>This method is equivalent to {@link #add}.
      *
      * @param e the element to add
@@ -339,7 +339,7 @@ public class LinkedList {
 
     /**
      * Appends the specified element to the end of this list.
-     *
+     * <p/>
      * <p>This method is equivalent to {@link #addLast}.
      *
      * @param e element to be appended to this list
@@ -391,7 +391,7 @@ public class LinkedList {
         // - helps a generational GC if the discarded nodes inhabit
         //   more than one generation
         // - is sure to free memory even if there is a reachable Iterator
-        for (Node x = first; x != null;) {
+        for (Node x = first; x != null; ) {
             Node next = x.next;
             x.item = null;
             x.next = null;
@@ -404,6 +404,7 @@ public class LinkedList {
     }
 
     // Positional Access Operations
+
     /**
      * Returns the element at the specified position in this list.
      *
@@ -420,7 +421,7 @@ public class LinkedList {
      * Replaces the element at the specified position in this list with the
      * specified element.
      *
-     * @param index index of the element to replace
+     * @param index   index of the element to replace
      * @param element element to be stored at the specified position
      * @return the element previously at the specified position
      * @throws IndexOutOfBoundsException {@inheritDoc}
@@ -438,7 +439,7 @@ public class LinkedList {
      * Shifts the element currently at that position (if any) and any subsequent
      * elements to the right (adds one to their indices).
      *
-     * @param index index at which the specified element is to be inserted
+     * @param index   index at which the specified element is to be inserted
      * @param element element to be inserted
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
@@ -524,6 +525,7 @@ public class LinkedList {
     }
 
     // Search Operations
+
     /**
      * Returns the index of the first occurrence of the specified element in
      * this list, or -1 if this list does not contain the element. More
@@ -587,6 +589,7 @@ public class LinkedList {
     }
 
     // Queue operations.
+
     /**
      * Retrieves, but does not remove, the head (first element) of this list.
      *
@@ -643,6 +646,7 @@ public class LinkedList {
     }
 
     // Deque operations
+
     /**
      * Inserts the specified element at the front of this list.
      *
@@ -722,7 +726,7 @@ public class LinkedList {
     /**
      * Pushes an element onto the stack represented by this list. In other
      * words, inserts the element at the front of this list.
-     *
+     * <p/>
      * <p>This method is equivalent to {@link #addFirst}.
      *
      * @param e the element to push
@@ -735,7 +739,7 @@ public class LinkedList {
     /**
      * Pops an element from the stack represented by this list. In other words,
      * removes and returns the first element of this list.
-     *
+     * <p/>
      * <p>This method is equivalent to {@link #removeFirst()}.
      *
      * @return the element at the front of this list (which is the top of the
@@ -792,7 +796,7 @@ public class LinkedList {
      * Returns a list-iterator of the elements in this list (in proper
      * sequence), starting at the specified position in the list. Obeys the
      * general contract of {@code List.listIterator(int)}.<p>
-     *
+     * <p/>
      * The list-iterator is <i>fail-fast</i>: if the list is structurally
      * modified at any time after the Iterator is created, in any way except
      * through the list-iterator's own {@code remove} or {@code add} methods,
@@ -802,7 +806,7 @@ public class LinkedList {
      * an undetermined time in the future.
      *
      * @param index index of the first element to be returned from the
-     * list-iterator (by a call to {@code next})
+     *              list-iterator (by a call to {@code next})
      * @return a ListIterator of the elements in this list (in proper sequence),
      * starting at the specified position in the list
      * @throws IndexOutOfBoundsException {@inheritDoc}

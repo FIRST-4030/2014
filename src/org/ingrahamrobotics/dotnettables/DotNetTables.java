@@ -2,15 +2,16 @@ package org.ingrahamrobotics.dotnettables;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import java.io.IOException;
-// I'm aware this is obsolete, but it's also compatible with the cRIO's squawk JVM
-import java.util.Hashtable;
 import java.util.Enumeration;
+import java.util.Hashtable;
+
+// I'm aware this is obsolete, but it's also compatible with the cRIO's squawk JVM
 
 /**
  * A wrapper for FRC NetworkTables that provides enforced directionality, a
  * unified view of subscribed and published tables, and periodic updates and
  * staleness detection
- *
+ * <p/>
  * This project also exposes all of the underlying NetworkTables classes,
  * methods, and data types, for easy inclusion in both Java and .NET projects
  *
@@ -54,7 +55,7 @@ public class DotNetTables {
      * connections.
      *
      * @throws IOException Thrown if the underlying network bind() operations
-     * fail
+     *                     fail
      */
     static public void startServer() throws IOException {
         init();
@@ -67,10 +68,10 @@ public class DotNetTables {
      * process listens for inbound network connections.
      *
      * @param IP The IP address of the NetworkTables server. If using standard
-     * FRC IP addresses, you may provide your team number instead of the IP
-     * address.
+     *           FRC IP addresses, you may provide your team number instead of the IP
+     *           address.
      * @throws IOException Thrown if the underlying network bind() operations
-     * fail
+     *                     fail
      */
     static public void startClient(String IP) throws IOException {
         NetworkTable.setClientMode();
@@ -124,7 +125,7 @@ public class DotNetTables {
      * @return The specified table, if available. NULL if no such table exists.
      */
     private static DotNetTable findTable(String name) throws IllegalArgumentException {
-        for (Enumeration it = tables.keys(); it.hasMoreElements();) {
+        for (Enumeration it = tables.keys(); it.hasMoreElements(); ) {
             String tableName = (String) it.nextElement();
             if (tableName.equals(name)) {
                 return (DotNetTable) tables.get(tableName);

@@ -23,6 +23,7 @@ import org.ingrahamrobotics.robot2014.commands.GroundDriveFastRight;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveToggleShifter;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveToggleSoftwareLow;
 import org.ingrahamrobotics.robot2014.commands.RetractCollectorSolenoids;
+import org.ingrahamrobotics.robot2014.commands.RetractShooterSolenoids;
 import org.ingrahamrobotics.robot2014.commands.ReverseGroundDrive;
 import org.ingrahamrobotics.robot2014.commands.StartCollectorMotors;
 import org.ingrahamrobotics.robot2014.commands.StopCollectorMotors;
@@ -78,6 +79,6 @@ public class Subsystems {
         JInput.getButton(BMap.extendCollectorSolenoids).whenPressed(new ExtendCollectorSolenoids());
         JInput.getButton(BMap.retractCollectorSolenoids).whenPressed(new RetractCollectorSolenoids());
         JInput.getButton(BMap.shooterSolenoidsControl).whenPressed(new ExtendShooterSolenoids());
-        JInput.getButton(BMap.shooterSolenoidsControl).whenReleased(new RetractCollectorSolenoids());
+        JInput.getButton(BMap.shooterSolenoidsControl).whenReleased(new RetractShooterSolenoids());
     }
 }

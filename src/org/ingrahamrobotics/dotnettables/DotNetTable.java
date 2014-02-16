@@ -46,7 +46,7 @@ public class DotNetTable implements ITableListener {
     /**
      * Create a new DotNetTable with the specified name and ro/rw designation.
      *
-     * @param name User-provided table name
+     * @param name     User-provided table name
      * @param writable True if the table is published, false if it's subscribed
      */
     protected DotNetTable(String name, boolean writable) {
@@ -123,7 +123,7 @@ public class DotNetTable implements ITableListener {
      *
      * @param update The desired update interval, in seconds
      * @throws IllegalStateException Thrown if this table is not writable (i.e.
-     * is subscribed rather than published)
+     *                               is subscribed rather than published)
      */
     public void setInterval(int update) throws IllegalStateException {
         this.throwIfNotWritable();
@@ -138,7 +138,7 @@ public class DotNetTable implements ITableListener {
      * updated.
      *
      * @param callback The method to be dispatched. Must implement
-     * DotNetTableEvents.
+     *                 DotNetTableEvents.
      */
     public void onChange(DotNetTableEvents callback) {
         this.changeCallback = callback;
@@ -150,7 +150,7 @@ public class DotNetTable implements ITableListener {
      * the publisher-provided update interval.
      *
      * @param callback The method to be dispatched. Must implement
-     * DotNetTableEvents.
+     *                 DotNetTableEvents.
      */
     public void onStale(DotNetTableEvents callback) {
         if (this.writable) {
@@ -185,10 +185,10 @@ public class DotNetTable implements ITableListener {
     /**
      * Add or replace the specified key-value pair.
      *
-     * @param key The key to be added or replaced
+     * @param key   The key to be added or replaced
      * @param value The value to be added or replaced
      * @throws IllegalStateException Thrown if the table is not writable (i.e.
-     * is subscribed)
+     *                               is subscribed)
      */
     public void setValue(String key, String value) throws IllegalStateException {
         this.throwIfNotWritable();
@@ -199,10 +199,10 @@ public class DotNetTable implements ITableListener {
     /**
      * Add or replace the specified key-value pair.
      *
-     * @param key The key to be added or replaced
+     * @param key   The key to be added or replaced
      * @param value The value to be added or replaced
      * @throws IllegalStateException Thrown if the table is not writable (i.e.
-     * is subscribed)
+     *                               is subscribed)
      */
     public void setValue(String key, double value) throws IllegalStateException {
         this.setValue(key, Double.toString(value));
@@ -211,10 +211,10 @@ public class DotNetTable implements ITableListener {
     /**
      * Add or replace the specified key-value pair.
      *
-     * @param key The key to be added or replaced
+     * @param key   The key to be added or replaced
      * @param value The value to be added or replaced
      * @throws IllegalStateException Thrown if the table is not writable (i.e.
-     * is subscribed)
+     *                               is subscribed)
      */
     public void setValue(String key, int value) throws IllegalStateException {
         this.setValue(key, Integer.toString(value));
@@ -224,9 +224,9 @@ public class DotNetTable implements ITableListener {
      * Remove the specified key (and its related value) from this table
      *
      * @param key The key to be removed. No error is thrown if the key does not
-     * exist.
+     *            exist.
      * @throws IllegalStateException Thrown if the table is not writable (i.e.
-     * is subscribed)
+     *                               is subscribed)
      */
     public void remove(String key) throws IllegalStateException {
         this.throwIfNotWritable();
@@ -277,7 +277,7 @@ public class DotNetTable implements ITableListener {
      * Publish this table to all subscribers.
      *
      * @throws IllegalStateException Thrown if the table is not writable (i.e.
-     * is subscribed)
+     *                               is subscribed)
      */
     public void send() throws IllegalStateException {
         throwIfNotWritable();
@@ -292,7 +292,7 @@ public class DotNetTable implements ITableListener {
 
     private StringArray HMtoSA(Hashtable data) {
         StringArray out = new StringArray();
-        for (Enumeration it = data.keys(); it.hasMoreElements();) {
+        for (Enumeration it = data.keys(); it.hasMoreElements(); ) {
             String key = (String) it.nextElement();
             out.add(key);
         }
@@ -322,9 +322,9 @@ public class DotNetTable implements ITableListener {
      * Update with new data from a remote subscribed table
      *
      * @param itable The underlying NetworkTable table
-     * @param key The array name -- must match our name to trigger an update
-     * @param val The new or updated array
-     * @param isNew True if the array did not previous exist
+     * @param key    The array name -- must match our name to trigger an update
+     * @param val    The new or updated array
+     * @param isNew  True if the array did not previous exist
      */
     // In newer java we would annote with @Override, but not for the cRIO
     public void valueChanged(ITable itable, String key, Object val, boolean isNew) {

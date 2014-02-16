@@ -39,7 +39,6 @@ public class ShooterSolenoids extends Subsystem {
         solenoids.setExtending(extending);
     }
 
-
     public boolean isExtending() {
         return solenoids.isExtending();
     }
