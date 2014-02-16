@@ -23,34 +23,38 @@ import org.ingrahamrobotics.robot2014.log.OutputLevel;
 
 public class ExtendShooterSolenoids extends Command {
 
+    private static final int SHOOT_TIME = 2000;
     private final Subsystems ss = Subsystems.instance;
-    private boolean finished;
+    private long startTime;
+    private boolean canceled;
 
     public ExtendShooterSolenoids() {
         requires(ss.shooterSolenoids);
     }
 
     protected void initialize() {
-        finished = false;
-    }
-
-    protected void execute() {
+        startTime = System.currentTimeMillis();
         if (!ss.collectorSolenoids.isExtending()) {
             Output.output(OutputLevel.HIGH, "ShooterError", "Collector solenoids retracted.");
+            canceled = true;
         } else {
             Output.output(OutputLevel.HIGH, "ShooterError", null);
             ss.shooterSolenoids.setExtending(true);
         }
-        finished = true;
+    }
+
+    protected void execute() {
     }
 
     protected boolean isFinished() {
-        return finished;
+        return System.currentTimeMillis() > startTime + SHOOT_TIME || canceled;
     }
 
     protected void end() {
+        ss.shooterSolenoids.setExtending(false);
     }
 
     protected void interrupted() {
+        ss.shooterSolenoids.setExtending(false);
     }
 }

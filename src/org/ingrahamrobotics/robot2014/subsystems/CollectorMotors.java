@@ -42,6 +42,10 @@ public class CollectorMotors extends Subsystem {
         Output.output(OutputLevel.RAW_MOTORS, "ShooterMotors:SideSpeed", speed);
     }
 
+    public double getBothSpeed() {
+        return (topMotor.get() + sideMotors.get()) / 2;
+    }
+
     public void getTopSpeed(double speed) {
         topMotor.get();
     }

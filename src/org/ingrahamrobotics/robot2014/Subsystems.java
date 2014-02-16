@@ -25,8 +25,8 @@ import org.ingrahamrobotics.robot2014.commands.GroundDriveToggleSoftwareLow;
 import org.ingrahamrobotics.robot2014.commands.RetractCollectorSolenoids;
 import org.ingrahamrobotics.robot2014.commands.RetractShooterSolenoids;
 import org.ingrahamrobotics.robot2014.commands.ReverseGroundDrive;
-import org.ingrahamrobotics.robot2014.commands.StartCollectorMotors;
-import org.ingrahamrobotics.robot2014.commands.StopCollectorMotors;
+import org.ingrahamrobotics.robot2014.commands.PullCollectorMotors;
+import org.ingrahamrobotics.robot2014.commands.PushCollectorMotors;
 import org.ingrahamrobotics.robot2014.input.BMap;
 import org.ingrahamrobotics.robot2014.input.JInput;
 import org.ingrahamrobotics.robot2014.subsystems.CollectorMotors;
@@ -74,11 +74,11 @@ public class Subsystems {
         JInput.getButton(BMap.groundDriveToggleShifter2).whenPressed(new GroundDriveToggleShifter());
         JInput.getButton(BMap.groundDriveToggleSoftwareLow2).whenPressed(new GroundDriveToggleSoftwareLow());
 
-        JInput.getButton(BMap.startCollectorMotors).whenPressed(new StartCollectorMotors());
-        JInput.getButton(BMap.stopCollectorMotors).whenPressed(new StopCollectorMotors());
+        JInput.getButton(BMap.pullCollectorMotors).whenPressed(new PullCollectorMotors());
+        JInput.getButton(BMap.pushCollectorMotors).whenPressed(new PushCollectorMotors());
         JInput.getButton(BMap.extendCollectorSolenoids).whenPressed(new ExtendCollectorSolenoids());
         JInput.getButton(BMap.retractCollectorSolenoids).whenPressed(new RetractCollectorSolenoids());
         JInput.getButton(BMap.shooterSolenoidsControl).whenPressed(new ExtendShooterSolenoids());
-        JInput.getButton(BMap.shooterSolenoidsControl).whenReleased(new RetractShooterSolenoids());
+//        JInput.getButton(BMap.shooterSolenoidsControl).whenReleased(new RetractShooterSolenoids());
     }
 }

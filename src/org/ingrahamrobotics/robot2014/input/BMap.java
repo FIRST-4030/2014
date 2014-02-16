@@ -28,8 +28,8 @@ public class BMap {
     public static final BMap groundDriveFastRight2 = new BMap(JMap.DRIVE_JOYSTICK2, JMap.Button.JoystickTop.RIGHT);
     public static final BMap groundDriveToggleShifter2 = new BMap(JMap.DRIVE_JOYSTICK2, JMap.Button.JoystickTop.TRIGGER);
     public static final BMap groundDriveToggleSoftwareLow2 = new BMap(JMap.DRIVE_JOYSTICK2, JMap.Button.JoystickTop.TRIGGER);
-    public static final BMap startCollectorMotors = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickStand.RIGHT_TOP);
-    public static final BMap stopCollectorMotors = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickStand.RIGHT_BOTTOM);
+    public static final BMap pullCollectorMotors = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickStand.RIGHT_TOP);
+    public static final BMap pushCollectorMotors = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickStand.RIGHT_BOTTOM);
     public static final BMap extendCollectorSolenoids = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickStand.LEFT_TOP);
     public static final BMap retractCollectorSolenoids = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickStand.LEFT_BOTTOM);
     public static final BMap shooterSolenoidsControl = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickTop.TRIGGER);

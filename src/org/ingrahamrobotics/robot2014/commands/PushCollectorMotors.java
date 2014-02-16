@@ -19,12 +19,12 @@ package org.ingrahamrobotics.robot2014.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.ingrahamrobotics.robot2014.Subsystems;
 
-public class StartCollectorMotors extends Command {
+public class PushCollectorMotors extends Command {
 
     private final Subsystems ss = Subsystems.instance;
     private boolean finished;
 
-    public StartCollectorMotors() {
+    public PushCollectorMotors() {
         requires(ss.collectorMotors);
     }
 
@@ -33,7 +33,11 @@ public class StartCollectorMotors extends Command {
     }
 
     protected void execute() {
-        ss.collectorMotors.setBothSpeed(0.75);
+        if (ss.collectorMotors.getBothSpeed() > 0) {
+            ss.collectorMotors.setBothSpeed(0);
+        } else {
+            ss.collectorMotors.setBothSpeed(-0.75);
+        }
         finished = true;
     }
 
