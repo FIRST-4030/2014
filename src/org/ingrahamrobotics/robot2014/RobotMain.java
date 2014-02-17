@@ -32,13 +32,7 @@ public class RobotMain extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-        try {
-            DotNetTables.startServer();
-        } catch (IOException ex) {
-            System.out.println("Failed to start DotNetTables server");
-            SmartDashboard.putString("error", "Failed to start DotNetTables!");
-            ex.printStackTrace();
-        }
+        DotNetTables.startServer();
         Output.output(OutputLevel.INITIALIZED_SYSTEMS, "Robot:State", "Starting");
         // Initialize all commands
         Subsystems.instance.initCommands();

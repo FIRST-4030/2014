@@ -28,19 +28,13 @@ public class DotNetTables {
     private static Hashtable tables;
     private static final Object syncLock = new Object();
 
-    static private void init() throws IOException {
+    static private void init() {
         synchronized (syncLock) {
             tables = new Hashtable();
 
             // Attempt to init the underlying NetworkTable
-            try {
-                NetworkTable.initialize();
-                nt_table = NetworkTable.getTable(TABLE_NAME);
-                connected = true;
-            } catch (IOException ex) {
-                System.err.println("Unable to initialize NetworkTable: " + TABLE_NAME);
-                throw ex;
-            }
+            nt_table = NetworkTable.getTable(TABLE_NAME);
+            connected = true;
         }
     }
 
@@ -49,11 +43,8 @@ public class DotNetTables {
      * the robot. A server can both publish and subscribe to tables; server vs.
      * client mode only controls whether the process listens for inbound network
      * connections.
-     *
-     * @throws IOException Thrown if the underlying network bind() operations
-     * fail
      */
-    static public void startServer() throws IOException {
+    static public void startServer() {
         init();
     }
 
