@@ -23,8 +23,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import org.ingrahamrobotics.robot2014.cmu.AbstractDebug;
 import org.ingrahamrobotics.robot2014.cmu.CMUCamConnection;
-import org.ingrahamrobotics.robot2014.log.Output;
-import org.ingrahamrobotics.robot2014.log.OutputLevel;
+import org.ingrahamrobotics.robot2014.output.Output;
+import org.ingrahamrobotics.robot2014.output.OutputLevel;
 
 public class CMUCamSubsystem extends CMUCamConnection {
 

@@ -22,8 +22,8 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.io.IOException;
 import org.ingrahamrobotics.dotnettables.DotNetTables;
-import org.ingrahamrobotics.robot2014.log.Output;
-import org.ingrahamrobotics.robot2014.log.OutputLevel;
+import org.ingrahamrobotics.robot2014.output.Output;
+import org.ingrahamrobotics.robot2014.output.OutputLevel;
 
 public class RobotMain extends IterativeRobot {
 

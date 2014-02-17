@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ingrahamrobotics.robot2014.log;
+package org.ingrahamrobotics.robot2014.output;
 
 import java.util.Enumeration;
 import java.util.Hashtable;

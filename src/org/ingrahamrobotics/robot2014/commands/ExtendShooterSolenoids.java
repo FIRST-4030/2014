@@ -18,8 +18,8 @@ package org.ingrahamrobotics.robot2014.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.ingrahamrobotics.robot2014.Subsystems;
-import org.ingrahamrobotics.robot2014.log.Output;
-import org.ingrahamrobotics.robot2014.log.OutputLevel;
+import org.ingrahamrobotics.robot2014.output.Output;
+import org.ingrahamrobotics.robot2014.output.OutputLevel;
 
 public class ExtendShooterSolenoids extends Command {
 

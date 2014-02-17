@@ -19,8 +19,8 @@ package org.ingrahamrobotics.robot2014.subsystems;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.ingrahamrobotics.robot2014.commands.RunTurnTable;
-import org.ingrahamrobotics.robot2014.log.Output;
-import org.ingrahamrobotics.robot2014.log.OutputLevel;
+import org.ingrahamrobotics.robot2014.output.Output;
+import org.ingrahamrobotics.robot2014.output.OutputLevel;
 import org.ingrahamrobotics.robot2014.variablestore.Vst;
 
 public class TurnTable extends Subsystem {
