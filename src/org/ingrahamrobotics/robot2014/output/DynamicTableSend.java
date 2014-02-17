@@ -16,12 +16,12 @@
  */
 package org.ingrahamrobotics.robot2014.output;
 
-import java.util.Enumeration;
+//import java.util.Enumeration;
 import java.util.Hashtable;
 import org.ingrahamrobotics.dotnettables.DotNetTable;
 import org.ingrahamrobotics.dotnettables.DotNetTables;
 import org.ingrahamrobotics.util.LinkedList;
-import org.ingrahamrobotics.util.ListIterator;
+//import org.ingrahamrobotics.util.ListIterator;
 
 public class DynamicTableSend {
 
@@ -82,13 +82,13 @@ public class DynamicTableSend {
                     if (time < lastPartialUpdate + MIN_TIME) {
                         Thread.sleep(MIN_TIME + lastPartialUpdate - time);
                     }
-                    lastPartialUpdate = time = System.currentTimeMillis();
-                    if (time > lastFullUpdate + MAX_TIME) {
-                        lastFullUpdate = time;
-                        updateAllTables();
-                    } else {
+//                    lastPartialUpdate = time = System.currentTimeMillis();
+//                    if (time > lastFullUpdate + MAX_TIME) {
+//                        lastFullUpdate = time;
+//                        updateAllTables();
+//                    } else {
                         updateTables();
-                    }
+//                    }
                 }
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
@@ -109,23 +109,23 @@ public class DynamicTableSend {
             }
         }
 
-        private void updateAllTables() {
-            synchronized (tablesNeedingUpdate) {
-                tablesNeedingUpdate.clear();
-            }
-            LinkedList list = new LinkedList();
-            synchronized (tables) {
-                Enumeration e = tables.elements();
-                ListIterator iterator = list.listIterator(0);
-                while (e.hasMoreElements()) {
-                    iterator.add(e.nextElement());
-                }
-            }
-            DotNetTable table;
-            for (ListIterator iterator = list.listIterator(0); iterator.hasNext();) {
-                table = (DotNetTable) iterator.next();
-                table.send();
-            }
-        }
+//        private void updateAllTables() {
+//            synchronized (tablesNeedingUpdate) {
+//                tablesNeedingUpdate.clear();
+//            }
+//            LinkedList list = new LinkedList();
+//            synchronized (tables) {
+//                Enumeration e = tables.elements();
+//                ListIterator iterator = list.listIterator(0);
+//                while (e.hasMoreElements()) {
+//                    iterator.add(e.nextElement());
+//                }
+//            }
+//            DotNetTable table;
+//            for (ListIterator iterator = list.listIterator(0); iterator.hasNext();) {
+//                table = (DotNetTable) iterator.next();
+//                table.send();
+//            }
+//        }
     }
 }
