@@ -322,16 +322,14 @@ public class DotNetTable implements ITableListener {
         /*
          * When running a DotNetTables server on the robot, sending a table
          * doesn't work if the number of keys is the same as last time.
-         * 
+         *
          * This is a hack to get around that issue. It will add or remove
          * the '_bump' key depending if it already exists.
          */
         if (exists("_bump")) {
-            System.out.println("Sending table " + name() + ". (-)");
             remove("_bump");
         } else {
-            System.out.println("Sending table " + name() + ". (+)");
-            setValue("_bump", "_bump");
+            setValue("_bump", System.currentTimeMillis());
         }
         DotNetTables.push(name, HMtoSA(data));
         this.resetTimer();
