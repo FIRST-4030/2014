@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.tables.ITableListener;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A named and published or subscribed DotNetTable. DotNetTables provide
@@ -25,7 +27,7 @@ public class DotNetTable implements ITableListener {
      * update intervals may exceed the specified interval by this factor before
      * being declared "stale".
      */
-    public static final double STALE_FACTOR = 2.5;
+    public static final double STALE_FACTOR = 2.1;
     /**
      * The reserved key name used to publish the update interval to subscribers.
      */
@@ -33,6 +35,7 @@ public class DotNetTable implements ITableListener {
     private String name;
     private int updateInterval;
     private boolean writable;
+    private Timer timer;
     /**
      * The underlying local data store for this table. This is converted to a
      * StringArray when published to the network (or from a StringArray when
@@ -46,7 +49,7 @@ public class DotNetTable implements ITableListener {
     /**
      * Create a new DotNetTable with the specified name and ro/rw designation.
      *
-     * @param name     User-provided table name
+     * @param name User-provided table name
      * @param writable True if the table is published, false if it's subscribed
      */
     protected DotNetTable(String name, boolean writable) {
@@ -56,7 +59,8 @@ public class DotNetTable implements ITableListener {
         this.updateInterval = -1;
         this.changeCallback = null;
         this.staleCallback = null;
-        data = new Hashtable();
+        this.data = new Hashtable();
+        this.timer = null;
     }
 
     /**
@@ -107,6 +111,37 @@ public class DotNetTable implements ITableListener {
         }
     }
 
+    private class DotNetTableTimer extends TimerTask {
+
+        private DotNetTable table;
+
+        public DotNetTableTimer(DotNetTable table) {
+            this.table = table;
+        }
+
+        // In newer java we would annote with @Override, but not for the cRIO
+        public void run() {
+            if (table.isWritable()) {
+                table.send();
+            } else {
+                if (table.staleCallback != null) {
+                    table.staleCallback.stale(table);
+                }
+            }
+        }
+    }
+
+    private void resetTimer() {
+        if (this.timer != null) {
+            this.timer.cancel();
+        }
+        if (this.updateInterval >= 0) {
+            this.timer = new Timer();
+            TimerTask timerTask = new DotNetTable.DotNetTableTimer(this);
+            this.timer.schedule(timerTask, this.updateInterval * 1000);
+        }
+    }
+
     /**
      * @return The expected update interval for this table, in seconds
      */
@@ -123,7 +158,7 @@ public class DotNetTable implements ITableListener {
      *
      * @param update The desired update interval, in seconds
      * @throws IllegalStateException Thrown if this table is not writable (i.e.
-     *                               is subscribed rather than published)
+     * is subscribed rather than published)
      */
     public void setInterval(int update) throws IllegalStateException {
         this.throwIfNotWritable();
@@ -131,6 +166,7 @@ public class DotNetTable implements ITableListener {
             update = -1;
         }
         this.updateInterval = update;
+        this.resetTimer();
     }
 
     /**
@@ -138,7 +174,7 @@ public class DotNetTable implements ITableListener {
      * updated.
      *
      * @param callback The method to be dispatched. Must implement
-     *                 DotNetTableEvents.
+     * DotNetTableEvents.
      */
     public void onChange(DotNetTableEvents callback) {
         this.changeCallback = callback;
@@ -150,14 +186,13 @@ public class DotNetTable implements ITableListener {
      * the publisher-provided update interval.
      *
      * @param callback The method to be dispatched. Must implement
-     *                 DotNetTableEvents.
+     * DotNetTableEvents.
      */
     public void onStale(DotNetTableEvents callback) {
         if (this.writable) {
             throw new IllegalStateException("Table is local: " + this.name);
         }
         this.staleCallback = callback;
-        throw new IllegalStateException("Not supported yet.");
     }
 
     /**
@@ -185,10 +220,10 @@ public class DotNetTable implements ITableListener {
     /**
      * Add or replace the specified key-value pair.
      *
-     * @param key   The key to be added or replaced
+     * @param key The key to be added or replaced
      * @param value The value to be added or replaced
      * @throws IllegalStateException Thrown if the table is not writable (i.e.
-     *                               is subscribed)
+     * is subscribed)
      */
     public void setValue(String key, String value) throws IllegalStateException {
         this.throwIfNotWritable();
@@ -199,10 +234,10 @@ public class DotNetTable implements ITableListener {
     /**
      * Add or replace the specified key-value pair.
      *
-     * @param key   The key to be added or replaced
+     * @param key The key to be added or replaced
      * @param value The value to be added or replaced
      * @throws IllegalStateException Thrown if the table is not writable (i.e.
-     *                               is subscribed)
+     * is subscribed)
      */
     public void setValue(String key, double value) throws IllegalStateException {
         this.setValue(key, Double.toString(value));
@@ -211,10 +246,10 @@ public class DotNetTable implements ITableListener {
     /**
      * Add or replace the specified key-value pair.
      *
-     * @param key   The key to be added or replaced
+     * @param key The key to be added or replaced
      * @param value The value to be added or replaced
      * @throws IllegalStateException Thrown if the table is not writable (i.e.
-     *                               is subscribed)
+     * is subscribed)
      */
     public void setValue(String key, int value) throws IllegalStateException {
         this.setValue(key, Integer.toString(value));
@@ -224,9 +259,9 @@ public class DotNetTable implements ITableListener {
      * Remove the specified key (and its related value) from this table
      *
      * @param key The key to be removed. No error is thrown if the key does not
-     *            exist.
+     * exist.
      * @throws IllegalStateException Thrown if the table is not writable (i.e.
-     *                               is subscribed)
+     * is subscribed)
      */
     public void remove(String key) throws IllegalStateException {
         this.throwIfNotWritable();
@@ -265,6 +300,8 @@ public class DotNetTable implements ITableListener {
         // Note the published update interval
         if (this.exists(UPDATE_INTERVAL)) {
             this.updateInterval = this.getInt(UPDATE_INTERVAL);
+            data.remove(UPDATE_INTERVAL);
+            this.resetTimer();
         }
 
         // Dispatch our callback, if any
@@ -277,12 +314,27 @@ public class DotNetTable implements ITableListener {
      * Publish this table to all subscribers.
      *
      * @throws IllegalStateException Thrown if the table is not writable (i.e.
-     *                               is subscribed)
+     * is subscribed)
      */
     public void send() throws IllegalStateException {
         throwIfNotWritable();
         setValue(UPDATE_INTERVAL, getInterval());
+        /*
+         * When running a DotNetTables server on the robot, sending a table
+         * doesn't work if the number of keys is the same as last time.
+         * 
+         * This is a hack to get around that issue. It will add or remove
+         * the '_bump' key depending if it already exists.
+         */
+        if (exists("_bump")) {
+            System.out.println("Sending table " + name() + ". (-)");
+            remove("_bump");
+        } else {
+            System.out.println("Sending table " + name() + ". (+)");
+            setValue("_bump", "_bump");
+        }
         DotNetTables.push(name, HMtoSA(data));
+        this.resetTimer();
 
         // Dispatch our callback, if any
         if (changeCallback != null) {
@@ -292,7 +344,7 @@ public class DotNetTable implements ITableListener {
 
     private StringArray HMtoSA(Hashtable data) {
         StringArray out = new StringArray();
-        for (Enumeration it = data.keys(); it.hasMoreElements(); ) {
+        for (Enumeration it = data.keys(); it.hasMoreElements();) {
             String key = (String) it.nextElement();
             out.add(key);
         }
@@ -322,9 +374,9 @@ public class DotNetTable implements ITableListener {
      * Update with new data from a remote subscribed table
      *
      * @param itable The underlying NetworkTable table
-     * @param key    The array name -- must match our name to trigger an update
-     * @param val    The new or updated array
-     * @param isNew  True if the array did not previous exist
+     * @param key The array name -- must match our name to trigger an update
+     * @param val The new or updated array
+     * @param isNew True if the array did not previous exist
      */
     // In newer java we would annote with @Override, but not for the cRIO
     public void valueChanged(ITable itable, String key, Object val, boolean isNew) {

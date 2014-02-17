@@ -2,16 +2,15 @@ package org.ingrahamrobotics.dotnettables;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Hashtable;
-
 // I'm aware this is obsolete, but it's also compatible with the cRIO's squawk JVM
+import java.util.Hashtable;
+import java.util.Enumeration;
 
 /**
  * A wrapper for FRC NetworkTables that provides enforced directionality, a
  * unified view of subscribed and published tables, and periodic updates and
  * staleness detection
- * <p/>
+ *
  * This project also exposes all of the underlying NetworkTables classes,
  * methods, and data types, for easy inclusion in both Java and .NET projects
  *
@@ -35,10 +34,7 @@ public class DotNetTables {
 
             // Attempt to init the underlying NetworkTable
             try {
-                try {
-                    NetworkTable.initialize();
-                } catch (IllegalStateException ex) {
-                }
+                NetworkTable.initialize();
                 nt_table = NetworkTable.getTable(TABLE_NAME);
                 connected = true;
             } catch (IOException ex) {
@@ -55,7 +51,7 @@ public class DotNetTables {
      * connections.
      *
      * @throws IOException Thrown if the underlying network bind() operations
-     *                     fail
+     * fail
      */
     static public void startServer() throws IOException {
         init();
@@ -68,10 +64,10 @@ public class DotNetTables {
      * process listens for inbound network connections.
      *
      * @param IP The IP address of the NetworkTables server. If using standard
-     *           FRC IP addresses, you may provide your team number instead of the IP
-     *           address.
+     * FRC IP addresses, you may provide your team number instead of the IP
+     * address.
      * @throws IOException Thrown if the underlying network bind() operations
-     *                     fail
+     * fail
      */
     static public void startClient(String IP) throws IOException {
         NetworkTable.setClientMode();
@@ -121,11 +117,12 @@ public class DotNetTables {
     /**
      * Find the specified table in the subscribed tables list, if it exists
      *
-     * @param name The table to be found
-     * @return The specified table, if available. NULL if no such table exists.
+     * @param name The name table to be found.
+     * @return The specified table.
+     * @throws IllegalArgumentException If the named table does not exist.
      */
     private static DotNetTable findTable(String name) throws IllegalArgumentException {
-        for (Enumeration it = tables.keys(); it.hasMoreElements(); ) {
+        for (Enumeration it = tables.keys(); it.hasMoreElements();) {
             String tableName = (String) it.nextElement();
             if (tableName.equals(name)) {
                 return (DotNetTable) tables.get(tableName);
@@ -140,6 +137,9 @@ public class DotNetTables {
      *
      * @param name Name of the table to subscribe
      * @return The subscribed table
+     * @throws IllegalStateException Thrown if the named table exists but does
+     * not match the requested writable state -- for example, if a table is
+     * already being published and is requested for subscription, or visa versa.
      */
     public static DotNetTable subscribe(String name) {
         return getTable(name, false);
@@ -150,23 +150,30 @@ public class DotNetTables {
      *
      * @param name Name of the table to publish
      * @return The published table
+     * @throws IllegalStateException Thrown if the named table exists but does
+     * not match the requested writable state -- for example, if a table is
+     * already being published and is requested for subscription, or visa versa.
      */
     public static DotNetTable publish(String name) {
         return getTable(name, true);
     }
 
     /**
-     * Get a table, creating and subscribing/publishing as necessary
+     * Get a table, creating and subscribing/publishing as necessary.
      *
      * @param name New or existing table name
-     * @return The table to get/create
+     * @return The table to get or create
+     * @throws IllegalStateException Thrown if the named table exists but does
+     * not match the requested writable state -- for example, if a table is
+     * already being published and is requested for subscription, or visa versa.
      */
-    private static DotNetTable getTable(String name, boolean writable) {
+    private static DotNetTable getTable(String name, boolean writable) throws IllegalStateException {
         synchronized (syncLock) {
             DotNetTable table;
             try {
                 table = findTable(name);
             } catch (IllegalArgumentException ex) {
+                // TODO: Check that other instances aren't already publishing the requested writable table
                 table = new DotNetTable(name, writable);
                 tables.put(table.name(), table);
 

@@ -105,9 +105,7 @@ public class DynamicTableSend {
                 if (table == null) {
                     break;
                 }
-                bump(table);
                 table.send();
-                System.out.println("Pushing table " + table.name());
             }
         }
 
@@ -126,26 +124,7 @@ public class DynamicTableSend {
             DotNetTable table;
             for (ListIterator iterator = list.listIterator(0); iterator.hasNext();) {
                 table = (DotNetTable) iterator.next();
-                bump(table);
                 table.send();
-                System.out.println("Pushing table " + table.name());
-            }
-        }
-
-        /**
-         * When running a DotNetTables server on the robot, sending a table
-         * doesn't work if the number of keys is the same as last time.
-         * <br>
-         * This method is a hack to get around that issue. It will add or remove
-         * the '_bump' key depending if it already exists.
-         *
-         * @param table the table to 'bump'.
-         */
-        private void bump(DotNetTable table) {
-            if (table.exists("_bump")) {
-                table.remove("_bump");
-            } else {
-                table.setValue("_bump", "_bump");
             }
         }
     }
