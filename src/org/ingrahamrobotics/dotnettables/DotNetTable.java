@@ -45,6 +45,9 @@ public class DotNetTable implements ITableListener {
     private DotNetTableEvents changeCallback;
     private DotNetTableEvents staleCallback;
     private long lastUpdate;
+    private int bumpCount;
+
+    ; // bump hack
 
     /**
      * Create a new DotNetTable with the specified name and ro/rw designation.
@@ -326,10 +329,12 @@ public class DotNetTable implements ITableListener {
          * This is a hack to get around that issue. It will add or remove
          * the '_bump' key depending if it already exists.
          */
-        if (exists("_bump")) {
-            remove("_bump");
+        if (exists("_" + bumpCount)) {
+            remove("_" + bumpCount);
         } else {
-            setValue("_bump", System.currentTimeMillis());
+            bumpCount = (bumpCount + 1) % 99;
+            setValue("_" + bumpCount++, System.currentTimeMillis());
+            System.out.println(name + " - " + bumpCount);
         }
         DotNetTables.push(name, HMtoSA(data));
         this.resetTimer();

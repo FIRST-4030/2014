@@ -19,8 +19,6 @@ package org.ingrahamrobotics.robot2014;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import java.io.IOException;
 import org.ingrahamrobotics.dotnettables.DotNetTables;
 import org.ingrahamrobotics.robot2014.output.Output;
 import org.ingrahamrobotics.robot2014.output.OutputLevel;
