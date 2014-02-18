@@ -18,31 +18,35 @@ package org.ingrahamrobotics.robot2014.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.ingrahamrobotics.robot2014.Subsystems;
-import org.ingrahamrobotics.robot2014.output.Output;
-import org.ingrahamrobotics.robot2014.output.OutputLevel;
 
-public class EncoderRead extends Command {
+public class AutoCommand extends Command {
 
     private final Subsystems ss = Subsystems.instance;
 
-    public EncoderRead() {
-        requires(ss.encoders);
+    public AutoCommand() {
+        requires(ss.groundDrive);
     }
 
     protected void initialize() {
+        ss.encoders.reset();
+        new ExtendCollectorSolenoids().start();
     }
 
     protected void execute() {
-        Output.output(OutputLevel.MEDIUM, "Encoders", "encoder[" + ss.encoders.getEncoder1() + ", " + ss.encoders.getEncoder2() + "] raw" + ss.encoders.getDigital());
+        ss.groundDrive.setRaw(1, 1);
     }
 
     protected boolean isFinished() {
-        return false;
+        return ss.encoders.getEncoder1() > 26250 || ss.encoders.getEncoder2() > 15000
+                || ss.encoders.getEncoder1() < -26250 || ss.encoders.getEncoder2() < -15000;
     }
 
     protected void end() {
+        ss.groundDrive.stop();
+        new ExtendShooterSolenoids().start();
     }
 
     protected void interrupted() {
+        ss.groundDrive.stop();
     }
 }

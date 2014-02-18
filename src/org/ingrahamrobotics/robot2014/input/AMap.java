@@ -22,7 +22,7 @@ public class AMap {
     public static final AMap arcadeDriveY = new AMap(JMap.DRIVE_JOYSTICK1, JMap.Axis.Y);
     public static final AMap tankDriveLeft = new AMap(JMap.DRIVE_JOYSTICK1, JMap.Axis.Y);
     public static final AMap tankDriveRight = new AMap(JMap.DRIVE_JOYSTICK2, JMap.Axis.Y);
-    public static final AMap turnTable = new AMap(JMap.SHOOTER_JOYSTICK, JMap.Axis.Y);
+    public static final AMap turnTable = new AMap(JMap.SHOOTER_JOYSTICK, JMap.Axis.X);
     private final int joystick;
     private final int axis;
 

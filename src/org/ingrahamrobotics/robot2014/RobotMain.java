@@ -17,13 +17,17 @@
 package org.ingrahamrobotics.robot2014;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.ingrahamrobotics.dotnettables.DotNetTables;
+import org.ingrahamrobotics.robot2014.commands.AutoCommand;
 import org.ingrahamrobotics.robot2014.output.Output;
 import org.ingrahamrobotics.robot2014.output.OutputLevel;
 
 public class RobotMain extends IterativeRobot {
+
+    private Command autoCommand;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -31,6 +35,7 @@ public class RobotMain extends IterativeRobot {
      */
     public void robotInit() {
         DotNetTables.startServer();
+        autoCommand = new AutoCommand();
         Output.output(OutputLevel.INITIALIZED_SYSTEMS, "Robot:State", "Starting");
         // Initialize all commands
         Subsystems.instance.initCommands();
@@ -38,6 +43,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void autonomousInit() {
+        autoCommand.start();
     }
 
     /**
@@ -48,6 +54,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void teleopInit() {
+        autoCommand.cancel();
     }
 
     /**
@@ -65,6 +72,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void disabledInit() {
+        autoCommand.cancel();
     }
 
     public void disabledPeriodic() {

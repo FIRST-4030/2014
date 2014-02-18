@@ -23,26 +23,37 @@ import org.ingrahamrobotics.robot2014.commands.EncoderRead;
 
 public class Encoders extends Subsystem {
 
-    private Encoder encoder1 = new Encoder(new DigitalInput(2), new DigitalInput(3));
-    private Encoder encoder2 = new Encoder(new DigitalInput(4), new DigitalInput(5));
+    private DigitalInput[] inputs = new DigitalInput[]{new DigitalInput(3), new DigitalInput(5), new DigitalInput(2), new DigitalInput(4)};
+    private Encoder leftEncoder = new Encoder(inputs[0], inputs[1]); //2,3 3,5
+    private Encoder rightEncoder = new Encoder(inputs[2], inputs[3]); // 0,1 2,4
+
+    public Encoders() {
+        leftEncoder.start();
+        rightEncoder.start();
+    }
 
     protected void initDefaultCommand() {
         setDefaultCommand(new EncoderRead());
     }
 
+    public void reset() {
+        leftEncoder.reset();
+        rightEncoder.reset();
+    }
+
     public int getEncoder1() {
-        return encoder1.get();
+        return rightEncoder.get();
     }
 
     public int getEncoder2() {
-        return encoder2.get();
+        return leftEncoder.get();
     }
 
-    public int getRawEncoder1() {
-        return encoder1.getRaw();
+    public String getDigital() {
+        return "rawLeft[" + io(0) + ", " + io(1) + "] rawRight[" + io(2) + ", " + io(3) + "]";
     }
 
-    public int getRawEncoder2() {
-        return encoder2.getRaw();
+    private int io(int num) {
+        return inputs[num].get() ? 1 : 0;
     }
 }

@@ -53,10 +53,6 @@ public class GroundDrive extends Subsystem {
         if (softwareLowSpeed) {
             speed *= 0.5;
         }
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Speed", speed);
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Turn", turn);
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankLeft", null);
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankRight", null);
         roboDrive.arcadeDrive(speed, turn);
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftMotor.get());
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());
@@ -64,7 +60,7 @@ public class GroundDrive extends Subsystem {
 
     public void tankDrive(double leftSpeed, double rightSpeed) {
         if (reversed) {
-            double temp = rightSpeed;
+            double temp = leftSpeed;
             leftSpeed = -1 * rightSpeed;
             rightSpeed = -1 * temp;
         }
@@ -73,13 +69,15 @@ public class GroundDrive extends Subsystem {
             leftSpeed *= 0.5;
             rightSpeed *= 0.5;
         }
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Speed", null);
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Turn", null);
-//        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankLeft", leftSpeed);
-//        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankRight", rightSpeed);
         roboDrive.tankDrive(leftSpeed, rightSpeed);
-//        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftMotor.get());
-//        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftMotor.get());
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());
+    }
+
+    public void setRaw(double leftSpeed, double rightSpeed) {
+        roboDrive.tankDrive(leftSpeed, rightSpeed);
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftMotor.get());
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());
     }
 
     public void setReversed(boolean reversed) {
