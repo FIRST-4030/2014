@@ -75,11 +75,11 @@ public class GroundDrive extends Subsystem {
         }
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Speed", null);
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Turn", null);
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankLeft", leftSpeed);
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankRight", rightSpeed);
+//        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankLeft", leftSpeed);
+//        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:TankRight", rightSpeed);
         roboDrive.tankDrive(leftSpeed, rightSpeed);
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftMotor.get());
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());
+//        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftMotor.get());
+//        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());
     }
 
     public void setReversed(boolean reversed) {

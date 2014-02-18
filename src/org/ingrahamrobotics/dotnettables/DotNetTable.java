@@ -45,9 +45,7 @@ public class DotNetTable implements ITableListener {
     private DotNetTableEvents changeCallback;
     private DotNetTableEvents staleCallback;
     private long lastUpdate;
-    private int bumpCount;
-
-    ; // bump hack
+    private int bumpCount; // bump hack
 
     /**
      * Create a new DotNetTable with the specified name and ro/rw designation.
@@ -333,8 +331,7 @@ public class DotNetTable implements ITableListener {
             remove("_" + bumpCount);
         } else {
             bumpCount = (bumpCount + 1) % 99;
-            setValue("_" + bumpCount++, System.currentTimeMillis());
-            System.out.println(name + " - " + bumpCount);
+            setValue("_" + bumpCount, System.currentTimeMillis());
         }
         DotNetTables.push(name, HMtoSA(data));
         this.resetTimer();

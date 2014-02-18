@@ -19,28 +19,23 @@ package org.ingrahamrobotics.robot2014.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.ingrahamrobotics.robot2014.Subsystems;
 
-public class ExtendCollectorSolenoids extends Command {
+public class EncoderRead extends Command {
 
     private final Subsystems ss = Subsystems.instance;
-    private boolean finished;
 
-    public ExtendCollectorSolenoids() {
-        requires(ss.collectorSolenoids);
-        requires(ss.collectorMotors);
+    public EncoderRead() {
+        requires(ss.encoders);
     }
 
     protected void initialize() {
-        finished = false;
     }
 
     protected void execute() {
-        ss.collectorSolenoids.setExtending(true);
-        ss.collectorMotors.setBothSpeed(0.75);
-        finished = true;
+        System.out.println("Encoder 1: " + ss.encoders.getEncoder1() + ", raw: " + ss.encoders.getEncoder2() + " | Encoder 2: " + ss.encoders.getEncoder2() + ", raw: " + ss.encoders.getRawEncoder2());
     }
 
     protected boolean isFinished() {
-        return finished;
+        return false;
     }
 
     protected void end() {

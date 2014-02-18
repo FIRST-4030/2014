@@ -22,15 +22,15 @@ import org.ingrahamrobotics.robot2014.commands.GroundDriveFastLeft;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveFastRight;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveToggleShifter;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveToggleSoftwareLow;
-import org.ingrahamrobotics.robot2014.commands.RetractCollectorSolenoids;
-import org.ingrahamrobotics.robot2014.commands.RetractShooterSolenoids;
-import org.ingrahamrobotics.robot2014.commands.ReverseGroundDrive;
 import org.ingrahamrobotics.robot2014.commands.PullCollectorMotors;
 import org.ingrahamrobotics.robot2014.commands.PushCollectorMotors;
+import org.ingrahamrobotics.robot2014.commands.RetractCollectorSolenoids;
+import org.ingrahamrobotics.robot2014.commands.ReverseGroundDrive;
 import org.ingrahamrobotics.robot2014.input.BMap;
 import org.ingrahamrobotics.robot2014.input.JInput;
 import org.ingrahamrobotics.robot2014.subsystems.CollectorMotors;
 import org.ingrahamrobotics.robot2014.subsystems.CollectorSolenoids;
+import org.ingrahamrobotics.robot2014.subsystems.Encoders;
 import org.ingrahamrobotics.robot2014.subsystems.GroundDrive;
 import org.ingrahamrobotics.robot2014.subsystems.GroundDriveShifter;
 import org.ingrahamrobotics.robot2014.subsystems.PressureCompressor;
@@ -49,6 +49,7 @@ public class Subsystems {
     public final ShooterSolenoids shooterSolenoids;
     public final CollectorSolenoids collectorSolenoids;
     public final CollectorMotors collectorMotors;
+    public final Encoders encoders;
 
     public Subsystems() {
         groundDrive = new GroundDrive();
@@ -59,6 +60,7 @@ public class Subsystems {
         shooterSolenoids = new ShooterSolenoids();
         collectorSolenoids = new CollectorSolenoids();
         collectorMotors = new CollectorMotors();
+        encoders = new Encoders();
     }
 
     public void initCommands() {

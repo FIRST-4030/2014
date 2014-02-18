@@ -33,7 +33,7 @@ public class PullCollectorMotors extends Command {
     }
 
     protected void execute() {
-        if (ss.collectorMotors.getBothSpeed() < 0) {
+        if (ss.collectorMotors.getBothSpeed() != 0) {
             ss.collectorMotors.setBothSpeed(0);
         } else {
             ss.collectorMotors.setBothSpeed(0.75);

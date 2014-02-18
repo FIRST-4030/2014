@@ -16,10 +16,33 @@
  */
 package org.ingrahamrobotics.robot2014.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.ingrahamrobotics.robot2014.commands.EncoderRead;
 
 public class Encoders extends Subsystem {
 
+    private Encoder encoder1 = new Encoder(new DigitalInput(2), new DigitalInput(3));
+    private Encoder encoder2 = new Encoder(new DigitalInput(4), new DigitalInput(5));
+
     protected void initDefaultCommand() {
+        setDefaultCommand(new EncoderRead());
+    }
+
+    public int getEncoder1() {
+        return encoder1.get();
+    }
+
+    public int getEncoder2() {
+        return encoder2.get();
+    }
+
+    public int getRawEncoder1() {
+        return encoder1.getRaw();
+    }
+
+    public int getRawEncoder2() {
+        return encoder2.getRaw();
     }
 }
