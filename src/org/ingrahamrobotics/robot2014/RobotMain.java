@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.ingrahamrobotics.dotnettables.DotNetTables;
 import org.ingrahamrobotics.robot2014.commands.AutoCommand;
+import org.ingrahamrobotics.robot2014.commands.AutoStateCommand;
 import org.ingrahamrobotics.robot2014.output.Output;
 import org.ingrahamrobotics.robot2014.output.OutputLevel;
 
@@ -35,7 +36,7 @@ public class RobotMain extends IterativeRobot {
      */
     public void robotInit() {
         DotNetTables.startServer();
-        autoCommand = new AutoCommand();
+        autoCommand = new AutoStateCommand();
         Output.output(OutputLevel.INITIALIZED_SYSTEMS, "Robot:State", "Starting");
         // Initialize all commands
         Subsystems.instance.initCommands();

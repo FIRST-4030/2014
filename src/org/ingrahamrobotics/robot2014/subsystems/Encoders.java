@@ -41,11 +41,11 @@ public class Encoders extends Subsystem {
         rightEncoder.reset();
     }
 
-    public int getEncoder1() {
+    public int getRightEncoder() {
         return rightEncoder.get();
     }
 
-    public int getEncoder2() {
+    public int getLeftEncoder() {
         return leftEncoder.get();
     }
 

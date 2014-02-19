@@ -19,34 +19,45 @@ package org.ingrahamrobotics.robot2014.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.ingrahamrobotics.robot2014.Subsystems;
 
-public class AutoCommand extends Command {
+public abstract class StateCommand extends Command {
 
-    private final Subsystems ss = Subsystems.instance;
+    protected final Subsystems ss = Subsystems.instance;
+    protected long startTime;
+    protected long lastSwitch;
+    protected int currentState;
+    protected final long[] states;
 
-    public AutoCommand() {
-        requires(ss.groundDrive);
+    public StateCommand(long[] states) {
+        this.states = states;
     }
 
     protected void initialize() {
-        ss.encoders.reset();
-        new ExtendCollectorSolenoids().start();
+        startTime = lastSwitch = System.currentTimeMillis();
+        currentState = 0;
+        startState(currentState);
     }
 
     protected void execute() {
-        ss.groundDrive.setRaw(1, 1);
+        boolean next = executeState(currentState) || (states[currentState] > 0 && System.currentTimeMillis() > lastSwitch + states[currentState]);
+        if (next) {
+            lastSwitch = System.currentTimeMillis();
+            currentState += 1;
+            System.out.println("Switching to state " + currentState);
+            startState(currentState);
+        }
     }
 
     protected boolean isFinished() {
-        return ss.encoders.getRightEncoder() > 28875 || ss.encoders.getLeftEncoder() > 28875
-                || ss.encoders.getRightEncoder() < -28875 || ss.encoders.getLeftEncoder() < -28875;
+        return currentState >= states.length;
     }
 
     protected void end() {
-        ss.groundDrive.stop();
-        new ExtendShooterSolenoids().start();
     }
 
     protected void interrupted() {
-        ss.groundDrive.stop();
     }
+
+    protected abstract boolean executeState(int state);
+
+    protected abstract void startState(int state);
 }
