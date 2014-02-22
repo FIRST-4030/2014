@@ -53,6 +53,10 @@ public final class Vst {
          * Port for the pressure switch
          */
         public static final int PRESSURE_SWITCH = 1;
+        public static final int LEFT_ENCODER_INPUT1 = 3;
+        public static final int LEFT_ENCODER_INPUT2 = 5;
+        public static final int RIGHT_ENCODER_INPUT1 = 2;
+        public static final int RIGHT_ENCODER_INPUT2 = 4;
     }
 
     /**

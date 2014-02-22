@@ -42,11 +42,25 @@ public class CollectorMotors extends Subsystem {
         Output.output(OutputLevel.RAW_MOTORS, "ShooterMotors:SideSpeed", speed);
     }
 
-    public double getBothSpeed() {
+    public void setTopSpeed(double speed) {
+        topMotor.set(speed);
+        Output.output(OutputLevel.RAW_MOTORS, "ShooterMotors:TopSpeed", speed);
+    }
+
+    public void setSideSpeed(double speed) {
+        sideMotors.set(speed);
+        Output.output(OutputLevel.RAW_MOTORS, "ShooterMotors:SideSpeed", speed);
+    }
+
+    public double getAverageSpeed() {
         return (topMotor.get() + sideMotors.get()) / 2;
     }
 
-    public void getTopSpeed(double speed) {
-        topMotor.get();
+    public double getTopSpeed() {
+        return topMotor.get();
+    }
+
+    public double getSideSpeed() {
+        return sideMotors.get();
     }
 }

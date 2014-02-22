@@ -45,7 +45,7 @@ public class CMUUtils {
 
     public static int average(LinkedList ints) {
         int sum = 0;
-        for (ListIterator i = ints.listIterator(0); i.hasNext(); ) {
+        for (ListIterator i = ints.listIterator(0); i.hasNext();) {
             sum += ((Integer) i.next()).intValue();
         }
         return sum / ints.size();
@@ -55,7 +55,7 @@ public class CMUUtils {
      * Returns the array of substrings obtained by dividing the given input
      * string at each occurrence of the given delimiter.
      *
-     * @param input     The input string
+     * @param input The input string
      * @param delimiter The thing to split by
      * @return the split
      */
@@ -86,12 +86,12 @@ public class CMUUtils {
      * will exist if and only if the specified length is greater than that of
      * the original array.
      *
-     * @param original  the array to be copied
+     * @param original the array to be copied
      * @param newLength the length of the copy to be returned
      * @return a copy of the original array, truncated or padded with zeros to
      * obtain the specified length
      * @throws NegativeArraySizeException if <tt>newLength</tt> is negative
-     * @throws NullPointerException       if <tt>original</tt> is null
+     * @throws NullPointerException if <tt>original</tt> is null
      * @since 1.6
      */
     public static byte[] copyOf(byte[] original, int newLength) {

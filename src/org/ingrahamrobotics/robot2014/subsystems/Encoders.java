@@ -20,12 +20,15 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.ingrahamrobotics.robot2014.commands.EncoderRead;
+import org.ingrahamrobotics.robot2014.variablestore.Vst;
 
 public class Encoders extends Subsystem {
 
-    private DigitalInput[] inputs = new DigitalInput[]{new DigitalInput(3), new DigitalInput(5), new DigitalInput(2), new DigitalInput(4)};
-    private Encoder leftEncoder = new Encoder(inputs[0], inputs[1]); //2,3 3,5
-    private Encoder rightEncoder = new Encoder(inputs[2], inputs[3]); // 0,1 2,4
+    private DigitalInput[] inputs = new DigitalInput[]{
+        new DigitalInput(Vst.DIGITAL_IO.LEFT_ENCODER_INPUT1), new DigitalInput(Vst.DIGITAL_IO.LEFT_ENCODER_INPUT2),
+        new DigitalInput(Vst.DIGITAL_IO.RIGHT_ENCODER_INPUT1), new DigitalInput(Vst.DIGITAL_IO.RIGHT_ENCODER_INPUT2)};
+    private Encoder leftEncoder = new Encoder(inputs[0], inputs[1]); // 3,5
+    private Encoder rightEncoder = new Encoder(inputs[2], inputs[3]); // 2,4
 
     public Encoders() {
         leftEncoder.start();
@@ -50,10 +53,10 @@ public class Encoders extends Subsystem {
     }
 
     public String getDigital() {
-        return "rawLeft[" + io(0) + ", " + io(1) + "] rawRight[" + io(2) + ", " + io(3) + "]";
+        return "rawLeft[" + raw(0) + ", " + raw(1) + "] rawRight[" + raw(2) + ", " + raw(3) + "]";
     }
 
-    private int io(int num) {
+    private int raw(int num) {
         return inputs[num].get() ? 1 : 0;
     }
 }

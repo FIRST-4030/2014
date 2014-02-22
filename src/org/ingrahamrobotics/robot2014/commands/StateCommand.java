@@ -42,7 +42,6 @@ public abstract class StateCommand extends Command {
         if (next) {
             lastSwitch = System.currentTimeMillis();
             currentState += 1;
-            System.out.println("Switching to state " + currentState);
             startState(currentState);
         }
     }

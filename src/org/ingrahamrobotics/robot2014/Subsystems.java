@@ -67,13 +67,12 @@ public class Subsystems {
         JInput.getButton(BMap.reverseGroundDrive1).whenPressed(new ReverseGroundDrive());
         JInput.getButton(BMap.groundDriveFastLeft1).whenPressed(new GroundDriveFastLeft());
         JInput.getButton(BMap.groundDriveFastRight1).whenPressed(new GroundDriveFastRight());
-        JInput.getButton(BMap.groundDriveToggleShifter1).whenPressed(new GroundDriveToggleShifter());
+        JInput.getButton(BMap.groundDriveToggleShifter).whenPressed(new GroundDriveToggleShifter());
         JInput.getButton(BMap.groundDriveToggleSoftwareLow1).whenPressed(new GroundDriveToggleSoftwareLow());
 
         JInput.getButton(BMap.reverseGroundDrive2).whenPressed(new ReverseGroundDrive());
         JInput.getButton(BMap.groundDriveFastLeft2).whenPressed(new GroundDriveFastLeft());
         JInput.getButton(BMap.groundDriveFastRight2).whenPressed(new GroundDriveFastRight());
-//        JInput.getButton(BMap.groundDriveToggleShifter2).whenPressed(new GroundDriveToggleShifter());
         JInput.getButton(BMap.groundDriveToggleSoftwareLow2).whenPressed(new GroundDriveToggleSoftwareLow());
 
         JInput.getButton(BMap.pullCollectorMotors).whenPressed(new PullCollectorMotors());

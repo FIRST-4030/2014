@@ -53,12 +53,10 @@ public class ExtendShooterSolenoids extends Command {
     }
 
     protected void end() {
-        System.out.println("Ending shoot");
         ss.shooterSolenoids.setExtending(false);
     }
 
     protected void interrupted() {
-        System.out.println("Interrupted shoot");
         ss.shooterSolenoids.setExtending(false);
     }
 }

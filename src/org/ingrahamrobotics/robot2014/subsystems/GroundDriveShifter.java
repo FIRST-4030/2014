@@ -35,7 +35,7 @@ public class GroundDriveShifter extends Subsystem {
     }
 
     public void setSpeed(boolean speed) {
-        Output.output(OutputLevel.MEDIUM, "GroundDrive:HighSpeed", speed);
+        Output.output(OutputLevel.MEDIUM, "GroundDrive:HardHighSpeed", speed);
         shifterPair.setExtending(speed);
     }
 

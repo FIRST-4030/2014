@@ -7,8 +7,6 @@ import org.ingrahamrobotics.robot2014.output.OutputLevel;
 import org.ingrahamrobotics.robot2014.variablestore.Vst;
 
 /**
- * SubSystem for reading the PressureSwitch and outputting to VstP.
- * <p/>
  * This is the pressure switch in the compressor system.
  */
 public class PressureSwitch extends Subsystem {
