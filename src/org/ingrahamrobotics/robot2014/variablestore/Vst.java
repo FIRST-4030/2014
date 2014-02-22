@@ -40,7 +40,7 @@ public final class Vst {
         public static final int GROUND_DRIVE_SHIFTER_RETRACT = 2;
         public static final int COLLECTOR_SOLENOID_EXTEND = 3;
         public static final int COLLECTOR_SOLENOID_RETRACT = 4;
-        public static final int SHOOTER_EXTEND = 5;
+        public static final int SHOOTER_EXTEND = 8;
         public static final int SHOOTER_RETRACT = 6;
     }
 

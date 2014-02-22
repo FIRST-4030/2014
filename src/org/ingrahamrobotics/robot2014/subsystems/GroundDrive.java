@@ -75,11 +75,12 @@ public class GroundDrive extends Subsystem {
     }
 
     public void setRaw(double leftSpeed, double rightSpeed) {
-        roboDrive.tankDrive(leftSpeed, rightSpeed);
         if (leftSpeed == 0 && rightSpeed == 0) {
             roboDrive.stopMotor();
             leftMotor.stopMotor();
             rightMotor.stopMotor();
+        } else {
+            roboDrive.tankDrive(leftSpeed, rightSpeed);
         }
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftMotor.get());
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());

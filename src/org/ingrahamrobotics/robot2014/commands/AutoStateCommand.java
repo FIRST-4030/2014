@@ -19,21 +19,25 @@ package org.ingrahamrobotics.robot2014.commands;
 public class AutoStateCommand extends StateCommand {
 
     public AutoStateCommand() {
-        super(new long[]{-1, 1000});
+        super(new long[]{1100, 1000, 1500, 500});
         requires(ss.groundDrive);
         requires(ss.groundDriveShifter);
+        requires(ss.shooterSolenoids);
+        requires(ss.collectorSolenoids);
+        requires(ss.turnTable);
+        requires(ss.collectorMotors);
     }
 
     protected boolean executeState(int state) {
         switch (state) {
             case 0:
-                ss.groundDrive.setRaw(0.25, 0.25);
-                return ss.encoders.getRightEncoder() > 2500 || ss.encoders.getRightEncoder() < -2500
-                        || ss.encoders.getLeftEncoder() > 2500 || ss.encoders.getLeftEncoder() < -2500;
+                ss.groundDrive.setRaw(1, 1);
+                return false;
 //                return ss.encoders.getRightEncoder() > 25000 || ss.encoders.getLeftEncoder() > 25000
 //                        || ss.encoders.getRightEncoder() < -25000 || ss.encoders.getLeftEncoder() < -25000;
             case 1:
-                ss.groundDrive.setRaw(0, 0);
+                return false;
+            case 2:
                 return false;
         }
         return true;
@@ -44,13 +48,18 @@ public class AutoStateCommand extends StateCommand {
             case 0:
                 ss.encoders.reset();
                 ss.groundDriveShifter.setSpeed(true);
-                new ExtendCollectorSolenoids().start();
+                ss.collectorSolenoids.setExtending(true);
+                ss.collectorMotors.setBothSpeed(0.75);
                 break;
             case 1:
                 ss.groundDrive.setRaw(0, 0);
                 break;
             case 2:
-                new ExtendShooterSolenoids().start();
+                this.cancel();
+                ss.shooterSolenoids.setExtending(true);
+                break;
+            case 3:
+                ss.shooterSolenoids.setExtending(false);
                 break;
         }
     }

@@ -33,9 +33,11 @@ public class ExtendShooterSolenoids extends Command {
     }
 
     protected void initialize() {
+        System.out.println("Starting shoot");
         startTime = System.currentTimeMillis();
         if (!ss.collectorSolenoids.isExtending()) {
             Output.output(OutputLevel.HIGH, "ShooterError", "Collector solenoids retracted.");
+            System.out.println("Error: Collector retracted.");
             canceled = true;
         } else {
             Output.output(OutputLevel.HIGH, "ShooterError", null);
@@ -51,10 +53,12 @@ public class ExtendShooterSolenoids extends Command {
     }
 
     protected void end() {
+        System.out.println("Ending shoot");
         ss.shooterSolenoids.setExtending(false);
     }
 
     protected void interrupted() {
+        System.out.println("Interrupted shoot");
         ss.shooterSolenoids.setExtending(false);
     }
 }

@@ -73,7 +73,7 @@ public class Subsystems {
         JInput.getButton(BMap.reverseGroundDrive2).whenPressed(new ReverseGroundDrive());
         JInput.getButton(BMap.groundDriveFastLeft2).whenPressed(new GroundDriveFastLeft());
         JInput.getButton(BMap.groundDriveFastRight2).whenPressed(new GroundDriveFastRight());
-        JInput.getButton(BMap.groundDriveToggleShifter2).whenPressed(new GroundDriveToggleShifter());
+//        JInput.getButton(BMap.groundDriveToggleShifter2).whenPressed(new GroundDriveToggleShifter());
         JInput.getButton(BMap.groundDriveToggleSoftwareLow2).whenPressed(new GroundDriveToggleSoftwareLow());
 
         JInput.getButton(BMap.pullCollectorMotors).whenPressed(new PullCollectorMotors());
@@ -81,6 +81,5 @@ public class Subsystems {
         JInput.getButton(BMap.extendCollectorSolenoids).whenPressed(new ExtendCollectorSolenoids());
         JInput.getButton(BMap.retractCollectorSolenoids).whenPressed(new RetractCollectorSolenoids());
         JInput.getButton(BMap.shooterSolenoidsControl).whenPressed(new ExtendShooterSolenoids());
-//        JInput.getButton(BMap.shooterSolenoidsControl).whenReleased(new RetractShooterSolenoids());
     }
 }
