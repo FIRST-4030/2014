@@ -24,7 +24,7 @@ import org.ingrahamrobotics.util.LinkedList;
 public class CMUColorTracking extends CMUCommandSet {
 
     private final LinkedList listeners = new LinkedList();
-    private final int[] averages = new int[8];
+    private int[] averages = new int[8];
     private final LinkedList[] storedValues = new LinkedList[averages.length];
     private final int pastValuesToAverage;
     private boolean currentlyTracking;
@@ -98,14 +98,16 @@ public class CMUColorTracking extends CMUCommandSet {
     }
 
     private void updateAverages(int[] newValues) {
+        int[] newAverages = new int[averages.length];
         for (int i = 0; i < storedValues.length; i++) {
             LinkedList queue = storedValues[i];
             queue.add(Integer.valueOf(newValues[i]));
             if (queue.size() > pastValuesToAverage) {
                 queue.poll();
             }
-            averages[i] = CMUUtils.average(queue);
+            newAverages[i] = CMUUtils.average(queue);
         }
+        averages = newAverages;
     }
 
     public void registerListener(CMUColorTrackingListener listener) {

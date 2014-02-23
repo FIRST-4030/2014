@@ -28,6 +28,7 @@ import org.ingrahamrobotics.robot2014.commands.RetractCollectorSolenoids;
 import org.ingrahamrobotics.robot2014.commands.ReverseGroundDrive;
 import org.ingrahamrobotics.robot2014.input.BMap;
 import org.ingrahamrobotics.robot2014.input.JInput;
+import org.ingrahamrobotics.robot2014.subsystems.CmuCam;
 import org.ingrahamrobotics.robot2014.subsystems.CollectorMotors;
 import org.ingrahamrobotics.robot2014.subsystems.CollectorSolenoids;
 import org.ingrahamrobotics.robot2014.subsystems.Encoders;
@@ -50,6 +51,7 @@ public class Subsystems {
     public final CollectorSolenoids collectorSolenoids;
     public final CollectorMotors collectorMotors;
     public final Encoders encoders;
+    public final CmuCam cmuCam;
 
     public Subsystems() {
         groundDrive = new GroundDrive();
@@ -61,6 +63,7 @@ public class Subsystems {
         collectorSolenoids = new CollectorSolenoids();
         collectorMotors = new CollectorMotors();
         encoders = new Encoders();
+        cmuCam = new CmuCam();
     }
 
     public void initCommands() {
@@ -80,5 +83,8 @@ public class Subsystems {
         JInput.getButton(BMap.extendCollectorSolenoids).whenPressed(new ExtendCollectorSolenoids());
         JInput.getButton(BMap.retractCollectorSolenoids).whenPressed(new RetractCollectorSolenoids());
         JInput.getButton(BMap.shooterSolenoidsControl).whenPressed(new ExtendShooterSolenoids());
+
+        // Uncomment to enable color tracking
+//        cmuCam.startTrackingThread();
     }
 }
