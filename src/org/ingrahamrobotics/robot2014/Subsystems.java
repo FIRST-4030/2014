@@ -16,6 +16,7 @@
  */
 package org.ingrahamrobotics.robot2014;
 
+import org.ingrahamrobotics.robot2014.commands.CMUCamCenterCommand;
 import org.ingrahamrobotics.robot2014.commands.ExtendCollectorSolenoids;
 import org.ingrahamrobotics.robot2014.commands.ExtendShooterSolenoids;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveFastLeft;
@@ -85,6 +86,7 @@ public class Subsystems {
         JInput.getButton(BMap.shooterSolenoidsControl).whenPressed(new ExtendShooterSolenoids());
 
         // Uncomment to enable color tracking
-//        cmuCam.startTrackingThread();
+        cmuCam.startTrackingThread();
+        JInput.getButton(BMap.colorTrackingTrigger).whileActive(new CMUCamCenterCommand());
     }
 }

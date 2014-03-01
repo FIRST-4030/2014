@@ -20,19 +20,16 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.ingrahamrobotics.robot2014.Subsystems;
 import org.ingrahamrobotics.robot2014.output.Output;
 import org.ingrahamrobotics.robot2014.output.OutputLevel;
-import org.ingrahamrobotics.robot2014.subsystems.TurnTable;
 
 public class CMUCamCenterCommand extends Command {
 
     private final Subsystems ss = Subsystems.instance;
-    private boolean finished;
 
     public CMUCamCenterCommand() {
         requires(ss.turnTable);
     }
 
     protected void initialize() {
-        finished = false;
     }
 
     protected void execute() {
@@ -49,16 +46,17 @@ public class CMUCamCenterCommand extends Command {
             Output.output(OutputLevel.LOW, "CmuCam:CenterCommand", "Object at [" + (x - 120) + ", " + (y - 120) + "]");
             ss.turnTable.drive((x - 120) / 120);
         }
-        finished = true;
     }
 
     protected boolean isFinished() {
-        return finished;
+        return false;
     }
 
     protected void end() {
+        ss.turnTable.drive(0);
     }
 
     protected void interrupted() {
+        ss.turnTable.drive(0);
     }
 }
