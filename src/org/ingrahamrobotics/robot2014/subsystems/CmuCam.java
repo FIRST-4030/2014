@@ -38,12 +38,8 @@ public class CmuCam extends Subsystem {
     /**
      * Values is an array of values:
      *
-     * [0]: Average X
-     * [1]: Average Y
-     * [2]: Left X
-     * [3]: Top Y
-     * [4]: Right X
-     * [5]: Bottom Y
+     * [0]: Average X [1]: Average Y [2]: Left X [3]: Top Y [4]: Right X [5]:
+     * Bottom Y
      *
      * @return values
      */
@@ -84,6 +80,11 @@ public class CmuCam extends Subsystem {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
             while (true) {
                 try {
                     cam.runCommandSet(tracking);
@@ -107,7 +108,9 @@ public class CmuCam extends Subsystem {
                 serialPort.free();
             }
             try {
-                serialPort = new SerialPort(baud, 8, SerialPort.Parity.kNone, SerialPort.StopBits.kOne);
+                serialPort = new SerialPort(19200, 8, SerialPort.Parity.kNone, SerialPort.StopBits.kOne);
+                serialPort.setFlowControl(SerialPort.FlowControl.kNone);
+                serialPort.setWriteBufferMode(SerialPort.WriteBufferMode.kFlushOnAccess);
             } catch (VisaException ex) {
                 ex.printStackTrace();
                 throw new IOException("VisaException: " + ex.getMessage());

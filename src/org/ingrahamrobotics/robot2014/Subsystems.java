@@ -16,7 +16,6 @@
  */
 package org.ingrahamrobotics.robot2014;
 
-import org.ingrahamrobotics.robot2014.commands.CMUCamCenterCommand;
 import org.ingrahamrobotics.robot2014.commands.ExtendCollectorSolenoids;
 import org.ingrahamrobotics.robot2014.commands.ExtendShooterSolenoids;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveFastLeft;
@@ -39,6 +38,7 @@ import org.ingrahamrobotics.robot2014.subsystems.PressureCompressor;
 import org.ingrahamrobotics.robot2014.subsystems.PressureSwitch;
 import org.ingrahamrobotics.robot2014.subsystems.ShooterSolenoids;
 import org.ingrahamrobotics.robot2014.subsystems.TurnTable;
+import org.ingrahamrobotics.robot2014.subsystems.TurnTableStops;
 
 public class Subsystems {
 
@@ -53,6 +53,7 @@ public class Subsystems {
     public final CollectorMotors collectorMotors;
     public final Encoders encoders;
     public final CmuCam cmuCam;
+    public final TurnTableStops turnTableStops;
 
     public Subsystems() {
         groundDrive = new GroundDrive();
@@ -65,6 +66,7 @@ public class Subsystems {
         collectorMotors = new CollectorMotors();
         encoders = new Encoders();
         cmuCam = new CmuCam();
+        turnTableStops = new TurnTableStops();
     }
 
     public void initCommands() {
@@ -86,7 +88,7 @@ public class Subsystems {
         JInput.getButton(BMap.shooterSolenoidsControl).whenPressed(new ExtendShooterSolenoids());
 
         // Uncomment to enable color tracking
-        cmuCam.startTrackingThread();
-        JInput.getButton(BMap.colorTrackingTrigger).whileActive(new CMUCamCenterCommand());
+//        cmuCam.startTrackingThread();
+//        JInput.getButton(BMap.colorTrackingTrigger).whileActive(new CMUCamCenterCommand());
     }
 }

@@ -327,12 +327,14 @@ public class DotNetTable implements ITableListener {
          * This is a hack to get around that issue. It will add or remove
          * the '_bump' key depending if it already exists.
          */
-        if (exists("_" + bumpCount)) {
-            remove("_" + bumpCount);
+        if (exists("_bump")) {
+            remove("_bump");
+            System.out.println(name + " -");
         } else {
-            bumpCount = (bumpCount + 1) % 99;
-            setValue("_" + bumpCount, System.currentTimeMillis());
+            setValue("_bump", System.currentTimeMillis());
+            System.out.println(name + " +");
         }
+
         DotNetTables.push(name, HMtoSA(data));
         this.resetTimer();
 

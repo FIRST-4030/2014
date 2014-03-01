@@ -24,11 +24,12 @@ import org.ingrahamrobotics.robot2014.variablestore.Vst;
 
 public class Encoders extends Subsystem {
 
-    private DigitalInput[] inputs = new DigitalInput[]{
+//    private final DigitalInput[] raw = new DigitalInput[]{null, new DigitalInput(2), new DigitalInput(3), new DigitalInput(4), new DigitalInput(5), new DigitalInput(6), new DigitalInput(7)};
+    private final DigitalInput[] inputs = new DigitalInput[]{
         new DigitalInput(Vst.DIGITAL_IO.LEFT_ENCODER_INPUT1), new DigitalInput(Vst.DIGITAL_IO.LEFT_ENCODER_INPUT2),
         new DigitalInput(Vst.DIGITAL_IO.RIGHT_ENCODER_INPUT1), new DigitalInput(Vst.DIGITAL_IO.RIGHT_ENCODER_INPUT2)};
-    private Encoder leftEncoder = new Encoder(inputs[0], inputs[1]); // 3,5
-    private Encoder rightEncoder = new Encoder(inputs[2], inputs[3]); // 2,4
+    private final Encoder leftEncoder = new Encoder(inputs[0], inputs[1]);
+    private final Encoder rightEncoder = new Encoder(inputs[2], inputs[3]);
 
     public Encoders() {
         leftEncoder.start();
@@ -52,11 +53,11 @@ public class Encoders extends Subsystem {
         return leftEncoder.get();
     }
 
-    public String getDigital() {
-        return "rawLeft[" + raw(0) + ", " + raw(1) + "] rawRight[" + raw(2) + ", " + raw(3) + "]";
-    }
-
-    private int raw(int num) {
-        return inputs[num].get() ? 1 : 0;
-    }
+//    public String getDigital() {
+//        return " 2=" + raw(1) + " 3=" + raw(2) + " 4=" + raw(3) + " 5=" + raw(4) + " 6=" + raw(5) + " 7=" + raw(6);
+//    }
+//
+//    private int raw(int num) {
+//        return raw[num].get() ? 1 : 0;
+//    }
 }

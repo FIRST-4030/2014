@@ -44,9 +44,9 @@ public abstract class CMUCamConnection {
 
     public void start() throws IOException {
         synchronized (lock) {
+            setBaud(19200);
             output = new OutputStreamWriter(rawOutput, CMUUtils.CHARSET);
             state = State.RUNNING_COMMAND;
-            setBaud(19200);
             write("\rRS\r");
             debug.log("[cmu] Resetting system");
             waitUntil("CMUcam4 v");

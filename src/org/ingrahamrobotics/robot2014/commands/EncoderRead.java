@@ -33,7 +33,8 @@ public class EncoderRead extends Command {
     }
 
     protected void execute() {
-        Output.output(OutputLevel.MEDIUM, "Encoders", "encoder[" + ss.encoders.getLeftEncoder() + ", " + ss.encoders.getRightEncoder() + "] raw" + ss.encoders.getDigital());
+        Output.output(OutputLevel.MEDIUM, "Encoders", "left[" + ss.encoders.getLeftEncoder() + "], right[" + ss.encoders.getRightEncoder() + "]");
+//        Output.output(OutputLevel.MEDIUM, "RawDigital", ss.encoders.getDigital());
     }
 
     protected boolean isFinished() {

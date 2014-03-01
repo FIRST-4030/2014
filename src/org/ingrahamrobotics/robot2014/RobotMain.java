@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.ingrahamrobotics.dotnettables.DotNetTables;
-import org.ingrahamrobotics.robot2014.commands.AutoCommand;
 import org.ingrahamrobotics.robot2014.commands.AutoStateCommand;
 import org.ingrahamrobotics.robot2014.output.Output;
 import org.ingrahamrobotics.robot2014.output.OutputLevel;

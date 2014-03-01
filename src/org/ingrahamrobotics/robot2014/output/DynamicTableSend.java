@@ -23,7 +23,7 @@ import org.ingrahamrobotics.util.LinkedList;
 
 public class DynamicTableSend {
 
-    private static final long MIN_TIME = 300;
+    private static final long MIN_TIME = 100;
     private static final long MAX_TIME = 5000;
     private final LinkedList tablesNeedingUpdate = new LinkedList();
     private final Hashtable tables = new Hashtable();
@@ -69,28 +69,19 @@ public class DynamicTableSend {
     private class UpdateThread extends Thread {
 
         public void run() {
-//            long lastFullUpdate = System.currentTimeMillis();
             long lastPartialUpdate = System.currentTimeMillis();
             long time;
             try {
                 while (true) {
-                    System.out.println("Running DynamicTableSend thread");
                     synchronized (threadPausedLock) {
                         threadPausedLock.wait();
-//                        threadPausedLock.wait(MAX_TIME);
                     }
                     time = System.currentTimeMillis();
                     if (time < lastPartialUpdate + MIN_TIME) {
                         Thread.sleep(MIN_TIME + lastPartialUpdate - time);
                     }
                     lastPartialUpdate = System.currentTimeMillis();
-//                    time = lastPartialUpdate;
-//                    if (time > lastFullUpdate + MAX_TIME) {
-//                        lastFullUpdate = time;
-//                        updateAllTables();
-//                    } else {
                     updateTables();
-//                    }
                 }
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
@@ -110,24 +101,5 @@ public class DynamicTableSend {
                 table.send();
             }
         }
-
-//        private void updateAllTables() {
-//            synchronized (tablesNeedingUpdate) {
-//                tablesNeedingUpdate.clear();
-//            }
-//            LinkedList list = new LinkedList();
-//            synchronized (tables) {
-//                Enumeration e = tables.elements();
-//                ListIterator iterator = list.listIterator(0);
-//                while (e.hasMoreElements()) {
-//                    iterator.add(e.nextElement());
-//                }
-//            }
-//            DotNetTable table;
-//            for (ListIterator iterator = list.listIterator(0); iterator.hasNext();) {
-//                table = (DotNetTable) iterator.next();
-//                table.send();
-//            }
-//        }
     }
 }
