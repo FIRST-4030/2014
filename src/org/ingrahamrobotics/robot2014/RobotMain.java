@@ -34,7 +34,7 @@ public class RobotMain extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-        DotNetTables.startServer();
+        DotNetTables.startCRIO();
         autoCommand = new AutoStateCommand();
         Output.output(OutputLevel.INITIALIZED_SYSTEMS, "Robot:State", "Starting");
         // Initialize all commands

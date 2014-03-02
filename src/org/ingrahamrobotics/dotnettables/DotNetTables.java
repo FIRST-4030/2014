@@ -28,13 +28,21 @@ public class DotNetTables {
     private static Hashtable tables;
     private static final Object syncLock = new Object();
 
-    static private void init() {
+    static private void init(boolean isRunning) throws IOException {
         synchronized (syncLock) {
             tables = new Hashtable();
 
             // Attempt to init the underlying NetworkTable
-            nt_table = NetworkTable.getTable(TABLE_NAME);
-            connected = true;
+            try {
+                if (!isRunning) {
+                    NetworkTable.initialize();
+                }
+                nt_table = NetworkTable.getTable(TABLE_NAME);
+                connected = true;
+            } catch (IOException ex) {
+                System.err.println("Unable to initialize NetworkTable: " + TABLE_NAME);
+                throw ex;
+            }
         }
     }
 
@@ -43,9 +51,25 @@ public class DotNetTables {
      * the robot. A server can both publish and subscribe to tables; server vs.
      * client mode only controls whether the process listens for inbound network
      * connections.
+     *
+     * @throws IOException Thrown if the underlying network bind() operations
+     * fail
      */
-    static public void startServer() {
-        init();
+    static public void startServer() throws IOException {
+        init(false);
+    }
+
+    /**
+     * Initialize a NetworkTables server from inside the cRIO Java framework.
+     * The cRIO typically initializes the server automatically at boot; this
+     * method uses that existing server.
+     */
+    static public void startCRIO() {
+        try {
+            init(true);
+        } catch (IOException ex) {
+            // This should never happen -- we do not init on the cRIO
+        }
     }
 
     /**
@@ -86,7 +110,7 @@ public class DotNetTables {
         }
 
         client = true;
-        init();
+        init(false);
     }
 
     /**
