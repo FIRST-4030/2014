@@ -16,10 +16,13 @@
  */
 package org.ingrahamrobotics.robot2014.commands;
 
+import org.ingrahamrobotics.robot2014.tables.Settings;
+
 public class AutoStateCommand extends StateCommand {
 
     public AutoStateCommand() {
-        super(new long[]{1100, 1000, 1500, 500});
+        // 0=move forward, 1=stop, 2=shooter, 3=retract
+        super(new long[]{(Settings.getBoolean("AutoCommand:UseEncoders") ? 0 : 1100), 1000, 1500, 500});
         requires(ss.groundDrive);
         requires(ss.groundDriveShifter);
         requires(ss.shooterSolenoids);
@@ -31,10 +34,12 @@ public class AutoStateCommand extends StateCommand {
     protected boolean executeState(int state) {
         switch (state) {
             case 0:
-                ss.groundDrive.setRaw(1, 1);
-                return false;
-//                return ss.encoders.getRightEncoder() > 25000 || ss.encoders.getLeftEncoder() > 25000
-//                        || ss.encoders.getRightEncoder() < -25000 || ss.encoders.getLeftEncoder() < -25000;
+                if (Settings.getBoolean("AutoCommand:UseEncoders")) {
+                    return ss.encoders.getRightEncoder() > 25000 || ss.encoders.getLeftEncoder() > 25000
+                            || ss.encoders.getRightEncoder() < -25000 || ss.encoders.getLeftEncoder() < -25000;
+                } else {
+                    return false;
+                }
             case 1:
                 return false;
             case 2:
@@ -50,6 +55,7 @@ public class AutoStateCommand extends StateCommand {
                 ss.groundDriveShifter.setSpeed(true);
                 ss.collectorSolenoids.setExtending(true);
                 ss.collectorMotors.setBothSpeed(0.75);
+                ss.groundDrive.setRaw(-1, -1);
                 break;
             case 1:
                 ss.groundDrive.setRaw(0, 0);

@@ -27,8 +27,7 @@ public class Settings implements DotNetTable.DotNetTableEvents {
     private final DotNetTable driverLoop = DotNetTables.publish("robot-input-loopback");
 
     public void publishDefaults() {
-        defaultSettings.setValue("test-setting-1", "default-value-1");
-        defaultSettings.setValue("test-set-2", "default-2");
+        defaultSettings.setValue("AutoCommand:UseEncoders", "true");
         defaultSettings.setInterval(3000);
         driverSettings.onChange(this);
         driverSettings.onStale(this);
@@ -56,9 +55,15 @@ public class Settings implements DotNetTable.DotNetTableEvents {
 
     public static void initInstance() {
         instance = new Settings();
+        instance.publishDefaults();
     }
 
     public static String get(String key) {
         return instance.getSetting(key);
     }
+
+    public static boolean getBoolean(String key) {
+        return true;//instance.getSetting(key).equals("true");
+    }
+
 }

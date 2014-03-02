@@ -132,7 +132,6 @@ public class DotNetTable implements ITableListener {
     }
 
     private void resetTimer() {
-        System.out.println("Resetting timer for " + name);
         if (this.timer != null) {
             this.timer.cancel();
         }
@@ -330,12 +329,9 @@ public class DotNetTable implements ITableListener {
          */
         if (exists("_bump")) {
             remove("_bump");
-            System.out.println(name + " -");
         } else {
             setValue("_bump", System.currentTimeMillis());
-            System.out.println(name + " +");
         }
-
         DotNetTables.push(name, HMtoSA(data));
         this.resetTimer();
 

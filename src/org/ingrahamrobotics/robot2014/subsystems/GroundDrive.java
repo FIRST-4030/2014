@@ -76,7 +76,6 @@ public class GroundDrive extends Subsystem {
 
     public void setRaw(double leftSpeed, double rightSpeed) {
         if (leftSpeed == 0 && rightSpeed == 0) {
-            roboDrive.stopMotor();
             leftMotor.stopMotor();
             rightMotor.stopMotor();
         } else {
