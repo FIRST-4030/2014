@@ -132,6 +132,7 @@ public class DotNetTable implements ITableListener {
     }
 
     private void resetTimer() {
+        System.out.println("Resetting timer for " + name);
         if (this.timer != null) {
             this.timer.cancel();
         }

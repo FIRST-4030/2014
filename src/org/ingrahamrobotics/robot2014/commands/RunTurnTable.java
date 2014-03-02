@@ -20,8 +20,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.ingrahamrobotics.robot2014.Subsystems;
 import org.ingrahamrobotics.robot2014.input.AMap;
 import org.ingrahamrobotics.robot2014.input.JInput;
-import org.ingrahamrobotics.robot2014.output.Output;
-import org.ingrahamrobotics.robot2014.output.OutputLevel;
+import org.ingrahamrobotics.robot2014.tables.Output;
+import org.ingrahamrobotics.robot2014.tables.OutputLevel;
 
 public class RunTurnTable extends Command {
 
@@ -38,13 +38,13 @@ public class RunTurnTable extends Command {
     protected void execute() {
         double value = JInput.getAxis(AMap.turnTable);
         if (ss.turnTableStops.getLeft() && value < 0) {
-            Output.output(OutputLevel.MEDIUM, "TurnTable:Stopping", "Too left: going " + value);
-//            value = 0;
+            Output.output(OutputLevel.MEDIUM, "TurnTable:StoppingBecause", "Left");
+            value = 0;
         } else if (ss.turnTableStops.getRight() && value > 0) {
-            Output.output(OutputLevel.MEDIUM, "TurnTable:Stopping", "Too right: going " + value);
-//            value = 0;
+            Output.output(OutputLevel.MEDIUM, "TurnTable:StoppingBecause", "Right");
+            value = 0;
         } else {
-            Output.output(OutputLevel.MEDIUM, "TurnTable:Stopping", null);
+            Output.output(OutputLevel.MEDIUM, "TurnTable:StoppingBecause", null);
         }
         ss.turnTable.drive(value);
 

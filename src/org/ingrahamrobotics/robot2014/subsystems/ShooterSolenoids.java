@@ -17,8 +17,8 @@
 package org.ingrahamrobotics.robot2014.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.ingrahamrobotics.robot2014.output.Output;
-import org.ingrahamrobotics.robot2014.output.OutputLevel;
+import org.ingrahamrobotics.robot2014.tables.Output;
+import org.ingrahamrobotics.robot2014.tables.OutputLevel;
 import org.ingrahamrobotics.robot2014.util.SolenoidPair;
 import org.ingrahamrobotics.robot2014.variablestore.Vst;
 

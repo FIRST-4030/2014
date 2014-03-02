@@ -22,8 +22,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.ingrahamrobotics.dotnettables.DotNetTables;
 import org.ingrahamrobotics.robot2014.commands.AutoStateCommand;
-import org.ingrahamrobotics.robot2014.output.Output;
-import org.ingrahamrobotics.robot2014.output.OutputLevel;
+import org.ingrahamrobotics.robot2014.tables.Output;
+import org.ingrahamrobotics.robot2014.tables.OutputLevel;
 
 public class RobotMain extends IterativeRobot {
 

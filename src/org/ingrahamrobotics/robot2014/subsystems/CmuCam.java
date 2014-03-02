@@ -26,8 +26,8 @@ import org.ingrahamrobotics.robot2014.cmu.AbstractDebug;
 import org.ingrahamrobotics.robot2014.cmu.CMUCamConnection;
 import org.ingrahamrobotics.robot2014.cmu.CMUColorTracking;
 import org.ingrahamrobotics.robot2014.cmu.api.CMUColorTrackingListener;
-import org.ingrahamrobotics.robot2014.output.Output;
-import org.ingrahamrobotics.robot2014.output.OutputLevel;
+import org.ingrahamrobotics.robot2014.tables.Output;
+import org.ingrahamrobotics.robot2014.tables.OutputLevel;
 
 public class CmuCam extends Subsystem {
 

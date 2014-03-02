@@ -20,8 +20,8 @@ import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.ingrahamrobotics.robot2014.commands.RunGroundDrive;
-import org.ingrahamrobotics.robot2014.output.Output;
-import org.ingrahamrobotics.robot2014.output.OutputLevel;
+import org.ingrahamrobotics.robot2014.tables.Output;
+import org.ingrahamrobotics.robot2014.tables.OutputLevel;
 import org.ingrahamrobotics.robot2014.variablestore.Vst;
 
 public class GroundDrive extends Subsystem {
