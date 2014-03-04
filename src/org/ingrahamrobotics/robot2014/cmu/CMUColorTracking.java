@@ -24,6 +24,7 @@ import org.ingrahamrobotics.util.LinkedList;
 public class CMUColorTracking extends CMUCommandSet {
 
     private final LinkedList listeners = new LinkedList();
+    private int timesNoObject = 0;
     private int[] averages = new int[8];
     private final LinkedList[] storedValues = new LinkedList[averages.length];
     private final int pastValuesToAverage;
@@ -98,6 +99,19 @@ public class CMUColorTracking extends CMUCommandSet {
     }
 
     private void updateAverages(int[] newValues) {
+        // This if statement is basically for not having averages with 0 values as well.
+        if (newValues[0] == 0 || newValues[1] == 0) {
+            timesNoObject++;
+            if (timesNoObject > pastValuesToAverage) {
+                averages = new int[averages.length]; // fill with 0s - default for no-object-found
+            }
+            return;
+        } else if (timesNoObject != 0) {
+            for (int i = 0; i < storedValues.length; i++) {
+                storedValues[i].clear();
+            }
+            timesNoObject = 0;
+        }
         int[] newAverages = new int[averages.length];
         for (int i = 0; i < storedValues.length; i++) {
             LinkedList queue = storedValues[i];

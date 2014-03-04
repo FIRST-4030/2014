@@ -44,8 +44,8 @@ public abstract class CMUCamConnection {
 
     public void start() throws IOException {
         synchronized (lock) {
-            setBaud(4800);
-            output = new OutputStreamWriter(rawOutput, CMUUtils.CHARSET);
+            setBaud(19200);
+            output = new OutputStreamWriter(rawOutput);
             state = State.RUNNING_COMMAND;
             debug.log("[cmu] Resetting system");
             write("\rRS\r");

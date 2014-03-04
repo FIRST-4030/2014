@@ -25,6 +25,9 @@ public class AMap {
     public static final AMap turnTable = new AMap(JMap.SHOOTER_JOYSTICK, JMap.Axis.X);
     private final int joystick;
     private final int axis;
+    // XBox
+//    public static final AMap tankDriveLeft = new AMap(0, 2);
+//    public static final AMap tankDriveRight = new AMap(0, 4);
 
     public AMap(int joystick, int axis) {
         this.joystick = joystick;

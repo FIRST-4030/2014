@@ -16,31 +16,18 @@
  */
 package org.ingrahamrobotics.robot2014.cmu;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Vector;
 import org.ingrahamrobotics.util.LinkedList;
 import org.ingrahamrobotics.util.ListIterator;
 
 public class CMUUtils {
 
-    public static final String CHARSET = "ASCII";
-
     public static byte[] toBytes(String str) {
-        try {
-            return str.getBytes(CHARSET);
-        } catch (UnsupportedEncodingException ex) {
-            ex.printStackTrace();
-            return new byte[0];
-        }
+        return str.getBytes();
     }
 
     public static String toString(byte[] bytes) {
-        try {
-            return new String(bytes, CHARSET);
-        } catch (UnsupportedEncodingException ex) {
-            ex.printStackTrace();
-            return "";
-        }
+        return new String(bytes);
     }
 
     public static int average(LinkedList ints) {

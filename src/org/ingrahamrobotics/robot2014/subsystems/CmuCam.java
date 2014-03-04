@@ -64,7 +64,18 @@ public class CmuCam extends Subsystem {
     private class TrackingListener implements CMUColorTrackingListener {
 
         public void onNewColorTrackingData(int[] values) {
+            Output.output(OutputLevel.CMU, "CMUcam:RawTracking", arrayToString(values));
             lastColorTrackingData = values;
+        }
+
+        private String arrayToString(int[] array) {
+            StringBuffer buffer = new StringBuffer("[");
+            buffer.append(array[0]);
+            for (int i = 1; i < array.length; i++) {
+                buffer.append(", ").append(array[i]);
+            }
+            buffer.append("]");
+            return buffer.toString();
         }
     }
 
@@ -76,23 +87,37 @@ public class CmuCam extends Subsystem {
 
         public void run() {
             try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+                return;
+            }
+            Output.output(OutputLevel.CMU, "CMUcam:State", "Starting");
+            try {
                 cam.start();
             } catch (IOException ex) {
                 ex.printStackTrace();
                 return;
             }
+            Output.output(OutputLevel.CMU, "CMUcam:State", "Started");
             try {
                 Thread.sleep(500);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
                 return;
             }
-            while (true) {
-                try {
-                    cam.runCommandSet(tracking);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+            Output.output(OutputLevel.CMU, "CMUcam:State", "Tracking");
+            try {
+                while (true) {
+                    try {
+                        cam.runCommandSet(tracking);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
+            } catch (Throwable t) {
+                Output.output(OutputLevel.CMU, "CMUcam:State", "Error: " + t.toString());
+                t.printStackTrace();
             }
         }
     }
@@ -183,7 +208,7 @@ public class CmuCam extends Subsystem {
         public static class FirstDebug implements AbstractDebug {
 
             public void log(String msg) {
-                Output.output(OutputLevel.RAW_SENSORS, "SerialDebug", msg);
+                Output.output(OutputLevel.CMU, "CMUcam:Log", msg);
             }
         }
     }

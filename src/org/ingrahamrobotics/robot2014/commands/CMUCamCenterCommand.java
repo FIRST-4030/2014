@@ -24,8 +24,9 @@ import org.ingrahamrobotics.robot2014.tables.OutputLevel;
 public class CMUCamCenterCommand extends Command {
 
     private static final boolean TURN_TABLE = false;
-    private static final boolean SMOOTH = false;
+    private static final boolean SMOOTH = true;
     private final Subsystems ss = Subsystems.instance;
+    private boolean started = false;
 
     public CMUCamCenterCommand() {
         if (TURN_TABLE) {
@@ -36,35 +37,46 @@ public class CMUCamCenterCommand extends Command {
     }
 
     protected void initialize() {
+        if (!started) {
+            started = true;
+            ss.cmuCam.startTrackingThread();
+        }
     }
 
     protected void execute() {
         int[] values = ss.cmuCam.getColorTrackingData();
-        int x = values[0] - 120;
-        int y = values[1] - 120;
-        if (x == 0 || y == 0) {
-            Output.output(OutputLevel.RAW_SENSORS, "CmuCam:CenterCommand", "No objects found");
-        } else if (x > 120 || x < -120) {
-            Output.output(OutputLevel.RAW_SENSORS, "CmuCam:CenterCommand", "X value " + x + " out of range (-120 - 120).");
-        } else if (y > 120 || y < -120) {
-            Output.output(OutputLevel.RAW_SENSORS, "CmuCam:CenterCommand", "Y value " + y + " out of range (-120 - 120).");
-        } else if (SMOOTH) {
-            Output.output(OutputLevel.LOW, "CmuCam:CenterCommand", "Object at [" + (x - 120) + ", " + (y - 120) + "]");
-            drive(x / 120.0);
-        } else if (x < 100) {
-            drive(-0.8);
-        } else if (x > 100) {
-            drive(0.8);
-        } else if (x < 50) {
-            drive(-0.5);
-        } else if (x > 50) {
-            drive(0.5);
-        } else if (x < 0) {
-            drive(-0.2);
-        } else if (x > 0) {
-            drive(0.2);
-        } else {
-            drive(0);
+        if (values != null) {
+            if (values[0] == 0) {
+                Output.output(OutputLevel.CMU, "CMUcam:Centering", "No objects found");
+                return;
+            }
+            if (values[0] < 0 || values[0] > 160) {
+                Output.output(OutputLevel.CMU, "CMUcam:Centering", "X value " + values[0] + " out of range (0 - 160).");
+                return;
+            }
+            int x = values[0] - 80;
+            if (SMOOTH) {
+                drive(x / 80.0);
+            } else if (x < 0) {
+                if (x < -60) {
+                    drive(-0.8);
+                } else if (x < -30) {
+                    drive(-0.5);
+                } else {
+                    drive(-0.2);
+                }
+            } else if (x > 0) {
+                if (x > 60) {
+                    drive(0.8);
+                } else if (x > 30) {
+                    drive(0.5);
+                } else {
+                    drive(0.2);
+                }
+            } else {
+                drive(0);
+            }
+            Output.output(OutputLevel.CMU, "CMUcam:Centering", "Object at " + x);
         }
     }
 
@@ -81,6 +93,7 @@ public class CMUCamCenterCommand extends Command {
     }
 
     protected void end() {
+        Output.output(OutputLevel.CMU, "CMUcam:Centering", null);
         if (TURN_TABLE) {
             ss.turnTable.drive(0);
         } else {
@@ -89,6 +102,7 @@ public class CMUCamCenterCommand extends Command {
     }
 
     protected void interrupted() {
+        Output.output(OutputLevel.CMU, "CMUcam:Centering", null);
         if (TURN_TABLE) {
             ss.turnTable.drive(0);
         } else {

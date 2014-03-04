@@ -88,8 +88,6 @@ public class Subsystems {
         JInput.getButton(BMap.retractCollectorSolenoids).whenPressed(new RetractCollectorSolenoids());
         JInput.getButton(BMap.shooterSolenoidsControl).whenPressed(new ExtendShooterSolenoids());
 
-        // Uncomment to enable color tracking
-        cmuCam.startTrackingThread();
         JInput.getButton(BMap.colorTrackingTrigger).whileActive(new CMUCamCenterCommand());
     }
 }

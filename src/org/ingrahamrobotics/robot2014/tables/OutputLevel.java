@@ -24,7 +24,8 @@ public class OutputLevel {
     public static final OutputLevel NO_CONSOLE = new OutputLevel(3, "NonConsole (Test)");
     public static final OutputLevel LOW = new OutputLevel(4, "Low");
     public static final OutputLevel MEDIUM = new OutputLevel(5, "Medium");
-    public static final OutputLevel HIGH = new OutputLevel(6, "High");
+    public static final OutputLevel CMU = new OutputLevel(6, "CMUcam");
+    public static final OutputLevel HIGH = new OutputLevel(7, "High");
     public final int level;
     public final String name;
 
