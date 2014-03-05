@@ -44,11 +44,11 @@ public abstract class CMUCamConnection {
 
     public void start() throws IOException {
         synchronized (lock) {
-            setBaud(19200);
+            setBaud(4800);
             output = new OutputStreamWriter(rawOutput, CMUUtils.CHARSET);
             state = State.RUNNING_COMMAND;
-            write("\rRS\r");
             debug.log("[cmu] Resetting system");
+            write("\rRS\r");
             waitUntil("CMUcam4 v");
             String version = readUntil("\r");
             debug.log("[cmu] Connected to CMUcam4 version '" + version + "'.");

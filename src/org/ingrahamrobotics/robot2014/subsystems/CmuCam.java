@@ -79,11 +79,13 @@ public class CmuCam extends Subsystem {
                 cam.start();
             } catch (IOException ex) {
                 ex.printStackTrace();
+                return;
             }
             try {
                 Thread.sleep(500);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
+                return;
             }
             while (true) {
                 try {
@@ -108,7 +110,7 @@ public class CmuCam extends Subsystem {
                 serialPort.free();
             }
             try {
-                serialPort = new SerialPort(19200, 8, SerialPort.Parity.kNone, SerialPort.StopBits.kOne);
+                serialPort = new SerialPort(baud, 8, SerialPort.Parity.kNone, SerialPort.StopBits.kOne);
                 serialPort.setFlowControl(SerialPort.FlowControl.kNone);
                 serialPort.setWriteBufferMode(SerialPort.WriteBufferMode.kFlushOnAccess);
             } catch (VisaException ex) {
