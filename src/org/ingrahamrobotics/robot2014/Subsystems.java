@@ -16,6 +16,7 @@
  */
 package org.ingrahamrobotics.robot2014;
 
+import edu.wpi.first.wpilibj.command.Command;
 import org.ingrahamrobotics.robot2014.commands.CMUCamCenterCommand;
 import org.ingrahamrobotics.robot2014.commands.ExtendCollectorSolenoids;
 import org.ingrahamrobotics.robot2014.commands.ExtendShooterSolenoids;
@@ -88,6 +89,35 @@ public class Subsystems {
         JInput.getButton(BMap.retractCollectorSolenoids).whenPressed(new RetractCollectorSolenoids());
         JInput.getButton(BMap.shooterSolenoidsControl).whenPressed(new ExtendShooterSolenoids());
 
-        JInput.getButton(BMap.colorTrackingTrigger).whileActive(new CMUCamCenterCommand());
+//        JInput.getButton(BMap.colorTrackingTrigger).whileActive(new CMUCamCenterCommand());
+        // Toggle
+        final CMUCamCenterCommand centerCommand = new CMUCamCenterCommand();
+
+        JInput.getButton(BMap.colorTrackingTrigger).whenPressed(new Command() {
+            private boolean finished;
+
+            protected void initialize() {
+                finished = false;
+            }
+
+            protected void execute() {
+                if (centerCommand.isRunning()) {
+                    centerCommand.cancel();
+                } else {
+                    centerCommand.start();
+                }
+                finished = true;
+            }
+
+            protected boolean isFinished() {
+                return finished;
+            }
+
+            protected void end() {
+            }
+
+            protected void interrupted() {
+            }
+        });
     }
 }
