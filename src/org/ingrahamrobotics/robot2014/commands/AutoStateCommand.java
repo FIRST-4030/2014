@@ -22,7 +22,7 @@ public class AutoStateCommand extends StateCommand {
 
     public AutoStateCommand() {
         // 0=move forward, 1=stop, 2=shooter, 3=retract
-        super(new long[]{(Settings.getBoolean("AutoCommand:UseEncoders") ? 0 : 1100), 10, 1500, 500});
+        super(new long[]{(Settings.getBoolean(Settings.AUTOCOMMAND_USE_ENCODERS) ? 0 : 1100), 10, 1500, 500});
         requires(ss.groundDrive);
         requires(ss.groundDriveShifter);
         requires(ss.shooterSolenoids);
@@ -35,7 +35,7 @@ public class AutoStateCommand extends StateCommand {
         switch (state) {
             case 0:
                 ss.groundDrive.setRaw(-1, -1);
-                if (Settings.getBoolean("AutoCommand:UseEncoders")) {
+                if (Settings.getBoolean(Settings.AUTOCOMMAND_USE_ENCODERS)) {
                     return ss.encoders.getRightEncoder() > 25100 || ss.encoders.getLeftEncoder() > 25100
                             || ss.encoders.getRightEncoder() < -25100 || ss.encoders.getLeftEncoder() < -25100;
                 } else {

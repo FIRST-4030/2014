@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.ingrahamrobotics.robot2014.Subsystems;
 import org.ingrahamrobotics.robot2014.tables.Output;
 import org.ingrahamrobotics.robot2014.tables.OutputLevel;
+import org.ingrahamrobotics.robot2014.tables.Settings;
 
 public class CMUCamCenterCommand extends Command {
 
@@ -44,6 +45,7 @@ public class CMUCamCenterCommand extends Command {
     }
 
     protected void execute() {
+        Output.output(OutputLevel.CMU, "CMUcam:DefaultColor", Settings.get(Settings.CMUCAM_DEFAULT_COLOR));
         int[] values = ss.cmuCam.getColorTrackingData();
         if (values != null) {
             if (values[0] == 0) {

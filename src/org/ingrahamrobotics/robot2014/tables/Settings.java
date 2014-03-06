@@ -21,20 +21,26 @@ import org.ingrahamrobotics.dotnettables.DotNetTables;
 
 public class Settings implements DotNetTable.DotNetTableEvents {
 
+    public static final String CMUCAM_DEFAULT_COLOR = "CMUcam - Default Color";
+    public static final String AUTOCOMMAND_USE_ENCODERS = "Auto Command - Use Encoders";
     private static Settings instance;
     private final DotNetTable defaultSettings = DotNetTables.publish("robot-input-default");
     private final DotNetTable driverSettings = DotNetTables.subscribe("robot-input");
-    private final DotNetTable driverLoop = DotNetTables.publish("robot-input-loopback");
 
     public void publishDefaults() {
-        defaultSettings.setValue("AutoCommand:UseEncoders", "true");
+        defaultSettings.setValue(AUTOCOMMAND_USE_ENCODERS, "true");
+        defaultSettings.setValue(CMUCAM_DEFAULT_COLOR, "RED");
         defaultSettings.setInterval(3000);
         driverSettings.onChange(this);
         driverSettings.onStale(this);
     }
 
     public void changed(DotNetTable table) {
-        driverLoop.setValue("_counter", table.getValue("_counter"));
+        String feedback = table.getValue("_DRIVER_FEEDBACK_KEY");
+        if (feedback != null) {
+            defaultSettings.setValue("_DRIVER_FEEDBACK_KEY", feedback);
+            defaultSettings.send();
+        }
     }
 
     public void stale(DotNetTable table) {
@@ -65,5 +71,4 @@ public class Settings implements DotNetTable.DotNetTableEvents {
     public static boolean getBoolean(String key) {
         return "true".equals(instance.getSetting(key));
     }
-
 }
