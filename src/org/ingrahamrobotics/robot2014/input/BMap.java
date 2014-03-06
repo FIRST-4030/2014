@@ -32,7 +32,7 @@ public class BMap {
     public static final BMap extendCollectorSolenoids = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickStand.LEFT_TOP);
     public static final BMap retractCollectorSolenoids = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickStand.LEFT_BOTTOM);
     public static final BMap shooterSolenoidsControl = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickTop.TRIGGER);
-    public static final BMap colorTrackingTrigger = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickTop.TRIGGER);
+    public static final BMap colorTrackingTrigger = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickTop.MIDDLE);
     private final int joystick;
     private final int button;
 
