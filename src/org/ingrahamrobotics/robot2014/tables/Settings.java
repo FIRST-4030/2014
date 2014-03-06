@@ -63,7 +63,7 @@ public class Settings implements DotNetTable.DotNetTableEvents {
     }
 
     public static boolean getBoolean(String key) {
-        return true;//instance.getSetting(key).equals("true");
+        return "true".equals(instance.getSetting(key));
     }
 
 }

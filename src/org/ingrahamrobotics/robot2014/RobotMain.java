@@ -24,6 +24,7 @@ import org.ingrahamrobotics.dotnettables.DotNetTables;
 import org.ingrahamrobotics.robot2014.commands.AutoStateCommand;
 import org.ingrahamrobotics.robot2014.tables.Output;
 import org.ingrahamrobotics.robot2014.tables.OutputLevel;
+import org.ingrahamrobotics.robot2014.tables.Settings;
 
 public class RobotMain extends IterativeRobot {
 
@@ -35,6 +36,7 @@ public class RobotMain extends IterativeRobot {
      */
     public void robotInit() {
         DotNetTables.startCRIO();
+        Settings.initInstance();
         autoCommand = new AutoStateCommand();
         Output.output(OutputLevel.INITIALIZED_SYSTEMS, "Robot:State", "Starting");
         // Initialize all commands
