@@ -16,6 +16,7 @@
  */
 package org.ingrahamrobotics.robot2014.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.visa.VisaException;
@@ -25,6 +26,7 @@ import java.io.OutputStream;
 import org.ingrahamrobotics.robot2014.cmu.AbstractDebug;
 import org.ingrahamrobotics.robot2014.cmu.CMUCamConnection;
 import org.ingrahamrobotics.robot2014.cmu.CMUColorTracking;
+import org.ingrahamrobotics.robot2014.cmu.TrackingParameters;
 import org.ingrahamrobotics.robot2014.cmu.api.CMUColorTrackingListener;
 import org.ingrahamrobotics.robot2014.tables.Output;
 import org.ingrahamrobotics.robot2014.tables.OutputLevel;
@@ -49,7 +51,17 @@ public class CmuCam extends Subsystem {
 
     public CmuCam() {
         cam = new CrioCmuCam();
-        tracking = new CMUColorTracking(10);
+        switch (DriverStation.getInstance().getAlliance().value) {
+            case DriverStation.Alliance.kBlue_val:
+                tracking = new CMUColorTracking(10, TrackingParameters.BLUE);
+                Output.output(OutputLevel.CMU, "CMUcam:TrackingColor", "BLUE");
+                break;
+            case DriverStation.Alliance.kRed_val:
+            default:
+                Output.output(OutputLevel.CMU, "CMUcam:TrackingColor", "RED");
+                tracking = new CMUColorTracking(10, TrackingParameters.RED);
+                break;
+        }
 
         tracking.registerListener(new TrackingListener());
     }

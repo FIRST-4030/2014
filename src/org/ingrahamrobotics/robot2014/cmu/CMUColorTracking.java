@@ -29,12 +29,14 @@ public class CMUColorTracking extends CMUCommandSet {
     private final LinkedList[] storedValues = new LinkedList[averages.length];
     private final int pastValuesToAverage;
     private boolean currentlyTracking;
+    private TrackingParameters trackingParameters;
 
-    public CMUColorTracking(final int pastValuesToAverage) {
+    public CMUColorTracking(final int pastValuesToAverage, TrackingParameters trackingParameters) {
         this.pastValuesToAverage = pastValuesToAverage;
         for (int i = 0; i < storedValues.length; i++) {
             storedValues[i] = new LinkedList();
         }
+        this.trackingParameters = trackingParameters;
     }
 
     public void init(CMUCamConnection c) throws IOException {
@@ -47,7 +49,7 @@ public class CMUColorTracking extends CMUCommandSet {
         c.sendCommand("CT 1"); // set Color Tracking mode to YUV
         c.sendCommand("AG 0"); // turn off Auto Gain control
         c.sendCommand("AW 0"); // turn off Auto White balance
-        c.sendCommand("ST 150 167 18 29 104 118");
+        c.sendCommand("ST " + trackingParameters.colorParameters);
         c.debug.log("[tracking] Starting tracking");
         c.sendCommand("TC");
     }
@@ -134,5 +136,9 @@ public class CMUColorTracking extends CMUCommandSet {
         if (listener != null) {
             listeners.remove(listener);
         }
+    }
+
+    public void setTrackingParameters(TrackingParameters trackingParameters) {
+        this.trackingParameters = trackingParameters;
     }
 }
