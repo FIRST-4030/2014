@@ -16,13 +16,14 @@
  */
 package org.ingrahamrobotics.robot2014.commands;
 
+import org.ingrahamrobotics.robot2014.tables.Output;
+import org.ingrahamrobotics.robot2014.tables.OutputLevel;
 import org.ingrahamrobotics.robot2014.tables.Settings;
 
 public class AutoStateCommand extends StateCommand {
 
     public AutoStateCommand() {
-        // 0=move forward, 1=stop, 2=shooter, 3=retract
-        super(new long[]{(Settings.getBoolean(Settings.AUTOCOMMAND_USE_ENCODERS) ? 0 : 1100), 10, 1500, 500});
+        Output.output(OutputLevel.RAW_MOTORS, "AutoCommand:StopTime", (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000));
         requires(ss.groundDrive);
         requires(ss.groundDriveShifter);
         requires(ss.shooterSolenoids);
@@ -68,5 +69,15 @@ public class AutoStateCommand extends StateCommand {
                 ss.shooterSolenoids.setExtending(false);
                 break;
         }
+    }
+
+    protected long[] getNextStates() {
+        Output.output(OutputLevel.RAW_MOTORS, "AutoCommand:StopTime", (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000));
+        return new long[]{
+            (Settings.getBoolean(Settings.AUTOCOMMAND_USE_ENCODERS) ? 0 : 1100), // Drive forward
+            (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000), // Pause
+            1500, // Shoot
+            500 // Retract
+        };
     }
 }

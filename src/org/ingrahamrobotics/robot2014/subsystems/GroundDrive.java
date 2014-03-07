@@ -86,7 +86,7 @@ public class GroundDrive extends Subsystem {
     }
 
     public void setReversed(boolean reversed) {
-        Output.output(OutputLevel.MEDIUM, "GroundDrive:Reversed", reversed);
+        Output.output(OutputLevel.HIGH, "GroundDrive:Reversed", reversed);
         this.reversed = reversed;
     }
 
@@ -95,7 +95,7 @@ public class GroundDrive extends Subsystem {
     }
 
     public void setSoftwareLowSpeed(boolean softwareLowSpeed) {
-        Output.output(OutputLevel.MEDIUM, "GroundDrive:SoftwareLow", softwareLowSpeed);
+        Output.output(OutputLevel.HIGH, "GroundDrive:Software Speed", softwareLowSpeed ? "Low" : "High");
         this.softwareLowSpeed = softwareLowSpeed;
     }
 

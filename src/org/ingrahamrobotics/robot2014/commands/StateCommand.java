@@ -25,15 +25,12 @@ public abstract class StateCommand extends Command {
     protected long startTime;
     protected long lastSwitch;
     protected int currentState;
-    protected final long[] states;
-
-    public StateCommand(long[] states) {
-        this.states = states;
-    }
+    protected long[] states;
 
     protected void initialize() {
         startTime = lastSwitch = System.currentTimeMillis();
         currentState = 0;
+        states = getNextStates();
         startState(currentState);
     }
 
@@ -59,4 +56,6 @@ public abstract class StateCommand extends Command {
     protected abstract boolean executeState(int state);
 
     protected abstract void startState(int state);
+
+    protected abstract long[] getNextStates();
 }

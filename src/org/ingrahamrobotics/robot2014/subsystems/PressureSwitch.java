@@ -24,7 +24,7 @@ public class PressureSwitch extends Subsystem {
     public boolean getAtPressure() {
         // Switch is normally closed, so invert the reading
         boolean val = !pSwitch.get();
-        Output.output(OutputLevel.RAW_SENSORS, "PressureSwitch:AtPressure", val);
+        Output.output(OutputLevel.HIGH, "PressureSwitch", val ? "At pressure" : "Not at pressure");
         return val;
     }
 }

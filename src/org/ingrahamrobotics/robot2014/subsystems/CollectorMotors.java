@@ -28,7 +28,7 @@ public class CollectorMotors extends Subsystem {
     private final Jaguar sideMotors = new Jaguar(Vst.PWM.COLLECTOR_SIDE_MOTORS);
 
     public CollectorMotors() {
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "ShooterMotors:State", "Initialized");
+        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "CollectorMotors:State", "Initialized");
         setBothSpeed(0);
     }
 
@@ -38,22 +38,22 @@ public class CollectorMotors extends Subsystem {
     public void setBothSpeed(double speed) {
         topMotor.set(speed);
         sideMotors.set(speed);
-        Output.output(OutputLevel.RAW_MOTORS, "ShooterMotors:TopSpeed", speed);
-        Output.output(OutputLevel.RAW_MOTORS, "ShooterMotors:SideSpeed", speed);
+        Output.output(OutputLevel.RAW_MOTORS, "Collector:Top", speed);
+        Output.output(OutputLevel.RAW_MOTORS, "Collector:Side", speed);
     }
 
     public void setTopSpeed(double speed) {
         topMotor.set(speed);
-        Output.output(OutputLevel.RAW_MOTORS, "ShooterMotors:TopSpeed", speed);
+        Output.output(OutputLevel.RAW_MOTORS, "Collector:Top", speed);
     }
 
     public void setSideSpeed(double speed) {
         sideMotors.set(speed);
-        Output.output(OutputLevel.RAW_MOTORS, "ShooterMotors:SideSpeed", speed);
+        Output.output(OutputLevel.RAW_MOTORS, "Collector:Side", speed);
     }
 
     public double getAverageSpeed() {
-        return (topMotor.get() + sideMotors.get()) / 2;
+        return (topMotor.get() + sideMotors.get()) / 2.0;
     }
 
     public double getTopSpeed() {

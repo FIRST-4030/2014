@@ -21,11 +21,8 @@ public class OutputLevel {
     public static final OutputLevel INITIALIZED_SYSTEMS = new OutputLevel(0, "Initialized");
     public static final OutputLevel RAW_MOTORS = new OutputLevel(1, "Raw Motors");
     public static final OutputLevel RAW_SENSORS = new OutputLevel(2, "Raw Sensors");
-    public static final OutputLevel NO_CONSOLE = new OutputLevel(3, "NonConsole (Test)");
-    public static final OutputLevel LOW = new OutputLevel(4, "Low");
-    public static final OutputLevel MEDIUM = new OutputLevel(5, "Medium");
-    public static final OutputLevel CMU = new OutputLevel(6, "CMUcam");
-    public static final OutputLevel HIGH = new OutputLevel(7, "High");
+    public static final OutputLevel CMU = new OutputLevel(3, "CMUcam");
+    public static final OutputLevel HIGH = new OutputLevel(4, "Important");
     public final int level;
     public final String name;
 

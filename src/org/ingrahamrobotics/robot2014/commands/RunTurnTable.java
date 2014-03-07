@@ -38,13 +38,13 @@ public class RunTurnTable extends Command {
     protected void execute() {
         double value = JInput.getAxis(AMap.turnTable);
         if (ss.turnTableStops.getLeft() && value < 0) {
-            Output.output(OutputLevel.MEDIUM, "TurnTable:StoppingBecause", "Left");
+            Output.output(OutputLevel.HIGH, "TurnTable:StoppingBecause", "Left");
             value = 0;
         } else if (ss.turnTableStops.getRight() && value > 0) {
-            Output.output(OutputLevel.MEDIUM, "TurnTable:StoppingBecause", "Right");
+            Output.output(OutputLevel.HIGH, "TurnTable:StoppingBecause", "Right");
             value = 0;
         } else {
-            Output.output(OutputLevel.MEDIUM, "TurnTable:StoppingBecause", null);
+            Output.output(OutputLevel.HIGH, "TurnTable:StoppingBecause", null);
         }
         ss.turnTable.drive(value);
 
