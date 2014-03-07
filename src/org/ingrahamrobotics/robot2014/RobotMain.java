@@ -61,11 +61,11 @@ public class RobotMain extends IterativeRobot {
             t.printStackTrace();
             Output.output(OutputLevel.WARNING, "RobotWarning:Main", "WARNING! Failed to initialize commands!");
         }
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "RobotState", "Disabled");
+        Output.output(OutputLevel.HIGH, "RobotState", "Disabled");
     }
 
     public void autonomousInit() {
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "RobotState", "Autonomous");
+        Output.output(OutputLevel.HIGH, "RobotState", "Autonomous");
         autoCommand.start();
     }
 
@@ -77,7 +77,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void teleopInit() {
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "RobotState", "Teleoperated");
+        Output.output(OutputLevel.HIGH, "RobotState", "Teleoperated");
         autoCommand.cancel();
     }
 
@@ -89,7 +89,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void testInit() {
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "RobotState", "Test");
+        Output.output(OutputLevel.HIGH, "RobotState", "Test");
     }
 
     /**
@@ -100,7 +100,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void disabledInit() {
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "RobotState", "Disabled");
+        Output.output(OutputLevel.HIGH, "RobotState", "Disabled");
         autoCommand.cancel();
     }
 
