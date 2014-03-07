@@ -16,6 +16,8 @@
  */
 package org.ingrahamrobotics.robot2014.tables;
 
+import java.util.Enumeration;
+import java.util.Hashtable;
 import org.ingrahamrobotics.dotnettables.DotNetTable;
 import org.ingrahamrobotics.dotnettables.DotNetTables;
 
@@ -28,6 +30,7 @@ public class Settings implements DotNetTable.DotNetTableEvents {
     private static Settings instance;
     private final DotNetTable defaultSettings = DotNetTables.publish("robot-input-default");
     private final DotNetTable driverSettings = DotNetTables.subscribe("robot-input");
+    private final Hashtable lastValues = new Hashtable();
 
     public void publishDefaults() {
         // Defaults
@@ -35,7 +38,7 @@ public class Settings implements DotNetTable.DotNetTableEvents {
         defaultSettings.setValue(CMUCAM_DEFAULT_COLOR, "RED");
         defaultSettings.setValue(AUTOCOMMAND_USE_ENCODERS, "true");
         defaultSettings.setValue(AUTOCOMMAND_STOP_TIME, "0.001");
-        defaultSettings.setValue(AUTOCOMMAND_ENCODER_DISTANCE, "25100");
+        defaultSettings.setValue(AUTOCOMMAND_ENCODER_DISTANCE, "23000");
         // End defaults
         defaultSettings.setInterval(3000);
         driverSettings.onChange(this);
@@ -44,10 +47,25 @@ public class Settings implements DotNetTable.DotNetTableEvents {
 
     public void changed(DotNetTable table) {
         String feedback = table.getValue("_DRIVER_FEEDBACK_KEY");
+        for (Enumeration e = table.keys(); e.hasMoreElements();) {
+            String key = (String) e.nextElement();
+            if (key.startsWith("_")) {
+                continue;
+            }
+            String value = table.getValue(key);
+            if (!lastValues.containsKey(key)) {
+                lastValues.put(key, value);
+                System.out.println("[Settings] New key " + key + ": " + value);
+            } else if (!lastValues.get(key).equals(value)) {
+                lastValues.put(key, value);
+                System.out.println("[Settings] Updated key " + key + ": " + value);
+            }
+        }
         if (feedback != null) {
             defaultSettings.setValue("_DRIVER_FEEDBACK_KEY", feedback);
             defaultSettings.send();
         }
+
     }
 
     public void stale(DotNetTable table) {

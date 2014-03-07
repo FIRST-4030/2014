@@ -23,9 +23,9 @@ import org.ingrahamrobotics.robot2014.tables.Settings;
 public class AutoStateCommand extends StateCommand {
 
     public AutoStateCommand() {
-        Output.output(OutputLevel.RAW_MOTORS, "AutoCommand:StopTime", (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000));
+        Output.output(OutputLevel.AUTO, "AutoCommand:StopTime", (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000));
         long encoderDistance = (long) Settings.getDouble(Settings.AUTOCOMMAND_ENCODER_DISTANCE);
-        Output.output(OutputLevel.RAW_MOTORS, "AutoCommand:EncoderDistance", encoderDistance);
+        Output.output(OutputLevel.AUTO, "AutoCommand:EncoderDistance", encoderDistance);
         requires(ss.groundDrive);
         requires(ss.groundDriveShifter);
         requires(ss.shooterSolenoids);
@@ -40,7 +40,7 @@ public class AutoStateCommand extends StateCommand {
                 ss.groundDrive.setRaw(1, 1);
                 if (Settings.getBoolean(Settings.AUTOCOMMAND_USE_ENCODERS)) {
                     long encoderDistance = (long) Settings.getDouble(Settings.AUTOCOMMAND_ENCODER_DISTANCE);
-                    Output.output(OutputLevel.RAW_MOTORS, "AutoCommand:EncoderDistance", encoderDistance);
+                    Output.output(OutputLevel.AUTO, "AutoCommand:EncoderDistance", encoderDistance);
                     return ss.encoders.getRightEncoder() > encoderDistance || ss.encoders.getLeftEncoder() > encoderDistance
                             || ss.encoders.getRightEncoder() < -encoderDistance || ss.encoders.getLeftEncoder() < -encoderDistance;
                 } else {
@@ -50,8 +50,13 @@ public class AutoStateCommand extends StateCommand {
                 return false;
             case 2:
                 return false;
+            case 3:
+                return false;
+            case 4:
+                return false;
+            default:
+                return true;
         }
-        return true;
     }
 
     protected void startState(int state) {
@@ -76,13 +81,13 @@ public class AutoStateCommand extends StateCommand {
     }
 
     protected long[] getNextStates() {
-        Output.output(OutputLevel.RAW_MOTORS, "AutoCommand:StopTime", (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000));
+        Output.output(OutputLevel.AUTO, "AutoCommand:StopTime", (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000));
         return new long[]{
             (Settings.getBoolean(Settings.AUTOCOMMAND_USE_ENCODERS) ? 0 : 1100), // Drive forward
             (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000), // Pause
             1500, // Shoot
             500, // Retract
-            30
+            30 // Last state
         };
     }
 }

@@ -19,11 +19,13 @@ package org.ingrahamrobotics.robot2014.tables;
 public class OutputLevel {
 
     public static final OutputLevel INITIALIZED_SYSTEMS = new OutputLevel(0, "Initialized");
-    public static final OutputLevel RAW_MOTORS = new OutputLevel(1, "Raw Motors");
-    public static final OutputLevel RAW_SENSORS = new OutputLevel(2, "Raw Sensors");
-    public static final OutputLevel CMU = new OutputLevel(3, "CMUcam");
-    public static final OutputLevel HIGH = new OutputLevel(4, "Important");
-    public static final OutputLevel WARNING = new OutputLevel(5, "SEVERE");
+    public static final OutputLevel DEBUG = new OutputLevel(1, "Debug");
+    public static final OutputLevel RAW_MOTORS = new OutputLevel(2, "Raw Motors");
+    public static final OutputLevel RAW_SENSORS = new OutputLevel(3, "Raw Sensors");
+    public static final OutputLevel CMU = new OutputLevel(4, "CMUcam");
+    public static final OutputLevel AUTO = new OutputLevel(5, "Autonomous");
+    public static final OutputLevel HIGH = new OutputLevel(6, "Important");
+    public static final OutputLevel WARNING = new OutputLevel(7, "SEVERE");
     public final int level;
     public final String name;
 

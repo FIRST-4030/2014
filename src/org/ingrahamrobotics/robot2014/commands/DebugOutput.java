@@ -22,11 +22,11 @@ import org.ingrahamrobotics.robot2014.tables.Output;
 import org.ingrahamrobotics.robot2014.tables.OutputLevel;
 import org.ingrahamrobotics.robot2014.tables.Settings;
 
-public class EncoderRead extends Command {
+public class DebugOutput extends Command {
 
     private final Subsystems ss = Subsystems.instance;
 
-    public EncoderRead() {
+    public DebugOutput() {
         requires(ss.encoders);
     }
 
@@ -34,11 +34,9 @@ public class EncoderRead extends Command {
     }
 
     protected void execute() {
-        Output.output(OutputLevel.RAW_SENSORS, "Encoders", "left[" + ss.encoders.getLeftEncoder() + "], right[" + ss.encoders.getRightEncoder() + "]");
-        long encoderDistance = (long) Settings.getDouble(Settings.AUTOCOMMAND_ENCODER_DISTANCE);
-        Output.output(OutputLevel.RAW_MOTORS, "AutoCommand:EncoderDistance", encoderDistance);
-        Output.output(OutputLevel.RAW_MOTORS, "AutoCommand:StopTime", (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000));
-//        Output.output(OutputLevel.MEDIUM, "RawDigital", ss.encoders.getDigital());
+        Output.output(OutputLevel.DEBUG, "Encoders", "left[" + ss.encoders.getLeftEncoder() + "], right[" + ss.encoders.getRightEncoder() + "]");
+        Output.output(OutputLevel.DEBUG, "AutoCommand:EncoderDistance", (long) Settings.getDouble(Settings.AUTOCOMMAND_ENCODER_DISTANCE));
+        Output.output(OutputLevel.DEBUG, "AutoCommand:StopTime", (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000));
     }
 
     protected boolean isFinished() {
