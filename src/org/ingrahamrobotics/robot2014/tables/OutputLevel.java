@@ -23,6 +23,7 @@ public class OutputLevel {
     public static final OutputLevel RAW_SENSORS = new OutputLevel(2, "Raw Sensors");
     public static final OutputLevel CMU = new OutputLevel(3, "CMUcam");
     public static final OutputLevel HIGH = new OutputLevel(4, "Important");
+    public static final OutputLevel WARNING = new OutputLevel(5, "SEVERE");
     public final int level;
     public final String name;
 

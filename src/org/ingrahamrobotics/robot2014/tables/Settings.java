@@ -30,11 +30,13 @@ public class Settings implements DotNetTable.DotNetTableEvents {
     private final DotNetTable driverSettings = DotNetTables.subscribe("robot-input");
 
     public void publishDefaults() {
+        // Defaults
         defaultSettings.setValue(AUTOCOMMAND_USE_ENCODERS, "true");
         defaultSettings.setValue(CMUCAM_DEFAULT_COLOR, "RED");
         defaultSettings.setValue(AUTOCOMMAND_USE_ENCODERS, "true");
         defaultSettings.setValue(AUTOCOMMAND_STOP_TIME, "0.001");
         defaultSettings.setValue(AUTOCOMMAND_ENCODER_DISTANCE, "25100");
+        // End defaults
         defaultSettings.setInterval(3000);
         driverSettings.onChange(this);
         driverSettings.onStale(this);

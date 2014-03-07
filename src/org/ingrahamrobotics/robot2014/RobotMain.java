@@ -35,17 +35,38 @@ public class RobotMain extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-        DotNetTables.startCRIO();
-        Settings.initInstance();
-        autoCommand = new AutoStateCommand();
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "Robot:State", "Starting");
+        try {
+            DotNetTables.startCRIO();
+        } catch (Throwable t) {
+            t.printStackTrace();
+            Output.output(OutputLevel.WARNING, "RobotWarning:DotNetTables", "WARNING! Failed to initialize DotNetTables");
+        }
+        try {
+            Settings.initInstance();
+        } catch (Throwable t) {
+            t.printStackTrace();
+            Output.output(OutputLevel.WARNING, "RobotWarning:Settings", "WARNING! Failed to initialize settings");
+        }
+        Output.output(OutputLevel.HIGH, "RobotState", "Starting");
+        try {
+            autoCommand = new AutoStateCommand();
+        } catch (Throwable t) {
+            t.printStackTrace();
+            Output.output(OutputLevel.WARNING, "RobotWarning:AutoCommand", "WARNING! Failed to initialize settings");
+        }
         // Initialize all commands
-        Subsystems.instance.initCommands();
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "Robot:State", "Ready!");
+        try {
+            Subsystems.instance.initCommands();
+        } catch (Throwable t) {
+            t.printStackTrace();
+            Output.output(OutputLevel.WARNING, "RobotWarning:Main", "WARNING! Failed to initialize commands!");
+        }
+        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "RobotState", "Disabled");
     }
 
     public void autonomousInit() {
-//        autoCommand.start();
+        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "RobotState", "Autonomous");
+        autoCommand.start();
     }
 
     /**
@@ -56,6 +77,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void teleopInit() {
+        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "RobotState", "Teleoperated");
         autoCommand.cancel();
     }
 
@@ -66,6 +88,10 @@ public class RobotMain extends IterativeRobot {
         Scheduler.getInstance().run();
     }
 
+    public void testInit() {
+        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "RobotState", "Test");
+    }
+
     /**
      * This function is called periodically during test mode
      */
@@ -74,6 +100,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void disabledInit() {
+        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "RobotState", "Disabled");
         autoCommand.cancel();
     }
 
