@@ -24,6 +24,8 @@ public class AutoStateCommand extends StateCommand {
 
     public AutoStateCommand() {
         Output.output(OutputLevel.RAW_MOTORS, "AutoCommand:StopTime", (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000));
+        long encoderDistance = (long) Settings.getDouble(Settings.AUTOCOMMAND_ENCODER_DISTANCE);
+        Output.output(OutputLevel.RAW_MOTORS, "AutoCommand:EncoderDistance", encoderDistance);
         requires(ss.groundDrive);
         requires(ss.groundDriveShifter);
         requires(ss.shooterSolenoids);
@@ -35,10 +37,12 @@ public class AutoStateCommand extends StateCommand {
     protected boolean executeState(int state) {
         switch (state) {
             case 0:
-                ss.groundDrive.setRaw(-1, -1);
+                ss.groundDrive.setRaw(1, 1);
                 if (Settings.getBoolean(Settings.AUTOCOMMAND_USE_ENCODERS)) {
-                    return ss.encoders.getRightEncoder() > 25100 || ss.encoders.getLeftEncoder() > 25100
-                            || ss.encoders.getRightEncoder() < -25100 || ss.encoders.getLeftEncoder() < -25100;
+                    long encoderDistance = (long) Settings.getDouble(Settings.AUTOCOMMAND_ENCODER_DISTANCE);
+                    Output.output(OutputLevel.RAW_MOTORS, "AutoCommand:EncoderDistance", encoderDistance);
+                    return ss.encoders.getRightEncoder() > encoderDistance || ss.encoders.getLeftEncoder() > encoderDistance
+                            || ss.encoders.getRightEncoder() < -encoderDistance || ss.encoders.getLeftEncoder() < -encoderDistance;
                 } else {
                     return false;
                 }
@@ -77,7 +81,8 @@ public class AutoStateCommand extends StateCommand {
             (Settings.getBoolean(Settings.AUTOCOMMAND_USE_ENCODERS) ? 0 : 1100), // Drive forward
             (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000), // Pause
             1500, // Shoot
-            500 // Retract
+            500, // Retract
+            30
         };
     }
 }

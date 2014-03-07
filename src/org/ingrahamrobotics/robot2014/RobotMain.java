@@ -45,7 +45,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void autonomousInit() {
-        autoCommand.start();
+//        autoCommand.start();
     }
 
     /**

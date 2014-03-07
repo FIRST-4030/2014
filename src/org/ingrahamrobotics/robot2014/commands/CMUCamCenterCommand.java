@@ -24,7 +24,7 @@ import org.ingrahamrobotics.robot2014.tables.Settings;
 
 public class CMUCamCenterCommand extends Command {
 
-    private static final boolean TURN_TABLE = false;
+    private static final boolean TURN_TABLE = true;
     private static final boolean SMOOTH = true;
     private final Subsystems ss = Subsystems.instance;
     private boolean started = false;
