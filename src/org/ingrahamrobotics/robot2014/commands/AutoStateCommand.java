@@ -71,7 +71,6 @@ public class AutoStateCommand extends StateCommand {
                 ss.groundDrive.setRaw(0, 0);
                 break;
             case 2:
-                this.cancel();
                 ss.shooterSolenoids.setExtending(true);
                 break;
             case 3:
@@ -86,8 +85,7 @@ public class AutoStateCommand extends StateCommand {
             (Settings.getBoolean(Settings.AUTOCOMMAND_USE_ENCODERS) ? 0 : 1100), // Drive forward
             (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000), // Pause
             1500, // Shoot
-            500, // Retract
-            30 // Last state
+            500 // Retract
         };
     }
 }
