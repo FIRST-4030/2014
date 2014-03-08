@@ -18,6 +18,7 @@ package org.ingrahamrobotics.robot2014.tables;
 
 public class OutputLevel {
 
+    public static final OutputLevel GUI = new OutputLevel(-1, ":GUI");
     public static final OutputLevel INITIALIZED_SYSTEMS = new OutputLevel(0, "Initialized");
     public static final OutputLevel DEBUG = new OutputLevel(1, "Debug");
     public static final OutputLevel RAW_MOTORS = new OutputLevel(2, "Raw Motors");

@@ -33,7 +33,7 @@ public class Output {
     private void outputConsole(OutputLevel level, String key, String value) {
         if (value == null) {
             System.out.println("[Output][" + level + "] -" + key);
-        } else {
+        } else if (level != OutputLevel.DEBUG && level != OutputLevel.RAW_MOTORS && level != OutputLevel.GUI) {
             System.out.println("[Output][" + level + "][" + key + "] " + value);
         }
     }
