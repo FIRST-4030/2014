@@ -14,26 +14,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ingrahamrobotics.robot2014.subsystems;
+package org.ingrahamrobotics.robot2014.commands;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.Command;
+import org.ingrahamrobotics.robot2014.Subsystems;
 import org.ingrahamrobotics.robot2014.tables.Output;
 import org.ingrahamrobotics.robot2014.tables.OutputLevel;
 
-public class RangeSystem extends Subsystem {
+public class EncoderRead extends Command {
 
-    public RangeSystem() {
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "RangeSystem:State", "Initialized");
-        // TODO: Implement
+    private final Subsystems ss = Subsystems.instance;
+
+    public EncoderRead() {
+        requires(ss.encoders);
     }
 
-    protected void initDefaultCommand() {
+    protected void initialize() {
     }
 
-    public int getValue() {
-        int value = 0; // TODO: Implement
-        Output.output(OutputLevel.GUI, "GUI:Range", value);
-        Output.output(OutputLevel.HIGH, "Tracking:Range", value);
-        return value;
+    protected void execute() {
+        Output.output(OutputLevel.DEBUG, "Encoders", "left[" + ss.encoders.getLeftEncoder() + "], right[" + ss.encoders.getRightEncoder() + "]");
+    }
+
+    protected boolean isFinished() {
+        return false;
+    }
+
+    protected void end() {
+    }
+
+    protected void interrupted() {
     }
 }

@@ -36,32 +36,19 @@ public class CollectorMotors extends Subsystem {
     }
 
     public void setBothSpeed(double speed) {
-        if (speed == 0) {
-            topMotor.stopMotor();
-            sideMotors.stopMotor();
-        } else {
-            topMotor.set(speed);
-            sideMotors.set(speed);
-        }
+        topMotor.set(speed);
+        sideMotors.set(speed);
         Output.output(OutputLevel.RAW_MOTORS, "Collector:Top", speed);
         Output.output(OutputLevel.RAW_MOTORS, "Collector:Side", speed);
     }
 
     public void setTopSpeed(double speed) {
-        if (speed == 0) {
-            topMotor.stopMotor();
-        } else {
-            topMotor.set(speed);
-        }
+        topMotor.set(speed);
         Output.output(OutputLevel.RAW_MOTORS, "Collector:Top", speed);
     }
 
     public void setSideSpeed(double speed) {
-        if (speed == 0) {
-            sideMotors.stopMotor();
-        } else {
-            sideMotors.set(speed);
-        }
+        sideMotors.set(speed);
         Output.output(OutputLevel.RAW_MOTORS, "Collector:Side", speed);
     }
 

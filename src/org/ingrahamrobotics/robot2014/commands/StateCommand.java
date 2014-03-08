@@ -35,11 +35,8 @@ public abstract class StateCommand extends Command {
     }
 
     protected void execute() {
-        boolean finished = executeState(currentState);
-        if ((!finished) && states[currentState] > 0) {
-            finished = System.currentTimeMillis() > lastSwitch + states[currentState];
-        }
-        if (finished) {
+        boolean next = executeState(currentState) || (states[currentState] > 0 && System.currentTimeMillis() > lastSwitch + states[currentState]);
+        if (next) {
             lastSwitch = System.currentTimeMillis();
             currentState += 1;
             startState(currentState);

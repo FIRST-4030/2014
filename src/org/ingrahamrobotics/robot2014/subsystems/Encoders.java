@@ -19,7 +19,7 @@ package org.ingrahamrobotics.robot2014.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.ingrahamrobotics.robot2014.commands.DebugOutput;
+import org.ingrahamrobotics.robot2014.commands.EncoderRead;
 import org.ingrahamrobotics.robot2014.variablestore.Vst;
 
 public class Encoders extends Subsystem {
@@ -37,7 +37,7 @@ public class Encoders extends Subsystem {
     }
 
     protected void initDefaultCommand() {
-        setDefaultCommand(new DebugOutput());
+        setDefaultCommand(new EncoderRead());
     }
 
     public void reset() {

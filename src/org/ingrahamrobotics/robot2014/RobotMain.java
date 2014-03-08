@@ -35,32 +35,12 @@ public class RobotMain extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-        try {
-            DotNetTables.startCRIO();
-        } catch (Throwable t) {
-            t.printStackTrace();
-            Output.output(OutputLevel.WARNING, "RobotWarning:DotNetTables", "WARNING! Failed to initialize DotNetTables");
-        }
-        try {
-            Settings.initInstance();
-        } catch (Throwable t) {
-            t.printStackTrace();
-            Output.output(OutputLevel.WARNING, "RobotWarning:Settings", "WARNING! Failed to initialize settings");
-        }
+        DotNetTables.startCRIO();
+        Settings.initInstance();
         Output.output(OutputLevel.HIGH, "RobotState", "Starting");
-        try {
-            autoCommand = new AutoStateCommand();
-        } catch (Throwable t) {
-            t.printStackTrace();
-            Output.output(OutputLevel.WARNING, "RobotWarning:AutoCommand", "WARNING! Failed to initialize settings");
-        }
+        autoCommand = new AutoStateCommand();
         // Initialize all commands
-        try {
-            Subsystems.instance.initCommands();
-        } catch (Throwable t) {
-            t.printStackTrace();
-            Output.output(OutputLevel.WARNING, "RobotWarning:Main", "WARNING! Failed to initialize commands!");
-        }
+        Subsystems.instance.initCommands();
         Output.output(OutputLevel.HIGH, "RobotState", "Disabled");
     }
 

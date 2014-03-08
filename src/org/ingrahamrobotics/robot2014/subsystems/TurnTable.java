@@ -39,13 +39,8 @@ public class TurnTable extends Subsystem {
 
     public void drive(double speed) {
         Output.output(OutputLevel.RAW_MOTORS, "TurnTable:Speed", speed);
-        if (speed == 0) {
-            firstMotor.stopMotor();
-            secondMotor.stopMotor();
-        } else {
-            firstMotor.set(speed);
-            secondMotor.set(speed);
-        }
+        firstMotor.set(speed);
+        secondMotor.set(speed);
     }
 
     public void stop() {

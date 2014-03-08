@@ -91,33 +91,33 @@ public class Subsystems {
 
 //        JInput.getButton(BMap.colorTrackingTrigger).whileActive(new CMUCamCenterCommand());
         // Toggle
-//        final CMUCamCenterCommand centerCommand = new CMUCamCenterCommand();
-//
-//        JInput.getButton(BMap.colorTrackingTrigger).whenPressed(new Command() {
-//            private boolean finished;
-//
-//            protected void initialize() {
-//                finished = false;
-//            }
-//
-//            protected void execute() {
-//                if (centerCommand.isRunning()) {
-//                    centerCommand.cancel();
-//                } else {
-//                    centerCommand.start();
-//                }
-//                finished = true;
-//            }
-//
-//            protected boolean isFinished() {
-//                return finished;
-//            }
-//
-//            protected void end() {
-//            }
-//
-//            protected void interrupted() {
-//            }
-//        });
+        final CMUCamCenterCommand centerCommand = new CMUCamCenterCommand();
+
+        JInput.getButton(BMap.colorTrackingTrigger).whenPressed(new Command() {
+            private boolean finished;
+
+            protected void initialize() {
+                finished = false;
+            }
+
+            protected void execute() {
+                if (centerCommand.isRunning()) {
+                    centerCommand.cancel();
+                } else {
+                    centerCommand.start();
+                }
+                finished = true;
+            }
+
+            protected boolean isFinished() {
+                return finished;
+            }
+
+            protected void end() {
+            }
+
+            protected void interrupted() {
+            }
+        });
     }
 }

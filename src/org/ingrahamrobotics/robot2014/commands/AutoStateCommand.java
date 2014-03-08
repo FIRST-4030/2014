@@ -50,13 +50,8 @@ public class AutoStateCommand extends StateCommand {
                 return false;
             case 2:
                 return false;
-            case 3:
-                return false;
-            case 4:
-                return false;
-            default:
-                return true;
         }
+        return false;
     }
 
     protected void startState(int state) {
