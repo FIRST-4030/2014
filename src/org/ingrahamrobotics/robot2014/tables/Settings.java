@@ -25,6 +25,7 @@ public class Settings implements DotNetTable.DotNetTableEvents {
     public static final String AUTOCOMMAND_USE_ENCODERS = "AutoCommand Use Encoders";
     public static final String AUTOCOMMAND_STOP_TIME = "AutoCommand Stopped Time";
     public static final String AUTOCOMMAND_ENCODER_DISTANCE = "AutoCommand Encoder Distance";
+    public static final String FEEDBACK_KEY = "_DRIVER_FEEDBACK_KEY";
     private static Settings instance;
     private final DotNetTable defaultSettings = DotNetTables.publish("robot-input-default");
     private final DotNetTable driverSettings = DotNetTables.subscribe("robot-input");
@@ -41,9 +42,9 @@ public class Settings implements DotNetTable.DotNetTableEvents {
     }
 
     public void changed(DotNetTable table) {
-        String feedback = table.getValue("_DRIVER_FEEDBACK_KEY");
+        String feedback = table.getValue(FEEDBACK_KEY);
         if (feedback != null) {
-            defaultSettings.setValue("_DRIVER_FEEDBACK_KEY", feedback);
+            defaultSettings.setValue(FEEDBACK_KEY, feedback);
             defaultSettings.send();
         }
     }
