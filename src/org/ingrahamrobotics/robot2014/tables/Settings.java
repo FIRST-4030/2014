@@ -58,7 +58,6 @@ public class Settings implements DotNetTable.DotNetTableEvents {
         if (driverSettings.exists(key)) {
             return driverSettings.getValue(key);
         } else if (defaultSettings.exists(key)) {
-//            System.out.println("Warning: No setting for " + key);
             return defaultSettings.getValue(key);
         } else {
             throw new IllegalArgumentException("Unknown setting");
@@ -66,35 +65,18 @@ public class Settings implements DotNetTable.DotNetTableEvents {
     }
 
     public double getDoubleSetting(String key) {
-        if (driverSettings.exists(key)) {
-            try {
-                return Double.parseDouble(driverSettings.getValue(key));
-            } catch (NumberFormatException ex) {
-            }
-        }
-        if (defaultSettings.exists(key)) {
-//            System.out.println("Warning: No setting for " + key);
-            return Double.parseDouble(defaultSettings.getValue(key));
-        } else {
-            throw new IllegalArgumentException("Unknown setting");
+        try {
+            return Double.parseDouble(getSetting(key));
+        } catch (NumberFormatException ex) {
+            return 0.0;
         }
     }
 
     public boolean getBoolSetting(String key) {
-        if (driverSettings.exists(key)) {
-            String str = driverSettings.getValue(key);
-            if (str.equalsIgnoreCase("true")) {
-                return true;
-            } else if (str.equalsIgnoreCase("false")) {
-                return false;
-            }
+        if (getSetting(key).equalsIgnoreCase("true")) {
+            return true;
         }
-        if (defaultSettings.exists(key)) {
-//            System.out.println("Warning: No setting for " + key);
-            return "true".equals(defaultSettings.getValue(key));
-        } else {
-            throw new IllegalArgumentException("Unknown setting");
-        }
+        return false;
     }
 
     public static void initInstance() {
