@@ -45,7 +45,6 @@ public class Settings implements DotNetTable.DotNetTableEvents {
         String feedback = table.getValue(FEEDBACK_KEY);
         if (feedback != null) {
             defaultSettings.setValue(FEEDBACK_KEY, feedback);
-            defaultSettings.send();
         }
     }
 
