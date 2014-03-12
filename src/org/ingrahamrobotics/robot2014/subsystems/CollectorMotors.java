@@ -38,10 +38,10 @@ public class CollectorMotors extends Subsystem {
     public final void stop() {
         /*
          * set() is required to ensure get() returns something sensible
-         * stop() actually disables the motors
+         * stopMotor() actually disables the motors
          */
-        topMotor.set(0);
-        sideMotors.set(0);
+        topMotor.set(0.0);
+        sideMotors.set(0.0);
         topMotor.stopMotor();
         sideMotors.stopMotor();
     }
