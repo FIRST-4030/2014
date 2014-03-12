@@ -11,7 +11,7 @@ import org.ingrahamrobotics.robot2014.variablestore.Vst;
  */
 public class Sonar extends Subsystem {
     
-    private final AnalogChannel pSwitch = new AnalogChannel(Vst.ANALOG_IO.SONAR);
+    private final AnalogChannel sonar = new AnalogChannel(Vst.ANALOG_IO.SONAR);
 
     public Sonar() {
         Output.output(OutputLevel.INITIALIZED_SYSTEMS, "Sonar:State", "Initialized");
@@ -22,7 +22,7 @@ public class Sonar extends Subsystem {
 
     public double readDistance() {
         double distance = -1.0;
-        double voltage = pSwitch.getVoltage();
+        double voltage = sonar.getVoltage();
         if (voltage > 0) {
             distance = (voltage / 5120.0) / 25.4;
         }
