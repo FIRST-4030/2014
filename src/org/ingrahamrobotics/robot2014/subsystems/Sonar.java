@@ -11,7 +11,12 @@ import org.ingrahamrobotics.robot2014.variablestore.Vst;
  * This is the pressure switch in the compressor system.
  */
 public class Sonar extends Subsystem {
-    
+
+    public static final double MIN_RANGE = 20.0;
+    public static final double MAX_RANGE = 190.0;
+    private static final double SENSOR_VCC = 5.0;
+    private static final double MILLIVOLTS_PER_MM = 5120.0;
+    private static final double MM_PER_INCH = 25.4;
     private final AnalogChannel sonar = new AnalogChannel(Vst.ANALOG_IO.SONAR);
 
     public Sonar() {
@@ -23,16 +28,16 @@ public class Sonar extends Subsystem {
     }
 
     public double readDistance() {
-        double distance = -1.0;
         double voltage = sonar.getVoltage();
-        if (voltage > 0.5) {
-            // 5.0 is the assumed Vcc at the sensor
-            // 5120.0 mV/mm is the scaling factor per the sensor spec sheet
-            // 25.4 is mm->inches
-            distance = (voltage * (5.0 / 0.0051200)) / 25.4;
-            Output.output(OutputLevel.RAW_SENSORS, "Sonar Inches", distance);
-        }
         Output.output(OutputLevel.RAW_SENSORS, "Sonar Volts", voltage);
+
+        double distance = (voltage / (SENSOR_VCC / MILLIVOLTS_PER_MM)) / MM_PER_INCH;
+        if (distance > MIN_RANGE && distance < MAX_RANGE) {
+            Output.output(OutputLevel.RAW_SENSORS, "Sonar Inches", distance);
+            Output.output(OutputLevel.HIGH, ":RangeGUI", distance);
+        } else {
+            distance = -1.0;
+        }
         return distance;
     }
 }
