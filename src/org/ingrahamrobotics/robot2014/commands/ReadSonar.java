@@ -19,32 +19,23 @@ package org.ingrahamrobotics.robot2014.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.ingrahamrobotics.robot2014.Subsystems;
 
-public class PullCollectorMotors extends Command {
+public class ReadSonar extends Command {
 
     private final Subsystems ss = Subsystems.instance;
-    private boolean running = false;
-    private boolean finished;
 
-    public PullCollectorMotors() {
-        requires(ss.collectorMotors);
+    public ReadSonar() {
+        requires(ss.sonar);
     }
 
     protected void initialize() {
-        finished = false;
     }
 
     protected void execute() {
-        if (running) {
-            ss.collectorMotors.stop();
-        } else {
-            ss.collectorMotors.setBothSpeed(0.75);
-        }
-        running = !running;
-        finished = true;
+        ss.sonar.readDistance();
     }
 
     protected boolean isFinished() {
-        return finished;
+        return false;
     }
 
     protected void end() {

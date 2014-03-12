@@ -62,6 +62,14 @@ public final class Vst {
     }
 
     /**
+     * Analog IO Statics
+     */
+    public static final class ANALOG_IO {
+
+        public static final int SONAR = 1;
+    }
+
+    /**
      * Relay Statics
      */
     public static final class RELAY {
