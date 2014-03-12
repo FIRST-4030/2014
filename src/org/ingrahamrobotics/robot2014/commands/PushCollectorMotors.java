@@ -34,7 +34,7 @@ public class PushCollectorMotors extends Command {
 
     protected void execute() {
         if (ss.collectorMotors.getAverageSpeed() != 0) {
-            ss.collectorMotors.setBothSpeed(0);
+            ss.collectorMotors.stop();
         } else {
             ss.collectorMotors.setBothSpeed(-0.75);
         }

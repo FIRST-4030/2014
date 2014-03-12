@@ -34,6 +34,11 @@ public class CollectorMotors extends Subsystem {
 
     protected void initDefaultCommand() {
     }
+    
+    public void stop() {
+        topMotor.stopMotor();
+        sideMotors.stopMotor();
+    }
 
     public void setBothSpeed(double speed) {
         topMotor.set(speed);
