@@ -29,13 +29,19 @@ public class CollectorMotors extends Subsystem {
 
     public CollectorMotors() {
         Output.output(OutputLevel.INITIALIZED_SYSTEMS, "CollectorMotors:State", "Initialized");
-        setBothSpeed(0);
+        stop();
     }
 
     protected void initDefaultCommand() {
     }
-    
-    public void stop() {
+
+    public final void stop() {
+        /*
+         * set() is required to ensure get() returns something sensible
+         * stop() actually disables the motors
+         */
+        topMotor.set(0);
+        sideMotors.set(0);
         topMotor.stopMotor();
         sideMotors.stopMotor();
     }
