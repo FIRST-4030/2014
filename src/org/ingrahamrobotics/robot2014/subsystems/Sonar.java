@@ -23,8 +23,11 @@ public class Sonar extends Subsystem {
     public double readDistance() {
         double distance = -1.0;
         double voltage = sonar.getVoltage();
-        if (voltage > 0) {
-            distance = (voltage / 5120.0) / 25.4;
+        if (voltage > 0.1) {
+            // 5.0 is the assumed Vcc at the sensor
+            // 5120.0 is the scaling factor per the sensor spec sheet
+            // 25.4 is mm->inches
+            distance = (voltage * (5.0 / 5120.0)) / 25.4;
         }
         Output.output(OutputLevel.HIGH, "Sonar", distance);
         return distance;
