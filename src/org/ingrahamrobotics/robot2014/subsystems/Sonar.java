@@ -2,6 +2,7 @@ package org.ingrahamrobotics.robot2014.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.ingrahamrobotics.robot2014.commands.ReadSonar;
 import org.ingrahamrobotics.robot2014.tables.Output;
 import org.ingrahamrobotics.robot2014.tables.OutputLevel;
 import org.ingrahamrobotics.robot2014.variablestore.Vst;
@@ -18,6 +19,7 @@ public class Sonar extends Subsystem {
     }
 
     public void initDefaultCommand() {
+        setDefaultCommand(new ReadSonar());
     }
 
     public double readDistance() {
