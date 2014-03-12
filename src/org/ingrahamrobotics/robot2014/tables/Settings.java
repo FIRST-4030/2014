@@ -33,7 +33,6 @@ public class Settings implements DotNetTable.DotNetTableEvents {
     public void publishDefaults() {
         defaultSettings.setValue(AUTOCOMMAND_USE_ENCODERS, "true");
         defaultSettings.setValue(CMUCAM_DEFAULT_COLOR, "RED");
-        defaultSettings.setValue(AUTOCOMMAND_USE_ENCODERS, "true");
         defaultSettings.setValue(AUTOCOMMAND_STOP_TIME, "0.001");
         defaultSettings.setValue(AUTOCOMMAND_ENCODER_DISTANCE, "23000");
         defaultSettings.setInterval(3000);
