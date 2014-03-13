@@ -34,7 +34,7 @@ public class Settings implements DotNetTable.DotNetTableEvents {
         defaultSettings.setValue(AUTOCOMMAND_USE_ENCODERS, "true");
         defaultSettings.setValue(CMUCAM_DEFAULT_COLOR, "RED");
         defaultSettings.setValue(AUTOCOMMAND_STOP_TIME, "0.001");
-        defaultSettings.setValue(AUTOCOMMAND_ENCODER_DISTANCE, "23000");
+        defaultSettings.setValue(AUTOCOMMAND_ENCODER_DISTANCE, "26000");
         defaultSettings.setInterval(3000);
         driverSettings.onChange(this);
         driverSettings.onStale(this);
@@ -49,7 +49,7 @@ public class Settings implements DotNetTable.DotNetTableEvents {
 
     public void stale(DotNetTable table) {
         System.out.println("--- Warning!");
-        System.out.println("--- @ Driver setttings stale");
+        System.out.println("--- @ Driver settings stale");
         System.out.println("--- Warning!");
     }
 
