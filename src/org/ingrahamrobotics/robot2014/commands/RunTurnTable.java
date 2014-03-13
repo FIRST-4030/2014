@@ -37,6 +37,8 @@ public class RunTurnTable extends Command {
 
     protected void execute() {
         double value = JInput.getAxis(AMap.turnTable);
+
+        // Limit movement when we're at the stops
         if (ss.turnTableStops.getLeft() && value < 0) {
             Output.output(OutputLevel.HIGH, "TurnTable:StoppingBecause", "Left");
             value = 0;
@@ -46,8 +48,13 @@ public class RunTurnTable extends Command {
         } else {
             Output.output(OutputLevel.HIGH, "TurnTable:StoppingBecause", null);
         }
-        ss.turnTable.drive(value);
 
+        // Anti-drift dead zone
+        if (value > -0.10 && value < 0.10) {
+            ss.turnTable.stop();
+        } else {
+            ss.turnTable.drive(value);
+        }
     }
 
     protected boolean isFinished() {
