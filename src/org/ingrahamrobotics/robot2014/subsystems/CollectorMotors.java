@@ -29,10 +29,15 @@ public class CollectorMotors extends Subsystem {
 
     public CollectorMotors() {
         Output.output(OutputLevel.INITIALIZED_SYSTEMS, "CollectorMotors:State", "Initialized");
-        setBothSpeed(0);
+        stop();
     }
 
     protected void initDefaultCommand() {
+    }
+
+    public final void stop() {
+        topMotor.stopMotor();
+        sideMotors.stopMotor();
     }
 
     public void setBothSpeed(double speed) {
