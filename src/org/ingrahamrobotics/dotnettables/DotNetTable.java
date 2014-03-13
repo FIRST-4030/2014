@@ -186,7 +186,7 @@ public class DotNetTable implements ITableListener {
      * DotNetTableEvents.
      */
     public void onChange(DotNetTableEvents callback) {
-        this.changeCallback = callback;
+        //this.changeCallback = callback;
     }
 
     /**
@@ -201,7 +201,7 @@ public class DotNetTable implements ITableListener {
         if (this.writable) {
             throw new IllegalStateException("Table is local: " + this.name);
         }
-        this.staleCallback = callback;
+        //this.staleCallback = callback;
     }
 
     /**
