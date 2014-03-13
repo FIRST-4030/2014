@@ -38,14 +38,10 @@ public class AutoStateCommand extends StateCommand {
         switch (state) {
             case 0:
                 ss.groundDrive.setRaw(1, 1);
-                if (Settings.getBoolean(Settings.AUTOCOMMAND_USE_ENCODERS)) {
-                    long encoderDistance = (long) Settings.getDouble(Settings.AUTOCOMMAND_ENCODER_DISTANCE);
-                    Output.output(OutputLevel.RAW_MOTORS, "AutoCommand:EncoderDistance", encoderDistance);
-                    return ss.encoders.getRightEncoder() > encoderDistance || ss.encoders.getLeftEncoder() > encoderDistance
-                            || ss.encoders.getRightEncoder() < -encoderDistance || ss.encoders.getLeftEncoder() < -encoderDistance;
-                } else {
-                    return false;
-                }
+                long encoderDistance = (long) Settings.getDouble(Settings.AUTOCOMMAND_ENCODER_DISTANCE);
+                Output.output(OutputLevel.RAW_MOTORS, "AutoCommand:EncoderDistance", encoderDistance);
+                return ss.encoders.getRightEncoder() > encoderDistance || ss.encoders.getLeftEncoder() > encoderDistance
+                        || ss.encoders.getRightEncoder() < -encoderDistance || ss.encoders.getLeftEncoder() < -encoderDistance;
             case 1:
                 return false;
             case 2:
@@ -66,7 +62,6 @@ public class AutoStateCommand extends StateCommand {
                 ss.groundDrive.setRaw(0, 0);
                 break;
             case 2:
-                this.cancel();
                 ss.shooterSolenoids.setExtending(true);
                 break;
             case 3:
