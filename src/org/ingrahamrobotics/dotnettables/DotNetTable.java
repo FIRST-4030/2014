@@ -20,7 +20,6 @@ import java.util.TimerTask;
  *
  * @author FRC Team 4030
  */
-//@SuppressWarnings("UseOfObsoleteCollectionType")
 public class DotNetTable implements ITableListener {
 
     /**
@@ -33,7 +32,6 @@ public class DotNetTable implements ITableListener {
      * The reserved key name used to publish the update interval to subscribers.
      */
     public static final String UPDATE_INTERVAL = "_UPDATE_INTERVAL";
-    public static final String BUMP_KEY = "_bump";
     private String name;
     private int updateInterval;
     private boolean writable;
@@ -47,8 +45,6 @@ public class DotNetTable implements ITableListener {
     private DotNetTableEvents changeCallback;
     private DotNetTableEvents staleCallback;
     private long lastUpdate;
-    private boolean bumpState = false;
-    private static final Object syncLock = new Object();
 
     /**
      * Create a new DotNetTable with the specified name and ro/rw designation.
@@ -142,11 +138,7 @@ public class DotNetTable implements ITableListener {
         if (this.updateInterval >= 0) {
             this.timer = new Timer();
             TimerTask timerTask = new DotNetTable.DotNetTableTimer(this);
-            long delay = this.updateInterval;
-            if (!this.isWritable()) {
-                delay *= STALE_FACTOR;
-            }
-            this.timer.schedule(timerTask, delay);
+            this.timer.schedule(timerTask, this.updateInterval);
         }
     }
 
@@ -208,18 +200,14 @@ public class DotNetTable implements ITableListener {
      * Clear all data from this table
      */
     public void clear() {
-        synchronized (syncLock) {
-            data.clear();
-        }
+        data.clear();
     }
 
     /**
      * @return A set of all keys in this table
      */
     public Enumeration keys() {
-        synchronized (syncLock) {
-            return data.keys();
-        }
+        return data.keys();
     }
 
     /**
@@ -227,9 +215,7 @@ public class DotNetTable implements ITableListener {
      * @return True if the key exists in the table, otherwise false
      */
     public boolean exists(String key) {
-        synchronized (syncLock) {
-            return data.containsKey(key);
-        }
+        return data.containsKey(key);
     }
 
     /**
@@ -242,15 +228,7 @@ public class DotNetTable implements ITableListener {
      */
     public void setValue(String key, String value) throws IllegalStateException {
         this.throwIfNotWritable();
-        if (key == null) {
-            throw new NullPointerException("NULL keys are not supported");
-        }
-        if (value == null) {
-            value = "";
-        }
-        synchronized (syncLock) {
-            data.put(key, value);
-        }
+        data.put(key, value);
         this.lastUpdate = System.currentTimeMillis();
     }
 
@@ -288,13 +266,7 @@ public class DotNetTable implements ITableListener {
      */
     public void remove(String key) throws IllegalStateException {
         this.throwIfNotWritable();
-        _remove(key);
-    }
-    
-    private void _remove(String key) {
-        synchronized (syncLock) {
-            data.remove(key);
-        }
+        data.remove(key);
     }
 
     /**
@@ -302,12 +274,7 @@ public class DotNetTable implements ITableListener {
      * @return The related value
      */
     public String getValue(String key) {
-        if (key == null) {
-            throw new NullPointerException("NULL keys are not supported");
-        }
-        synchronized (syncLock) {
-            return (String) data.get(key);
-        }
+        return (String) data.get(key);
     }
 
     /**
@@ -327,23 +294,16 @@ public class DotNetTable implements ITableListener {
     }
 
     private void recv(StringArray value) {
-        synchronized (syncLock) {
-            // Unpack the new data
-            data = SAtoHM(value);
-            this.lastUpdate = System.currentTimeMillis();
+        // Unpack the new data
+        data = SAtoHM(value);
+        this.lastUpdate = System.currentTimeMillis();
 
-            // Note the published update interval
-            if (this.exists(UPDATE_INTERVAL)) {
-                this.updateInterval = this.getInt(UPDATE_INTERVAL);
-                _remove(UPDATE_INTERVAL);
-            }
-
-            // Drop the bump key (if it exists)
-            _remove(BUMP_KEY);
+        // Note the published update interval
+        if (this.exists(UPDATE_INTERVAL)) {
+            this.updateInterval = this.getInt(UPDATE_INTERVAL);
+            data.remove(UPDATE_INTERVAL);
+            this.resetTimer();
         }
-
-        // Always reset the timer
-        this.resetTimer();
 
         // Dispatch our callback, if any
         if (changeCallback != null) {
@@ -359,33 +319,20 @@ public class DotNetTable implements ITableListener {
      */
     public void send() throws IllegalStateException {
         throwIfNotWritable();
-
-        synchronized (syncLock) {
-            // Provide the update interval for subscribers
-            setValue(UPDATE_INTERVAL, getInterval());
-
-            /*
-             * The cRIO verion of NetworkTables seems not to actually update string
-             * arrays where the array size has not changed, even if the elements
-             * have. So help it along with a "bump key" they is added or deleted on
-             * each send.
-             */
-            bumpState = !bumpState;
-            if (bumpState) {
-                setValue(BUMP_KEY, System.currentTimeMillis());
-            } else {
-                _remove(BUMP_KEY);
-            }
-
-            // Send to network
-            DotNetTables.push(name, HMtoSA(data));
-            
-            // Don't keep our special keys in the table
-            _remove(UPDATE_INTERVAL);
-            _remove(BUMP_KEY);
+        setValue(UPDATE_INTERVAL, getInterval());
+        /*
+         * When running a DotNetTables server on the robot, sending a table
+         * doesn't work if the number of keys is the same as last time.
+         *
+         * This is a hack to get around that issue. It will add or remove
+         * the '_bump' key depending if it already exists.
+         */
+        if (exists("_bump")) {
+            remove("_bump");
+        } else {
+            setValue("_bump", System.currentTimeMillis());
         }
-
-        // Always reset the timer
+        DotNetTables.push(name, HMtoSA(data));
         this.resetTimer();
 
         // Dispatch our callback, if any
