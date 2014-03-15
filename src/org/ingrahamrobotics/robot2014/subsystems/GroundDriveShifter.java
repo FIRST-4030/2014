@@ -24,11 +24,12 @@ import org.ingrahamrobotics.robot2014.variablestore.Vst;
 
 public class GroundDriveShifter extends Subsystem {
 
-    private final SolenoidPair shifterPair = new SolenoidPair(Vst.SOLENOID.GROUND_DRIVE_SHIFTER_EXTEND, Vst.SOLENOID.GROUND_DRIVE_SHIFTER_RETRACT, true);
+    private final static boolean INIT_EXTEND = true;
+    private final SolenoidPair shifterPair = new SolenoidPair(Vst.SOLENOID.GROUND_DRIVE_SHIFTER_EXTEND, Vst.SOLENOID.GROUND_DRIVE_SHIFTER_RETRACT, INIT_EXTEND);
 
     public GroundDriveShifter() {
         Output.output(OutputLevel.INITIALIZED_SYSTEMS, "GroundDriveShifter:State", "Initialized");
-        setSpeed(false);
+        setSpeed(INIT_EXTEND);
     }
 
     protected void initDefaultCommand() {
