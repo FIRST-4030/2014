@@ -37,11 +37,27 @@ public class AutoStateCommand extends StateCommand {
     protected boolean executeState(int state) {
         switch (state) {
             case 0:
-                ss.groundDrive.setRaw(1, 1);
+                // Get absolute encoder counts
+                int left = ss.encoders.getLeftEncoder();
+                if (left < 0) {
+                    left *= -1;
+                }
+                int right = ss.encoders.getRightEncoder();
+                if (right < 0) {
+                    right *= -1;
+                }
+
+                // Reduce faster motor speed proportional to delta encoder count
+                if (left > right) {
+                    ss.groundDrive.setRaw(1.0 - ((double) (left - right) / (double) left), 1.0);
+                } else {
+                    ss.groundDrive.setRaw(1.0, 1.0 - ((double) (right - left) / (double) right));
+                }
+
+                // Stop when any encoder exceeds the distance
                 long encoderDistance = (long) Settings.getDouble(Settings.AUTOCOMMAND_ENCODER_DISTANCE);
                 Output.output(OutputLevel.RAW_MOTORS, "AutoCommand:EncoderDistance", encoderDistance);
-                return ss.encoders.getRightEncoder() > encoderDistance || ss.encoders.getLeftEncoder() > encoderDistance
-                        || ss.encoders.getRightEncoder() < -encoderDistance || ss.encoders.getLeftEncoder() < -encoderDistance;
+                return ((left > encoderDistance) || (right > encoderDistance));
             case 1:
                 return false;
             case 2:
@@ -59,7 +75,7 @@ public class AutoStateCommand extends StateCommand {
                 ss.collectorMotors.setBothSpeed(0.75);
                 break;
             case 1:
-                ss.groundDrive.setRaw(0, 0);
+                ss.groundDrive.stop();
                 break;
             case 2:
                 ss.shooterSolenoids.setExtending(true);
