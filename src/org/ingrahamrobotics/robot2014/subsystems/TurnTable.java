@@ -30,7 +30,7 @@ public class TurnTable extends Subsystem {
 
     public TurnTable() {
         Output.output(OutputLevel.INITIALIZED_SYSTEMS, "TurnTable:State", "Initialized");
-        drive(0);
+        stop();
     }
 
     protected void initDefaultCommand() {
