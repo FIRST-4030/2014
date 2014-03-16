@@ -28,7 +28,6 @@ public class GroundDriveShifter extends Subsystem {
 
     public GroundDriveShifter() {
         Output.output(OutputLevel.INITIALIZED_SYSTEMS, "GroundDriveShifter:State", "Initialized");
-        setSpeed(false);
     }
 
     protected void initDefaultCommand() {
