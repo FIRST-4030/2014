@@ -59,7 +59,7 @@ public class TurnTable extends Subsystem {
             secondMotor.stopMotor();
         } else {
             if (this.range == Speed.LOW) {
-                speed *= 0.50;
+                speed *= 0.25;
             }
             Output.output(OutputLevel.RAW_MOTORS, "TurnTable:Range", this.range == Speed.LOW ? "Low" : "High");
             Output.output(OutputLevel.RAW_MOTORS, "TurnTable:Speed", speed);
