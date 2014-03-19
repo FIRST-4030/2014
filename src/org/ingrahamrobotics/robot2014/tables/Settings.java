@@ -43,6 +43,8 @@ public class Settings implements DotNetTable.DotNetTableEvents {
         String feedback = table.getValue("_DRIVER_FEEDBACK_KEY");
         if (feedback != null) {
             defaultSettings.setValue("_DRIVER_FEEDBACK_KEY", feedback);
+            Output.output(OutputLevel.DEBUG, "AutoCommand:EncoderDistance", (long) Settings.getDouble(Settings.AUTOCOMMAND_ENCODER_DISTANCE));
+            Output.output(OutputLevel.DEBUG, "AutoCommand:StopTime", (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000));
             defaultSettings.send();
         }
     }

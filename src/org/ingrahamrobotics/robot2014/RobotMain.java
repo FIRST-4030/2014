@@ -37,14 +37,15 @@ public class RobotMain extends IterativeRobot {
     public void robotInit() {
         DotNetTables.startCRIO();
         Settings.initInstance();
+        Output.output(OutputLevel.HIGH, "RobotState", "Starting");
         autoCommand = new AutoStateCommand();
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "Robot:State", "Starting");
         // Initialize all commands
         Subsystems.instance.initCommands();
-        Output.output(OutputLevel.INITIALIZED_SYSTEMS, "Robot:State", "Ready!");
+        Output.output(OutputLevel.HIGH, "RobotState", "Disabled");
     }
 
     public void autonomousInit() {
+        Output.output(OutputLevel.HIGH, "RobotState", "Autonomous");
         autoCommand.start();
     }
 
@@ -56,6 +57,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void teleopInit() {
+        Output.output(OutputLevel.HIGH, "RobotState", "Teleoperated");
         autoCommand.cancel();
     }
 
@@ -66,6 +68,10 @@ public class RobotMain extends IterativeRobot {
         Scheduler.getInstance().run();
     }
 
+    public void testInit() {
+        Output.output(OutputLevel.HIGH, "RobotState", "Test");
+    }
+
     /**
      * This function is called periodically during test mode
      */
@@ -74,6 +80,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void disabledInit() {
+        Output.output(OutputLevel.HIGH, "RobotState", "Disabled");
         autoCommand.cancel();
     }
 
