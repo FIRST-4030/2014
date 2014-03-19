@@ -28,6 +28,7 @@ import org.ingrahamrobotics.robot2014.commands.PullCollectorMotors;
 import org.ingrahamrobotics.robot2014.commands.PushCollectorMotors;
 import org.ingrahamrobotics.robot2014.commands.RetractCollectorSolenoids;
 import org.ingrahamrobotics.robot2014.commands.ReverseGroundDrive;
+import org.ingrahamrobotics.robot2014.commands.TurntableToggleRange;
 import org.ingrahamrobotics.robot2014.input.BMap;
 import org.ingrahamrobotics.robot2014.input.JInput;
 import org.ingrahamrobotics.robot2014.subsystems.CmuCam;
@@ -85,6 +86,8 @@ public class Subsystems {
         JInput.getButton(BMap.groundDriveFastLeft2).whenPressed(new GroundDriveFastLeft());
         JInput.getButton(BMap.groundDriveFastRight2).whenPressed(new GroundDriveFastRight());
         JInput.getButton(BMap.groundDriveToggleSoftwareLow2).whenPressed(new GroundDriveToggleSoftwareLow());
+
+        JInput.getButton(BMap.turntableRangeTrigger).whenPressed(new TurntableToggleRange());
 
         JInput.getButton(BMap.pullCollectorMotors).whenPressed(new PullCollectorMotors());
         JInput.getButton(BMap.pushCollectorMotors).whenPressed(new PushCollectorMotors());

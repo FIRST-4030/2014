@@ -25,6 +25,13 @@ import org.ingrahamrobotics.robot2014.variablestore.Vst;
 
 public class TurnTable extends Subsystem {
 
+    public final static class Speed {
+
+        public final static int LOW = 0;
+        public final static int HIGH = 1;
+    }
+
+    private int range = Speed.LOW;
     private final Jaguar firstMotor = new Jaguar(Vst.PWM.TURN_TABLE_1_PORT);
     private final Jaguar secondMotor = new Jaguar(Vst.PWM.TURN_TABLE_2_PORT);
 
@@ -37,12 +44,24 @@ public class TurnTable extends Subsystem {
         setDefaultCommand(new RunTurnTable());
     }
 
+    public int getRange() {
+        return this.range;
+    }
+
+    public void setRange(int range) {
+        this.range = range;
+    }
+
     public void drive(double speed) {
         if (speed == 0) {
             Output.output(OutputLevel.RAW_MOTORS, "TurnTable:Speed", "Stopped");
             firstMotor.stopMotor();
             secondMotor.stopMotor();
         } else {
+            if (this.range == Speed.LOW) {
+                speed *= 0.50;
+            }
+            Output.output(OutputLevel.RAW_MOTORS, "TurnTable:Range", this.range == Speed.LOW ? "Low" : "High");
             Output.output(OutputLevel.RAW_MOTORS, "TurnTable:Speed", speed);
             firstMotor.set(speed);
             secondMotor.set(speed);
