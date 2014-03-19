@@ -34,10 +34,10 @@ public class Sonar extends Subsystem {
         double distance = (voltage / (SENSOR_VCC / MILLIVOLTS_PER_MM)) / MM_PER_INCH;
         if (distance > MIN_RANGE && distance < MAX_RANGE) {
             Output.output(OutputLevel.RAW_SENSORS, "Sonar Inches", distance);
-            Output.output(OutputLevel.HIGH, ":RangeGUI", distance);
         } else {
             distance = -1.0;
         }
+        Output.output(OutputLevel.HIGH, ":RangeGUI", distance);
         return distance;
     }
 }
