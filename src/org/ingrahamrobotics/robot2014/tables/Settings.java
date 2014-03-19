@@ -25,6 +25,7 @@ public class Settings implements DotNetTable.DotNetTableEvents {
     public static final String AUTOCOMMAND_USE_ENCODERS = "AutoCommand Use Encoders";
     public static final String AUTOCOMMAND_STOP_TIME = "AutoCommand Stopped Time";
     public static final String AUTOCOMMAND_ENCODER_DISTANCE = "AutoCommand Encoder Distance";
+    public static final String FEEDBACK_KEY = "_DRIVER_FEEDBACK_KEY";
     private static Settings instance;
     private final DotNetTable defaultSettings = DotNetTables.publish("robot-input-default");
     private final DotNetTable driverSettings = DotNetTables.subscribe("robot-input");
@@ -40,9 +41,9 @@ public class Settings implements DotNetTable.DotNetTableEvents {
     }
 
     public void changed(DotNetTable table) {
-        String feedback = table.getValue("_DRIVER_FEEDBACK_KEY");
+        String feedback = table.getValue(FEEDBACK_KEY);
         if (feedback != null) {
-            defaultSettings.setValue("_DRIVER_FEEDBACK_KEY", feedback);
+            defaultSettings.setValue(FEEDBACK_KEY, feedback);
             Output.output(OutputLevel.DEBUG, "AutoCommand:EncoderDistance", (long) Settings.getDouble(Settings.AUTOCOMMAND_ENCODER_DISTANCE));
             Output.output(OutputLevel.DEBUG, "AutoCommand:StopTime", (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000));
             defaultSettings.send();
@@ -59,7 +60,6 @@ public class Settings implements DotNetTable.DotNetTableEvents {
         if (driverSettings.exists(key)) {
             return driverSettings.getValue(key);
         } else if (defaultSettings.exists(key)) {
-//            System.out.println("Warning: No setting for " + key);
             return defaultSettings.getValue(key);
         } else {
             throw new IllegalArgumentException("Unknown setting");
@@ -67,35 +67,18 @@ public class Settings implements DotNetTable.DotNetTableEvents {
     }
 
     public double getDoubleSetting(String key) {
-        if (driverSettings.exists(key)) {
-            try {
-                return Double.parseDouble(driverSettings.getValue(key));
-            } catch (NumberFormatException ex) {
-            }
-        }
-        if (defaultSettings.exists(key)) {
-//            System.out.println("Warning: No setting for " + key);
-            return Double.parseDouble(defaultSettings.getValue(key));
-        } else {
-            throw new IllegalArgumentException("Unknown setting");
+        try {
+            return Double.parseDouble(getSetting(key));
+        } catch (NumberFormatException ex) {
+            return 0.0;
         }
     }
 
     public boolean getBoolSetting(String key) {
-        if (driverSettings.exists(key)) {
-            String str = driverSettings.getValue(key);
-            if (str.equalsIgnoreCase("true")) {
-                return true;
-            } else if (str.equalsIgnoreCase("false")) {
-                return false;
-            }
+        if (getSetting(key).equalsIgnoreCase("true")) {
+            return true;
         }
-        if (defaultSettings.exists(key)) {
-//            System.out.println("Warning: No setting for " + key);
-            return "true".equals(defaultSettings.getValue(key));
-        } else {
-            throw new IllegalArgumentException("Unknown setting");
-        }
+        return false;
     }
 
     public static void initInstance() {
