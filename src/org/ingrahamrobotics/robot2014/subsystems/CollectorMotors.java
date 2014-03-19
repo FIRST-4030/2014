@@ -26,46 +26,68 @@ public class CollectorMotors extends Subsystem {
 
     private final Jaguar topMotor = new Jaguar(Vst.PWM.COLLECTOR_TOP_MOTOR);
     private final Jaguar sideMotors = new Jaguar(Vst.PWM.COLLECTOR_SIDE_MOTORS);
+    private boolean topMotorStopped;
+    private boolean sideMotorsStopped;
 
     public CollectorMotors() {
         Output.output(OutputLevel.INITIALIZED_SYSTEMS, "CollectorMotors:State", "Initialized");
-        stop();
+        stopBoth();
     }
 
     protected void initDefaultCommand() {
     }
 
-    public final void stop() {
-        topMotor.stopMotor();
-        sideMotors.stopMotor();
+    public void stopBoth() {
+        stopTop();
+        stopSide();
     }
 
     public void setBothSpeed(double speed) {
-        topMotor.set(speed);
-        sideMotors.set(speed);
-        Output.output(OutputLevel.RAW_MOTORS, "Collector:Top", speed);
-        Output.output(OutputLevel.RAW_MOTORS, "Collector:Side", speed);
+        setTopSpeed(speed);
+        setSideSpeed(speed);
+    }
+
+    public void stopTop() {
+        topMotorStopped = true;
+        topMotor.stopMotor();
+        Output.output(OutputLevel.RAW_MOTORS, "Collector:Top", "Stopped");
+    }
+
+    public void stopSide() {
+        sideMotorsStopped = true;
+        sideMotors.stopMotor();
+        Output.output(OutputLevel.RAW_MOTORS, "Collector:Side", "Stopped");
     }
 
     public void setTopSpeed(double speed) {
-        topMotor.set(speed);
-        Output.output(OutputLevel.RAW_MOTORS, "Collector:Top", speed);
+        if (speed == 0) {
+            stopTop();
+        } else {
+            topMotorStopped = false;
+            topMotor.set(speed);
+            Output.output(OutputLevel.RAW_MOTORS, "Collector:Top", speed);
+        }
     }
 
     public void setSideSpeed(double speed) {
-        sideMotors.set(speed);
-        Output.output(OutputLevel.RAW_MOTORS, "Collector:Side", speed);
+        if (speed == 0) {
+            stopSide();
+        } else {
+            sideMotorsStopped = false;
+            sideMotors.set(speed);
+            Output.output(OutputLevel.RAW_MOTORS, "Collector:Side", speed);
+        }
     }
 
     public double getAverageSpeed() {
-        return (topMotor.get() + sideMotors.get()) / 2.0;
+        return (getTopSpeed() + getSideSpeed()) / 2.0;
     }
 
     public double getTopSpeed() {
-        return topMotor.get();
+        return topMotorStopped ? 0 : topMotor.get();
     }
 
     public double getSideSpeed() {
-        return sideMotors.get();
+        return sideMotorsStopped ? 0 : sideMotors.get();
     }
 }

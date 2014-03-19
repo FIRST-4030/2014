@@ -22,7 +22,6 @@ import org.ingrahamrobotics.robot2014.Subsystems;
 public class PushCollectorMotors extends Command {
 
     private final Subsystems ss = Subsystems.instance;
-    private boolean running = false;
     private boolean finished;
 
     public PushCollectorMotors() {
@@ -34,12 +33,11 @@ public class PushCollectorMotors extends Command {
     }
 
     protected void execute() {
-        if (running) {
-            ss.collectorMotors.stop();
-        } else {
+        if (ss.collectorMotors.getAverageSpeed() == 0) {
             ss.collectorMotors.setBothSpeed(-0.75);
+        } else {
+            ss.collectorMotors.stopBoth();
         }
-        running = !running;
         finished = true;
     }
 
