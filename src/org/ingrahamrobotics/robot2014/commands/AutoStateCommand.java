@@ -59,12 +59,9 @@ public class AutoStateCommand extends StateCommand {
                 long encoderDistance = (long) Settings.getDouble(Settings.AUTOCOMMAND_ENCODER_DISTANCE);
                 Output.output(OutputLevel.RAW_MOTORS, "AutoCommand:EncoderDistance", encoderDistance);
                 return ((left > encoderDistance) || (right > encoderDistance));
-            case 1:
-                return false;
-            case 2:
+            default:
                 return false;
         }
-        return false;
     }
 
     protected void startState(int state) {
@@ -84,6 +81,10 @@ public class AutoStateCommand extends StateCommand {
             case 3:
                 ss.shooterSolenoids.setExtending(false);
                 break;
+            case 4:
+                ss.collectorSolenoids.setExtending(false);
+                ss.collectorMotors.setBothSpeed(0);
+                break;
         }
     }
 
@@ -93,7 +94,8 @@ public class AutoStateCommand extends StateCommand {
             (Settings.getBoolean(Settings.AUTOCOMMAND_USE_ENCODERS) ? 0 : 1100), // Drive forward
             (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000), // Pause
             1500, // Shoot
-            500 // Retract
+            500, // Retract shooter solenoids
+            500 // Retract collector solenoids
         };
     }
 }
