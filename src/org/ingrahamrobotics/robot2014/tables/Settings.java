@@ -31,29 +31,33 @@ public class Settings implements DotNetTable.DotNetTableEvents {
     private final DotNetTable driverSettings = DotNetTables.subscribe("robot-input");
 
     public void publishDefaults() {
-        defaultSettings.setValue(AUTOCOMMAND_USE_ENCODERS, "true");
         defaultSettings.setValue(CMUCAM_DEFAULT_COLOR, "RED");
+        defaultSettings.setValue(AUTOCOMMAND_USE_ENCODERS, "true");
         defaultSettings.setValue(AUTOCOMMAND_STOP_TIME, "0.001");
         defaultSettings.setValue(AUTOCOMMAND_ENCODER_DISTANCE, "23000");
         defaultSettings.setInterval(3000);
         driverSettings.onChange(this);
         driverSettings.onStale(this);
+        outputSettings();
     }
 
     public void changed(DotNetTable table) {
         String feedback = table.getValue(FEEDBACK_KEY);
         if (feedback != null) {
             defaultSettings.setValue(FEEDBACK_KEY, feedback);
-            Output.output(OutputLevel.DEBUG, "AutoCommand:EncoderDistance", (long) Settings.getDouble(Settings.AUTOCOMMAND_ENCODER_DISTANCE));
-            Output.output(OutputLevel.DEBUG, "AutoCommand:StopTime", (long) (Settings.getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000));
             defaultSettings.send();
+            outputSettings();
         }
     }
 
     public void stale(DotNetTable table) {
-        System.out.println("--- Warning!");
-        System.out.println("--- @ Driver settings stale");
-        System.out.println("--- Warning!");
+        System.out.println("--- Warning, driver settings stale");
+    }
+
+    private void outputSettings() {
+        Output.output(OutputLevel.DEBUG, "AutoCommand:UseEncoders", getBoolSetting(AUTOCOMMAND_USE_ENCODERS));
+        Output.output(OutputLevel.DEBUG, "AutoCommand:EncoderDistance", (long) getDouble(Settings.AUTOCOMMAND_ENCODER_DISTANCE));
+        Output.output(OutputLevel.DEBUG, "AutoCommand:StopTime", (long) (getDouble(Settings.AUTOCOMMAND_STOP_TIME) * 1000));
     }
 
     public String getSetting(String key) {
