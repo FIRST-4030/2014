@@ -27,11 +27,25 @@ public class TurnTable extends Subsystem {
 
     public final static class Speed {
 
-        public final static int LOW = 0;
-        public final static int HIGH = 1;
-    }
+        public final static Speed LOW = new Speed(0.25, "Low");
+        public final static Speed HIGH = new Speed(1.0, "High");
+        private final double multiplier;
+        private final String representation;
 
-    private int range = Speed.LOW;
+        private Speed(double multiplier, String representation) {
+            this.multiplier = multiplier;
+            this.representation = representation;
+        }
+
+        public double getMultiplier() {
+            return multiplier;
+        }
+
+        public String toString() {
+            return representation;
+        }
+    }
+    private Speed range = Speed.LOW;
     private final Jaguar firstMotor = new Jaguar(Vst.PWM.TURN_TABLE_1_PORT);
     private final Jaguar secondMotor = new Jaguar(Vst.PWM.TURN_TABLE_2_PORT);
 
@@ -44,11 +58,12 @@ public class TurnTable extends Subsystem {
         setDefaultCommand(new RunTurnTable());
     }
 
-    public int getRange() {
+    public Speed getRange() {
         return this.range;
     }
 
-    public void setRange(int range) {
+    public void setRange(Speed range) {
+        Output.output(OutputLevel.RAW_MOTORS, "TurnTable:Range", range.toString());
         this.range = range;
     }
 
@@ -58,10 +73,7 @@ public class TurnTable extends Subsystem {
             firstMotor.stopMotor();
             secondMotor.stopMotor();
         } else {
-            if (this.range == Speed.LOW) {
-                speed *= 0.25;
-            }
-            Output.output(OutputLevel.RAW_MOTORS, "TurnTable:Range", this.range == Speed.LOW ? "Low" : "High");
+            speed *= this.range.getMultiplier();
             Output.output(OutputLevel.RAW_MOTORS, "TurnTable:Speed", speed);
             firstMotor.set(speed);
             secondMotor.set(speed);

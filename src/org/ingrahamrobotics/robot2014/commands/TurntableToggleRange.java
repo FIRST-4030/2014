@@ -19,6 +19,7 @@ package org.ingrahamrobotics.robot2014.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.ingrahamrobotics.robot2014.Subsystems;
 import org.ingrahamrobotics.robot2014.subsystems.TurnTable;
+import org.ingrahamrobotics.robot2014.subsystems.TurnTable.Speed;
 
 public class TurntableToggleRange extends Command {
 
@@ -30,10 +31,10 @@ public class TurntableToggleRange extends Command {
     }
 
     protected void execute() {
-        int range = TurnTable.Speed.HIGH;
-        if (ss.turnTable.getRange() == TurnTable.Speed.HIGH) {
-            range = TurnTable.Speed.LOW;
-        }
+        Speed range =
+                ss.turnTable.getRange() == TurnTable.Speed.HIGH
+                ? TurnTable.Speed.LOW
+                : TurnTable.Speed.HIGH;
         ss.turnTable.setRange(range);
         finished = true;
     }
