@@ -51,7 +51,7 @@ public class GroundDrivePower extends Subsystem {
         }
         power[GroundDrive.LEFT][powerIndex] = left;
         power[GroundDrive.RIGHT][powerIndex] = right;
-        powerIndex++;
+        powerIndex = (powerIndex + 1) % NUM_SAMPLES;
 
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrivePower:AverageLeft", averagePower(GroundDrive.LEFT));
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrivePower:AverageRight", averagePower(GroundDrive.RIGHT));

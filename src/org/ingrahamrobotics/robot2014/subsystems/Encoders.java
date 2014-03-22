@@ -82,7 +82,7 @@ public class Encoders extends Subsystem {
         }
         displacement[GroundDrive.LEFT][displacementIndex] = left;
         displacement[GroundDrive.RIGHT][displacementIndex] = right;
-        displacementIndex++;
+        displacementIndex = (displacementIndex + 1) % NUM_SAMPLES;
 
         Output.output(OutputLevel.RAW_SENSORS, "Encoder:AverageLeft", averageDisplacement(GroundDrive.LEFT));
         Output.output(OutputLevel.RAW_SENSORS, "Encoder:AverageRight", averageDisplacement(GroundDrive.RIGHT));
