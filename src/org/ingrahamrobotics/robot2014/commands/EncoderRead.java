@@ -33,7 +33,10 @@ public class EncoderRead extends Command {
     }
 
     protected void execute() {
-        Output.output(OutputLevel.DEBUG, "Encoders", "left[" + ss.encoders.getLeftEncoder() + "], right[" + ss.encoders.getRightEncoder() + "]");
+        int left = ss.encoders.getLeftEncoder();
+        int right = ss.encoders.getLeftEncoder();
+        ss.encoders.appendDistance(left, right);
+        Output.output(OutputLevel.DEBUG, "Encoders", "left[" + left + "], right[" + right + "]");
     }
 
     protected boolean isFinished() {
