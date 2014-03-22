@@ -24,7 +24,6 @@ import org.ingrahamrobotics.robot2014.variablestore.Vst;
 
 public class Encoders extends Subsystem {
 
-//    private final DigitalInput[] raw = new DigitalInput[]{null, new DigitalInput(2), new DigitalInput(3), new DigitalInput(4), new DigitalInput(5), new DigitalInput(6), new DigitalInput(7)};
     private final DigitalInput[] inputs = new DigitalInput[]{
         new DigitalInput(Vst.DIGITAL_IO.LEFT_ENCODER_INPUT1), new DigitalInput(Vst.DIGITAL_IO.LEFT_ENCODER_INPUT2),
         new DigitalInput(Vst.DIGITAL_IO.RIGHT_ENCODER_INPUT1), new DigitalInput(Vst.DIGITAL_IO.RIGHT_ENCODER_INPUT2)};
@@ -52,12 +51,4 @@ public class Encoders extends Subsystem {
     public int getLeftEncoder() {
         return leftEncoder.get();
     }
-
-//    public String getDigital() {
-//        return " 2=" + raw(1) + " 3=" + raw(2) + " 4=" + raw(3) + " 5=" + raw(4) + " 6=" + raw(5) + " 7=" + raw(6);
-//    }
-//
-//    private int raw(int num) {
-//        return raw[num].get() ? 1 : 0;
-//    }
 }
