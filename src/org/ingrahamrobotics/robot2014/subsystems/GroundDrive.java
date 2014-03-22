@@ -31,12 +31,17 @@ public class GroundDrive extends Subsystem {
     private final RobotDrive roboDrive;
     private boolean softwareLowSpeed;
     private boolean reversed;
+    private boolean stopped;
+
+    public static final int LEFT = 0;
+    public static final int RIGHT = 1;
 
     public GroundDrive() {
         this.roboDrive = new RobotDrive(leftMotor, rightMotor);
         roboDrive.setSafetyEnabled(false);
-        stop();
+        this.stopped = false;
         Output.output(OutputLevel.INITIALIZED_SYSTEMS, "GroundDrive:State", "Initialized");
+        stop();
         setReversed(false);
         setSoftwareLowSpeed(false);
     }
@@ -52,6 +57,7 @@ public class GroundDrive extends Subsystem {
         if (softwareLowSpeed) {
             speed *= 0.5;
         }
+        stopped = false;
         roboDrive.arcadeDrive(speed, turn);
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftMotor.get());
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());
@@ -68,6 +74,8 @@ public class GroundDrive extends Subsystem {
             leftSpeed *= 0.5;
             rightSpeed *= 0.5;
         }
+        
+        stopped = false;
         roboDrive.tankDrive(leftSpeed, rightSpeed);
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftMotor.get());
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());
@@ -75,13 +83,24 @@ public class GroundDrive extends Subsystem {
 
     public void setRaw(double leftSpeed, double rightSpeed) {
         if (leftSpeed == 0 && rightSpeed == 0) {
-            leftMotor.stopMotor();
-            rightMotor.stopMotor();
+            stop();
         } else {
+            stopped = false;
             roboDrive.tankDrive(leftSpeed, rightSpeed);
         }
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftMotor.get());
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());
+    }
+
+    public double getPower(int side) {
+        if (stopped) {
+            return 0.0;
+        }
+        if (side == LEFT) {
+            return leftMotor.get();
+        } else {
+            return rightMotor.get();
+        }
     }
 
     public void setReversed(boolean reversed) {
@@ -103,6 +122,7 @@ public class GroundDrive extends Subsystem {
     }
 
     public void stop() {
+        stopped = true;
         roboDrive.stopMotor();
     }
 }

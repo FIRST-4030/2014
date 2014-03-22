@@ -43,6 +43,7 @@ import org.ingrahamrobotics.robot2014.subsystems.ShooterSolenoids;
 import org.ingrahamrobotics.robot2014.subsystems.TurnTable;
 import org.ingrahamrobotics.robot2014.subsystems.TurnTableStops;
 import org.ingrahamrobotics.robot2014.subsystems.Sonar;
+import org.ingrahamrobotics.robot2014.subsystems.GroundDrivePower;
 
 public class Subsystems {
 
@@ -59,6 +60,7 @@ public class Subsystems {
     public final CmuCam cmuCam;
     public final TurnTableStops turnTableStops;
     public final Sonar sonar;
+    public final GroundDrivePower groundDrivePower;
 
     public Subsystems() {
         groundDrive = new GroundDrive();
@@ -73,6 +75,7 @@ public class Subsystems {
         cmuCam = new CmuCam();
         turnTableStops = new TurnTableStops();
         sonar = new Sonar();
+        groundDrivePower = new GroundDrivePower();
     }
 
     public void initCommands() {
