@@ -88,13 +88,15 @@ public class CMUColorTracking extends CMUCommandSet {
         String[] split = CMUUtils.split(packet, " ");
         int[] newValues = new int[averages.length];
         if (split.length < newValues.length + 1) {
-            throw new IllegalArgumentException("Invalid T packet '" + packet + "': incomplete number of values");
+            System.out.println("Warning! Invalid T packet \"" + packet + "\": incomplete");
+            return;
         }
         for (int i = 0; i < newValues.length; i++) {
             try {
                 newValues[i] = Integer.parseInt(split[i + 1]);
             } catch (NumberFormatException ex) {
-                throw new IllegalArgumentException("Invalid T packet '" + packet + "': value '" + split[i + 1] + "' is not an integer.");
+                System.out.println("Warning! Invalid T packet \"" + packet + "\": value \"" + split[i + 1] + "\"");
+                return;
             }
         }
         updateAverages(newValues);
