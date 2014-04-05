@@ -27,9 +27,9 @@ public class CMUCamCenterCommand extends Command {
     private static final boolean TURN_TABLE = false;
     private static final boolean SMOOTH = true;
     private final Subsystems ss = Subsystems.instance;
-    private boolean started = false;
 
     public CMUCamCenterCommand() {
+        requires(ss.cmuCam);
         if (TURN_TABLE) {
             requires(ss.turnTable);
         } else {
@@ -38,8 +38,7 @@ public class CMUCamCenterCommand extends Command {
     }
 
     protected void initialize() {
-        if (!started) {
-            started = true;
+        if (!ss.cmuCam.isRunning()) {
             ss.cmuCam.startTrackingThread();
         }
     }

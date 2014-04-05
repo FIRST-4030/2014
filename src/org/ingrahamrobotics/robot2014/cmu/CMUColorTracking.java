@@ -65,10 +65,11 @@ public class CMUColorTracking extends CMUCommandSet {
     }
 
     public void end(final CMUCamConnection c) throws IOException {
+        System.out.println("Color tracking stopped");
         c.write("\r");
     }
 
-    public void stopTrackingNext() throws IOException {
+    public void stopTrackingNext() {
         currentlyTracking = false;
     }
 

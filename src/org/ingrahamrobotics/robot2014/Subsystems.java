@@ -18,6 +18,7 @@ package org.ingrahamrobotics.robot2014;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.ingrahamrobotics.robot2014.commands.CMUCamCenterCommand;
+import org.ingrahamrobotics.robot2014.commands.CmuCamResetCommand;
 import org.ingrahamrobotics.robot2014.commands.ExtendCollectorSolenoids;
 import org.ingrahamrobotics.robot2014.commands.ExtendShooterSolenoids;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveFastLeft;
@@ -95,7 +96,8 @@ public class Subsystems {
         JInput.getButton(BMap.retractCollectorSolenoids).whenPressed(new RetractCollectorSolenoids());
         JInput.getButton(BMap.shooterSolenoidsControl).whenPressed(new ExtendShooterSolenoids());
 
-//        JInput.getButton(BMap.colorTrackingTrigger).whileActive(new CMUCamCenterCommand());
+        JInput.getButton(BMap.colorTrackingReset).whenPressed(new CmuCamResetCommand());
+
         // Toggle
         final CMUCamCenterCommand centerCommand = new CMUCamCenterCommand();
 

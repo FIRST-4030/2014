@@ -29,11 +29,11 @@ public class Sonar extends Subsystem {
 
     public double readDistance() {
         double voltage = sonar.getVoltage();
-        Output.output(OutputLevel.RAW_SENSORS, "Sonar Volts", voltage);
+//        Output.output(OutputLevel.RAW_SENSORS, "Sonar Volts", voltage);
 
         double distance = (voltage / (SENSOR_VCC / MILLIVOLTS_PER_MM)) / MM_PER_INCH;
         if (distance > MIN_RANGE && distance < MAX_RANGE) {
-            Output.output(OutputLevel.RAW_SENSORS, "Sonar Inches", distance);
+//            Output.output(OutputLevel.RAW_SENSORS, "Sonar Inches", distance);
         } else {
             distance = -1.0;
         }

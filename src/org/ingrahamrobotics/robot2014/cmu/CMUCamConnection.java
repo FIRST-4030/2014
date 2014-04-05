@@ -74,11 +74,23 @@ public abstract class CMUCamConnection {
             debug.log("[cmu] Running command set");
             set.init(this);
             while (state != State.NOT_STARTED) {
-                if (!set.runWith(this)) {
+                try {
+                    if (!set.runWith(this)) {
+                        break;
+                    }
+                } catch (IOException ex) {
+                    debug.log("Warning: IOException running command set:");
+                    ex.printStackTrace();
                     break;
                 }
             }
-            set.end(this);
+            try {
+                set.end(this);
+            } catch (IOException ex) {
+                debug.log("Warning: IOException ending command set:");
+                ex.printStackTrace();
+            }
+            debug.log("[cmu] Command set ended");
         }
     }
 

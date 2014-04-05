@@ -33,6 +33,7 @@ import org.ingrahamrobotics.robot2014.tables.OutputLevel;
 
 public class CmuCam extends Subsystem {
 
+    private boolean running;
     private final CrioCmuCam cam;
     private final CMUColorTracking tracking;
     private int[] lastColorTrackingData;
@@ -67,7 +68,17 @@ public class CmuCam extends Subsystem {
     }
 
     public void startTrackingThread() {
+        running = true;
         new TrackingThread().start();
+    }
+
+    public void stopTrackingThread() {
+        running = false;
+        tracking.stopTrackingNext();
+    }
+
+    public boolean isRunning() {
+        return running;
     }
 
     protected void initDefaultCommand() {
@@ -98,11 +109,16 @@ public class CmuCam extends Subsystem {
         }
 
         public void run() {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-                return;
+            switch (DriverStation.getInstance().getAlliance().value) {
+                case DriverStation.Alliance.kBlue_val:
+                    tracking.setTrackingParameters(TrackingParameters.BLUE);
+                    Output.output(OutputLevel.CMU, "CMUcam:TrackingColor", "BLUE");
+                    break;
+                case DriverStation.Alliance.kRed_val:
+                default:
+                    tracking.setTrackingParameters(TrackingParameters.RED);
+                    Output.output(OutputLevel.CMU, "CMUcam:TrackingColor", "RED");
+                    break;
             }
             Output.output(OutputLevel.CMU, "CMUcam:State", "Starting");
             try {
@@ -113,20 +129,16 @@ public class CmuCam extends Subsystem {
             }
             Output.output(OutputLevel.CMU, "CMUcam:State", "Started");
             try {
-                Thread.sleep(500);
+                Thread.sleep(100);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
                 return;
             }
             Output.output(OutputLevel.CMU, "CMUcam:State", "Tracking");
             try {
-                while (true) {
-                    try {
-                        cam.runCommandSet(tracking);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+                cam.runCommandSet(tracking);
+            } catch (IOException ex) {
+                ex.printStackTrace();
             } catch (Throwable t) {
                 Output.output(OutputLevel.CMU, "CMUcam:State", "Error: " + t.toString());
                 t.printStackTrace();
