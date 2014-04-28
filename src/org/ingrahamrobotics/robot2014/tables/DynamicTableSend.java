@@ -19,22 +19,13 @@ package org.ingrahamrobotics.robot2014.tables;
 import java.util.Hashtable;
 import org.ingrahamrobotics.dotnettables.DotNetTable;
 import org.ingrahamrobotics.dotnettables.DotNetTables;
-import org.ingrahamrobotics.util.LinkedList;
 
 public class DynamicTableSend {
 
-    private static final long MIN_TIME = 100;
     private static final long MAX_TIME = 5000;
-    private final LinkedList tablesNeedingUpdate = new LinkedList();
     private final Hashtable tables = new Hashtable();
-    private final Object threadPausedLock = new Object();
 
     public DynamicTableSend() {
-        start();
-    }
-
-    private void start() {
-        new UpdateThread().start();
     }
 
     public DotNetTable getPublished(String name) {
@@ -52,54 +43,6 @@ public class DynamicTableSend {
                 tables.put(name, table);
             }
             return table;
-        }
-    }
-
-    public void tableChanged(DotNetTable table) {
-        synchronized (tablesNeedingUpdate) {
-            if (!tablesNeedingUpdate.contains(table)) {
-                tablesNeedingUpdate.add(table);
-            }
-        }
-        synchronized (threadPausedLock) {
-            threadPausedLock.notifyAll();
-        }
-    }
-
-    private class UpdateThread extends Thread {
-
-        public void run() {
-            long lastPartialUpdate = System.currentTimeMillis();
-            long time;
-            try {
-                while (true) {
-                    synchronized (threadPausedLock) {
-                        threadPausedLock.wait();
-                    }
-                    time = System.currentTimeMillis();
-                    if (time < lastPartialUpdate + MIN_TIME) {
-                        Thread.sleep(MIN_TIME + lastPartialUpdate - time);
-                    }
-                    lastPartialUpdate = System.currentTimeMillis();
-                    updateTables();
-                }
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-                start();
-            }
-        }
-
-        private void updateTables() {
-            DotNetTable table;
-            while (true) {
-                synchronized (tablesNeedingUpdate) {
-                    table = (DotNetTable) tablesNeedingUpdate.poll();
-                }
-                if (table == null) {
-                    break;
-                }
-                table.send();
-            }
         }
     }
 }

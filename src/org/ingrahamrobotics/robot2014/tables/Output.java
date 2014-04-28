@@ -43,14 +43,12 @@ public class Output {
         if (table == null) {
             table = tableSend.publish("output:" + level.level);
             nameTable.setValue("output:" + level.level, level.name);
-            tableSend.tableChanged(nameTable);
         }
         if (value == null) {
             table.remove(key);
         } else {
             table.setValue(key, value);
         }
-        tableSend.tableChanged(table);
         SmartDashboard.putString(key, value);
     }
 

@@ -39,10 +39,13 @@ public class RunTurnTable extends Command {
         double value = JInput.getAxis(AMap.turnTable);
 
         // Limit movement when we're at the stops
-        if (ss.turnTableStops.getLeft() && value < 0) {
+        // Get both of them first, just to output both values
+        boolean left = ss.turnTableStops.getLeft();
+        boolean right = ss.turnTableStops.getRight();
+        if (left && value < 0) {
             Output.output(OutputLevel.HIGH, "TurnTable:StoppingBecause", "Left");
             value = 0;
-        } else if (ss.turnTableStops.getRight() && value > 0) {
+        } else if (right && value > 0) {
             Output.output(OutputLevel.HIGH, "TurnTable:StoppingBecause", "Right");
             value = 0;
         } else {
