@@ -24,7 +24,9 @@ import org.ingrahamrobotics.robot2014.tables.Settings;
 
 public class CMUCamCenterCommand extends Command {
 
-    private static final boolean TURN_TABLE = false;
+    private final GroundDriveFastRight fastRight = new GroundDriveFastRight();
+    private final GroundDriveFastLeft fastLeft = new GroundDriveFastLeft();
+    private static final boolean TURN_TABLE = true;
     private static final boolean SMOOTH = true;
     private final Subsystems ss = Subsystems.instance;
 
@@ -32,6 +34,7 @@ public class CMUCamCenterCommand extends Command {
         requires(ss.cmuCam);
         if (TURN_TABLE) {
             requires(ss.turnTable);
+            requires(ss.turnTableStops);
         } else {
             requires(ss.groundDrive);
         }
@@ -83,6 +86,26 @@ public class CMUCamCenterCommand extends Command {
 
     private void drive(double speed) {
         if (TURN_TABLE) {
+            boolean left = ss.turnTableStops.getLeft();
+            boolean right = ss.turnTableStops.getRight();
+            if (speed < 0 && left) {
+                speed = 0;
+                if (!fastRight.isRunning()) {
+                    if (fastLeft.isRunning()) {
+                        fastLeft.cancel();
+                    }
+                    fastRight.start();
+                }
+            }
+            if (speed > 0 && right) {
+                if (!fastLeft.isRunning()) {
+                    if (fastRight.isRunning()) {
+                        fastRight.cancel();
+                    }
+                    fastLeft.start();
+                }
+                speed = 0;
+            }
             ss.turnTable.drive(speed);
         } else {
             ss.groundDrive.arcadeDrive(0, speed);
