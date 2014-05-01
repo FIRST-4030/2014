@@ -57,8 +57,8 @@ public final class Vst {
         public static final int LEFT_ENCODER_INPUT2 = 6;
         public static final int RIGHT_ENCODER_INPUT1 = 2;
         public static final int RIGHT_ENCODER_INPUT2 = 4;
-        public static final int LEFT_TURNTABLE_SWITCH = 9;
-        public static final int RIGHT_TURNTABLE_SWITCH = 10;
+        public static final int LEFT_TURNTABLE_SWITCH = 10;
+        public static final int RIGHT_TURNTABLE_SWITCH = 9;
     }
 
     /**
