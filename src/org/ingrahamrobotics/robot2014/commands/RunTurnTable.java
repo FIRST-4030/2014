@@ -42,11 +42,26 @@ public class RunTurnTable extends Command {
         // Get both of them first, just to output both values
         boolean left = ss.turnTableStops.getLeft();
         boolean right = ss.turnTableStops.getRight();
+        if (value > -0.10 && value < 0.10) {
+            value = 0;
+        }
         if (left && value < 0) {
             Output.output(OutputLevel.HIGH, "TurnTable:StoppingBecause", "Left");
+            if (!ss.fastRight.isRunning()) {
+                if (ss.fastLeft.isRunning()) {
+                    ss.fastLeft.cancel();
+                }
+                ss.fastRight.start();
+            }
             value = 0;
         } else if (right && value > 0) {
             Output.output(OutputLevel.HIGH, "TurnTable:StoppingBecause", "Right");
+            if (!ss.fastLeft.isRunning()) {
+                if (ss.fastRight.isRunning()) {
+                    ss.fastRight.cancel();
+                }
+                ss.fastLeft.start();
+            }
             value = 0;
         } else {
             Output.output(OutputLevel.HIGH, "TurnTable:StoppingBecause", null);

@@ -60,6 +60,8 @@ public class Subsystems {
     public final CmuCam cmuCam;
     public final TurnTableStops turnTableStops;
     public final Sonar sonar;
+    public final GroundDriveFastRight fastRight = new GroundDriveFastRight();
+    public final GroundDriveFastLeft fastLeft = new GroundDriveFastLeft();
 
     public Subsystems() {
         groundDrive = new GroundDrive();
@@ -78,14 +80,14 @@ public class Subsystems {
 
     public void initCommands() {
         JInput.getButton(BMap.reverseGroundDrive1).whenPressed(new ReverseGroundDrive());
-        JInput.getButton(BMap.groundDriveFastLeft1).whenPressed(new GroundDriveFastLeft());
-        JInput.getButton(BMap.groundDriveFastRight1).whenPressed(new GroundDriveFastRight());
+        JInput.getButton(BMap.groundDriveFastLeft1).whenPressed(fastLeft);
+        JInput.getButton(BMap.groundDriveFastRight1).whenPressed(fastRight);
         JInput.getButton(BMap.groundDriveToggleShifter).whenPressed(new GroundDriveToggleShifter());
         JInput.getButton(BMap.groundDriveToggleSoftwareLow1).whenPressed(new GroundDriveToggleSoftwareLow());
 
         JInput.getButton(BMap.reverseGroundDrive2).whenPressed(new ReverseGroundDrive());
-        JInput.getButton(BMap.groundDriveFastLeft2).whenPressed(new GroundDriveFastLeft());
-        JInput.getButton(BMap.groundDriveFastRight2).whenPressed(new GroundDriveFastRight());
+        JInput.getButton(BMap.groundDriveFastLeft2).whenPressed(fastLeft);
+        JInput.getButton(BMap.groundDriveFastRight2).whenPressed(fastRight);
         JInput.getButton(BMap.groundDriveToggleSoftwareLow2).whenPressed(new GroundDriveToggleSoftwareLow());
 
         JInput.getButton(BMap.turntableRangeTrigger).whenPressed(new TurntableToggleRange());
