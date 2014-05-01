@@ -69,9 +69,7 @@ public class TurnTable extends Subsystem {
 
     public void drive(double speed) {
         if (speed == 0) {
-            Output.output(OutputLevel.RAW_MOTORS, "TurnTable:Speed", "Stopped");
-            firstMotor.stopMotor();
-            secondMotor.stopMotor();
+            stop();
         } else {
             speed *= this.range.getMultiplier();
             Output.output(OutputLevel.RAW_MOTORS, "TurnTable:Speed", speed);
