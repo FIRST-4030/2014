@@ -88,19 +88,19 @@ public class CMUCamCenterCommand extends Command {
             boolean right = ss.turnTableStops.getRight();
             if (speed < 0 && left) {
                 speed = 0;
-                if (!ss.fastRight.isRunning()) {
-                    if (ss.fastLeft.isRunning()) {
-                        ss.fastLeft.cancel();
+                if (!ss.slowLeft.isRunning()) {
+                    if (ss.slowRight.isRunning()) {
+                        ss.slowRight.cancel();
                     }
-                    ss.fastRight.start();
+                    ss.slowLeft.start();
                 }
             }
             if (speed > 0 && right) {
-                if (!ss.fastLeft.isRunning()) {
-                    if (ss.fastRight.isRunning()) {
-                        ss.fastRight.cancel();
+                if (!ss.slowRight.isRunning()) {
+                    if (ss.slowLeft.isRunning()) {
+                        ss.slowLeft.cancel();
                     }
-                    ss.fastLeft.start();
+                    ss.slowRight.start();
                 }
                 speed = 0;
             }

@@ -23,6 +23,8 @@ import org.ingrahamrobotics.robot2014.commands.ExtendCollectorSolenoids;
 import org.ingrahamrobotics.robot2014.commands.ExtendShooterSolenoids;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveFastLeft;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveFastRight;
+import org.ingrahamrobotics.robot2014.commands.GroundDriveSlowLeft;
+import org.ingrahamrobotics.robot2014.commands.GroundDriveSlowRight;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveToggleShifter;
 import org.ingrahamrobotics.robot2014.commands.GroundDriveToggleSoftwareLow;
 import org.ingrahamrobotics.robot2014.commands.PullCollectorMotors;
@@ -60,8 +62,10 @@ public class Subsystems {
     public final CmuCam cmuCam;
     public final TurnTableStops turnTableStops;
     public final Sonar sonar;
-    public final GroundDriveFastRight fastRight = new GroundDriveFastRight();
-    public final GroundDriveFastLeft fastLeft = new GroundDriveFastLeft();
+    public GroundDriveSlowLeft slowLeft;
+    public GroundDriveSlowRight slowRight;
+    public GroundDriveFastRight fastRight;
+    public GroundDriveFastLeft fastLeft;
 
     public Subsystems() {
         groundDrive = new GroundDrive();
@@ -79,6 +83,10 @@ public class Subsystems {
     }
 
     public void initCommands() {
+        slowLeft = new GroundDriveSlowLeft();
+        slowRight = new GroundDriveSlowRight();
+        fastLeft = new GroundDriveFastLeft();
+        fastRight = new GroundDriveFastRight();
         JInput.getButton(BMap.reverseGroundDrive1).whenPressed(new ReverseGroundDrive());
         JInput.getButton(BMap.groundDriveFastLeft1).whenPressed(fastLeft);
         JInput.getButton(BMap.groundDriveFastRight1).whenPressed(fastRight);
