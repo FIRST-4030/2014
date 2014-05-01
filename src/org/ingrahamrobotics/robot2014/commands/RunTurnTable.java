@@ -47,32 +47,27 @@ public class RunTurnTable extends Command {
         }
         if (left && value < 0) {
             Output.output(OutputLevel.HIGH, "TurnTable:StoppingBecause", "Left");
-            if (!ss.fastRight.isRunning()) {
-                if (ss.fastLeft.isRunning()) {
-                    ss.fastLeft.cancel();
-                }
-                ss.fastRight.start();
-            }
+//            if (!ss.fastRight.isRunning()) {
+//                if (ss.fastLeft.isRunning()) {
+//                    ss.fastLeft.cancel();
+//                }
+//                ss.fastRight.start();
+//            }
             value = 0;
         } else if (right && value > 0) {
             Output.output(OutputLevel.HIGH, "TurnTable:StoppingBecause", "Right");
-            if (!ss.fastLeft.isRunning()) {
-                if (ss.fastRight.isRunning()) {
-                    ss.fastRight.cancel();
-                }
-                ss.fastLeft.start();
-            }
+//            if (!ss.fastLeft.isRunning()) {
+//                if (ss.fastRight.isRunning()) {
+//                    ss.fastRight.cancel();
+//                }
+//                ss.fastLeft.start();
+//            }
             value = 0;
         } else {
             Output.output(OutputLevel.HIGH, "TurnTable:StoppingBecause", null);
         }
 
-        // Anti-drift dead zone
-        if (value > -0.10 && value < 0.10) {
-            ss.turnTable.stop();
-        } else {
-            ss.turnTable.drive(value);
-        }
+        ss.turnTable.drive(value);
     }
 
     protected boolean isFinished() {
