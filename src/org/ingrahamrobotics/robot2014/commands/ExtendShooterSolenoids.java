@@ -42,6 +42,7 @@ public class ExtendShooterSolenoids extends Command {
         } else {
             Output.output(OutputLevel.HIGH, "ShooterError", null);
             ss.shooterSolenoids.setExtending(true);
+            canceled = false;
         }
     }
 
