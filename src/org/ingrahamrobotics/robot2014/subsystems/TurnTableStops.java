@@ -26,18 +26,36 @@ public class TurnTableStops extends Subsystem {
 
     private final DigitalInput leftInput = new DigitalInput(Vst.DIGITAL_IO.LEFT_TURNTABLE_SWITCH);
     private final DigitalInput rightInput = new DigitalInput(Vst.DIGITAL_IO.RIGHT_TURNTABLE_SWITCH);
+    private long lastLeft;
+    private long lastRight;
 
     protected void initDefaultCommand() {
     }
 
     public boolean getLeft() {
         boolean value = leftInput.get();
+        if (value) {
+            lastLeft = System.currentTimeMillis();
+        } else {
+            // If we were triggered in the last 500 milliseconds, treat it as still triggered.
+            if (System.currentTimeMillis() - lastLeft < 500) {
+                value = true;
+            }
+        }
         Output.output(OutputLevel.RAW_SENSORS, "TurnTable:LeftSwitch", value);
         return value;
     }
 
     public boolean getRight() {
         boolean value = rightInput.get();
+        if (value) {
+            lastRight = System.currentTimeMillis();
+        } else {
+            // If we were triggered in the last 500 milliseconds, treat it as still triggered.
+            if (System.currentTimeMillis() - lastRight < 500) {
+                value = true;
+            }
+        }
         Output.output(OutputLevel.RAW_SENSORS, "TurnTable:RightSwitch", value);
         return value;
     }
