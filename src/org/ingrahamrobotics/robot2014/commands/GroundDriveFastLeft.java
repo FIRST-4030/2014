@@ -22,8 +22,8 @@ import org.ingrahamrobotics.robot2014.Subsystems;
 public class GroundDriveFastLeft extends Command {
 
     private final Subsystems ss = Subsystems.instance;
-    private static final double speedDif = -0.1;
-    private static final double reverseSpeedDif = -0.3;
+    private static final double speedDif = 0.1;
+    private static final double reverseSpeedDif = 0.3;
     private static final long timeOn = 125;
     private static final long timeReversed = 1;
     private boolean finished;
@@ -41,11 +41,11 @@ public class GroundDriveFastLeft extends Command {
      */
     private int state;
     /**
-     * Time that speed reached max
+     * Time that speed reached max.
      */
     private long maxTimeStamp;
     /**
-     * Time that the speed reached 0
+     * Time that the speed reached 0.
      */
     private long doneTimeStamp;
 
@@ -61,8 +61,8 @@ public class GroundDriveFastLeft extends Command {
 
     protected void execute() {
         if (state == 0) {
-            if (speed + speedDif <= -1) {
-                speed = -1;
+            if (speed + speedDif >= 1) {
+                speed = 1;
                 maxTimeStamp = System.currentTimeMillis();
                 state = 1;
             } else {
@@ -73,7 +73,7 @@ public class GroundDriveFastLeft extends Command {
                 state = 2;
             }
         } else if (state == 2) {
-            if (speed - reverseSpeedDif >= 0) {
+            if (speed - reverseSpeedDif <= 0) {
                 speed = -speedDif;
                 state = 3;
                 doneTimeStamp = System.currentTimeMillis();
