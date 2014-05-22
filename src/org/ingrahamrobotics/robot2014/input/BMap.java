@@ -31,10 +31,11 @@ public class BMap {
     public static final BMap pushCollectorMotors = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickStand.RIGHT_BOTTOM);
     public static final BMap extendCollectorSolenoids = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickStand.LEFT_TOP);
     public static final BMap retractCollectorSolenoids = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickStand.LEFT_BOTTOM);
+    public static final BMap colorTrackingReset = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickStand.BOTTOM_LEFT);
     public static final BMap shooterSolenoidsControl = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickTop.TRIGGER);
     public static final BMap colorTrackingTrigger = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickTop.MIDDLE);
     public static final BMap turntableRangeTrigger = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickTop.BOTTOM);
-    public static final BMap colorTrackingReset = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickStand.BOTTOM_LEFT);
+    public static final BMap disableStops = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickTop.LEFT);
     private final int joystick;
     private final int button;
 

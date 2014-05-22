@@ -28,8 +28,14 @@ public class TurnTableStops extends Subsystem {
     private final DigitalInput rightInput = new DigitalInput(Vst.DIGITAL_IO.RIGHT_TURNTABLE_SWITCH);
     private long lastLeft;
     private long lastRight;
+    private long lastDisabled; // long so we can disable for 500 milliseconds
 
     protected void initDefaultCommand() {
+    }
+
+    public void setDisabled() {
+        System.out.println("Set disabled called!");
+        lastDisabled = System.currentTimeMillis();
     }
 
     public boolean getLeft() {
@@ -43,7 +49,7 @@ public class TurnTableStops extends Subsystem {
             }
         }
         Output.output(OutputLevel.RAW_SENSORS, "TurnTable:LeftSwitch", value);
-        return value;
+        return value && !(System.currentTimeMillis() - lastDisabled < 500);
     }
 
     public boolean getRight() {
@@ -57,6 +63,6 @@ public class TurnTableStops extends Subsystem {
             }
         }
         Output.output(OutputLevel.RAW_SENSORS, "TurnTable:RightSwitch", value);
-        return value;
+        return value && !(System.currentTimeMillis() - lastDisabled < 500);
     }
 }
