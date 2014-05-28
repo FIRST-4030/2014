@@ -25,8 +25,10 @@ import org.ingrahamrobotics.robot2014.tables.Settings;
 public class CMUCamCenterCommand extends Command {
 
     private static final boolean TURN_TABLE = true;
-    private static final boolean SMOOTH = true;
     private final Subsystems ss = Subsystems.instance;
+    private long pidLastRun = 0; // Timestamp to determine time since last update
+    private double pidLastError = 0.0; // Absolute error in last iteration
+    private double pidAccumulatedError = 0.0; // Accumulated error
 
     public CMUCamCenterCommand() {
         requires(ss.cmuCam);
@@ -57,27 +59,7 @@ public class CMUCamCenterCommand extends Command {
                 return;
             }
             int x = values[0] - 80;
-            if (SMOOTH) {
-                drive(x / 80.0);
-            } else if (x < 0) {
-                if (x < -60) {
-                    drive(-0.8);
-                } else if (x < -30) {
-                    drive(-0.5);
-                } else {
-                    drive(-0.2);
-                }
-            } else if (x > 0) {
-                if (x > 60) {
-                    drive(0.8);
-                } else if (x > 30) {
-                    drive(0.5);
-                } else {
-                    drive(0.2);
-                }
-            } else {
-                drive(0);
-            }
+            drive(x / 80.0);
             Output.output(OutputLevel.CMU, "CMUcam:Centering", "Object at " + x);
         }
     }
@@ -128,7 +110,7 @@ public class CMUCamCenterCommand extends Command {
         if (TURN_TABLE) {
             ss.turnTable.drive(0);
         } else {
-            ss.groundDrive.setRaw(0, 0);
+            ss.groundDrive.powerTankDriveRaw(0, 0);
         }
     }
 }
