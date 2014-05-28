@@ -95,7 +95,7 @@ public class GroundDrive extends Subsystem {
 
     public void setSoftwareLowSpeed(boolean softwareLowSpeed) {
         Output.output(OutputLevel.HIGH, "GroundDrive:Software Speed", softwareLowSpeed ? "Low" : "High");
-        this.softwareLowSpeed = softwareLowSpeed;
+        this.softwareLowSpeed = true;
     }
 
     public boolean isSoftwareLowSpeed() {
