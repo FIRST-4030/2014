@@ -19,18 +19,25 @@ package org.ingrahamrobotics.robot2014.subsystems;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.ingrahamrobotics.robot2014.Subsystems;
 import org.ingrahamrobotics.robot2014.commands.RunGroundDrive;
+import org.ingrahamrobotics.robot2014.pid.GroundDrivePid;
 import org.ingrahamrobotics.robot2014.tables.Output;
 import org.ingrahamrobotics.robot2014.tables.OutputLevel;
 import org.ingrahamrobotics.robot2014.variablestore.Vst;
 
 public class GroundDrive extends Subsystem {
 
+    public static final double PID_P = 25.0; // Proportional factor
+    public static final double PID_I = 1.0; // Integral factor
+    public static final double PID_D = 0.0; // Differential factor
     private final Jaguar leftMotor = new Jaguar(Vst.PWM.LEFT_MOTOR_PORT);
     private final Jaguar rightMotor = new Jaguar(Vst.PWM.RIGHT_MOTOR_PORT);
     private final RobotDrive roboDrive;
     private boolean softwareLowSpeed;
     private boolean reversed;
+    private GroundDrivePid leftPid = new GroundDrivePid();
+    private GroundDrivePid rightPid = new GroundDrivePid();
 
     public GroundDrive() {
         this.roboDrive = new RobotDrive(leftMotor, rightMotor);
@@ -57,38 +64,42 @@ public class GroundDrive extends Subsystem {
         Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());
     }
 
-    public void tankDrive(double leftSpeed, double rightSpeed) {
+    public void pidTankDrive(double leftSpeed, double rightSpeed) {
         if (reversed) {
             double temp = leftSpeed;
             leftSpeed = -1 * rightSpeed;
             rightSpeed = -1 * temp;
         }
-
         if (softwareLowSpeed) {
             leftSpeed *= 0.5;
             rightSpeed *= 0.5;
         }
-        roboDrive.tankDrive(leftSpeed, rightSpeed);
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftMotor.get());
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());
+        int leftEncoder = Subsystems.instance.encoders.getLeftEncoder();
+        int rightEncoder = Subsystems.instance.encoders.getRightEncoder();
+        int targetLeft = (int) (leftSpeed * 100);
+        int targetRight = (int) (rightSpeed * 100);
+        double leftPower = leftPid.calculateSpeed(targetLeft, leftEncoder) / 100.0;
+        double rightPower = rightPid.calculateSpeed(targetRight, rightEncoder) / 100.0;
+        powerTankDriveRaw(leftPower, rightPower);
     }
 
-    public void setRaw(double leftSpeed, double rightSpeed) {
-        if (leftSpeed == 0 && rightSpeed == 0) {
-            leftMotor.stopMotor();
-            rightMotor.stopMotor();
-        } else {
-            roboDrive.tankDrive(leftSpeed, rightSpeed);
-        }
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftMotor.get());
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());
-    }
-
+    /**
+     * Sets the reversed setting. When reversed, the left/right speeds are
+     * switched, and multiplied by -1.
+     *
+     * @param reversed The new value for the reversed setting.
+     */
     public void setReversed(boolean reversed) {
         Output.output(OutputLevel.HIGH, "GroundDrive:Reversed", reversed);
         this.reversed = reversed;
     }
 
+    /**
+     * Returns the reversed setting value. When reversed, the left/right speeds
+     * are switched, and multiplied by -1.
+     *
+     * @return The current reversed setting.
+     */
     public boolean isReversed() {
         return reversed;
     }
@@ -104,5 +115,52 @@ public class GroundDrive extends Subsystem {
 
     public void stop() {
         roboDrive.stopMotor();
+    }
+
+    /**
+     * Power-based tank drive.
+     *
+     * The left/right values specified are altered by the "reversed" and
+     * "softwareLowSpeed" settings.
+     *
+     * @param leftSpeed Speed for the left motor
+     * @param rightSpeed Speed for the right motor
+     */
+    public void powerTankDrive(double leftSpeed, double rightSpeed) {
+        if (reversed) {
+            double temp = leftSpeed;
+            leftSpeed = -1 * rightSpeed;
+            rightSpeed = -1 * temp;
+        }
+
+        if (softwareLowSpeed) {
+            leftSpeed *= 0.5;
+            rightSpeed *= 0.5;
+        }
+//        roboDrive.tankDrive(leftSpeed, rightSpeed);
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftSpeed);
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightSpeed);
+    }
+
+    /**
+     * Raw power-based tank drive.
+     *
+     * "Raw" means that the leftSpeed/rightSpeed aren't altered by the
+     * "reversed" and "softwareLowSpeed" settings.
+     *
+     * "power-based" means that this sets the raw power of the motors, rather
+     * than using a PID loop.
+     *
+     * @param leftSpeed Raw speed for the left motor
+     * @param rightSpeed Raw speed for the right motor
+     */
+    public void powerTankDriveRaw(double leftSpeed, double rightSpeed) {
+//        if (leftSpeed == 0 && rightSpeed == 0) {
+//            stop();
+//        } else {
+//            roboDrive.tankDrive(leftSpeed, rightSpeed);
+//        }
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftSpeed);
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightSpeed);
     }
 }
