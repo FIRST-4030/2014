@@ -1,6 +1,8 @@
 package org.ingrahamrobotics.robot2014.pid;
 
 import org.ingrahamrobotics.robot2014.subsystems.GroundDrive;
+import org.ingrahamrobotics.robot2014.tables.Output;
+import org.ingrahamrobotics.robot2014.tables.OutputLevel;
 
 /*
  * Copyright (C) 2014 Ingraham Robotics Team 4030
@@ -20,34 +22,35 @@ import org.ingrahamrobotics.robot2014.subsystems.GroundDrive;
  */
 public class GroundDrivePid {
 
-    private long pidLastRun = 0; // Timestamp to determine time since last update
     private double pidLastError = 0.0; // Absolute error in last iteration
     private double pidAccumulatedError = 0.0; // Accumulated error
+    private long lastEncoderTime; // Timestamp to determine time since last update
     private double lastEncoder;
     private double lastPowerOutput;
 
-    public double calculateSpeed(int targetSpeed, int encoderValue) {
-        double actualChange = lastEncoder - encoderValue;
-        lastEncoder = encoderValue;
-        double targetChange = targetSpeed;
-        return pidCalculate(targetChange, actualChange);
-    }
-
-    private double pidCalculate(double target, double actual) {
+    public double calculateSpeed(double targetSpeed, int encoderValue) {
         long now = System.currentTimeMillis();
-        long deltaT = now - pidLastRun;
-
-        if (deltaT < 5) {
+        long timePassed = now - lastEncoderTime;
+        if (timePassed < 5) {
             // not enough time passed
             return lastPowerOutput;
         }
+        lastEncoderTime = now;
 
+        double targetChange = targetSpeed * GroundDrive.PID_POWER_TO_ENCODER_PER_MILLISECOND; // this is now in encoder difference per second rather than power
+        double actualChange = (((double) (lastEncoder - encoderValue)) * timePassed) / 1000; // this is now in encoder difference per second rather than encoder difference
+        lastEncoder = encoderValue;
+
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrivePid:Difference", "Target:" + targetChange + " Actual:" + actualChange);
+        return pidCalculate(timePassed, targetChange, actualChange) / GroundDrive.PID_POWER_TO_ENCODER_PER_MILLISECOND;
+    }
+
+    private double pidCalculate(long deltaT, double target, double actual) {
         double error = target - actual;
         pidAccumulatedError += (error * deltaT);
         double derivativeError = (error - pidLastError) / deltaT;
-
         pidLastError = error;
-        pidLastRun = now;
+
         double output = (GroundDrive.PID_P * error) + (GroundDrive.PID_I * pidAccumulatedError) + (GroundDrive.PID_D * derivativeError);
         if (output > 100) {
             output = 100;
