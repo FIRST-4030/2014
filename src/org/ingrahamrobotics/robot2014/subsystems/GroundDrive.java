@@ -136,9 +136,7 @@ public class GroundDrive extends Subsystem {
             leftSpeed *= 0.5;
             rightSpeed *= 0.5;
         }
-//        roboDrive.tankDrive(leftSpeed, rightSpeed);
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftSpeed);
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightSpeed);
+        powerTankDriveRaw(leftSpeed, rightSpeed);
     }
 
     /**
@@ -154,12 +152,12 @@ public class GroundDrive extends Subsystem {
      * @param rightSpeed Raw speed for the right motor
      */
     public void powerTankDriveRaw(double leftSpeed, double rightSpeed) {
-//        if (leftSpeed == 0 && rightSpeed == 0) {
-//            stop();
-//        } else {
-//            roboDrive.tankDrive(leftSpeed, rightSpeed);
-//        }
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftSpeed);
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightSpeed);
+        if (leftSpeed == 0 && rightSpeed == 0) {
+            stop();
+        } else {
+            roboDrive.tankDrive(leftSpeed, rightSpeed);
+        }
+//        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftSpeed);
+//        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightSpeed);
     }
 }
