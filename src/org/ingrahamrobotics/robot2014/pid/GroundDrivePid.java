@@ -1,9 +1,3 @@
-package org.ingrahamrobotics.robot2014.pid;
-
-import org.ingrahamrobotics.robot2014.subsystems.GroundDrive;
-import org.ingrahamrobotics.robot2014.tables.Output;
-import org.ingrahamrobotics.robot2014.tables.OutputLevel;
-
 /*
  * Copyright (C) 2014 Ingraham Robotics Team 4030
  *
@@ -20,30 +14,50 @@ import org.ingrahamrobotics.robot2014.tables.OutputLevel;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.ingrahamrobotics.robot2014.pid;
+
+import org.ingrahamrobotics.robot2014.subsystems.GroundDrive;
+import org.ingrahamrobotics.robot2014.tables.Output;
+import org.ingrahamrobotics.robot2014.tables.OutputLevel;
+
 public class GroundDrivePid {
 
     private double pidLastError = 0.0; // Absolute error in last iteration
     private double pidAccumulatedError = 0.0; // Accumulated error
     private long lastEncoderTime; // Timestamp to determine time since last update
     private double lastEncoder;
-    private double lastPowerOutput;
+    private double currentOutputVar;
 
+    public double calculatePower(double targetSpeed, int encoderValue) {
+        double speed = calculateSpeed(targetSpeed * GroundDrive.ROUGH_TRANSLATION, encoderValue);
+        double resultInPower = speed / GroundDrive.ROUGH_TRANSLATION;
+        if (resultInPower > 1) {
+            resultInPower = 1;
+        } else if (resultInPower < -1) {
+            resultInPower = -1;
+        }
+        return resultInPower;
+    }
+
+    /**
+     * @param targetSpeed Target speed, in encoder change per millisecond
+     * @param encoderValue Current encoder value.
+     * @return
+     */
     public double calculateSpeed(double targetSpeed, int encoderValue) {
         long now = System.currentTimeMillis();
         long timePassed = now - lastEncoderTime;
         if (timePassed < 5) {
             // not enough time passed
-            return lastPowerOutput;
+            return currentOutputVar;
         }
         lastEncoderTime = now;
 
-        double targetChange = targetSpeed * GroundDrive.ROUGH_POWER_TO_ENCODER_PER_MILLISECOND; // this is now in encoder difference per second rather than power
-        double actualChange = ((double) (lastEncoder - encoderValue)) * timePassed; // this is now in encoder difference per second rather than encoder difference
+        double actualChange = ((double) (lastEncoder - encoderValue)) * timePassed; // this is now in encoder difference per millisecond rather than encoder difference
         lastEncoder = encoderValue;
 
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrivePid:Difference", "Target Speed:" + targetSpeed + "Modifier:" + GroundDrive.ROUGH_POWER_TO_ENCODER_PER_MILLISECOND
-                + " Target:" + targetChange + " Actual:" + actualChange);
-        return pidCalculate(timePassed, targetChange, actualChange) / GroundDrive.ROUGH_POWER_TO_ENCODER_PER_MILLISECOND;
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrivePid:Difference", "Target:" + targetSpeed + " Modifier:" + GroundDrive.ROUGH_TRANSLATION + " Actual:" + actualChange);
+        return pidCalculate(timePassed, targetSpeed, actualChange) / GroundDrive.ROUGH_TRANSLATION;
     }
 
     private double pidCalculate(long deltaT, double target, double actual) {
@@ -52,17 +66,9 @@ public class GroundDrivePid {
         double derivativeError = (error - pidLastError) / deltaT;
         pidLastError = error;
 
-        double output = (GroundDrive.PID_P * error) + (GroundDrive.PID_I * pidAccumulatedError) + (GroundDrive.PID_D * derivativeError);
-        double max = GroundDrive.ROUGH_POWER_TO_ENCODER_PER_MILLISECOND;
-        if (max < 0) {
-            max *= -1;
-        }
-        if (output > max) {
-            output = max;
-        } else if (output < -max) {
-            output = -max;
-        }
-        lastPowerOutput = output;
-        return output;
+        double change = (GroundDrive.PID_P * error) + (GroundDrive.PID_I * pidAccumulatedError) + (GroundDrive.PID_D * derivativeError);
+
+        currentOutputVar += change;
+        return currentOutputVar;
     }
 }

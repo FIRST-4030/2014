@@ -28,7 +28,10 @@ import org.ingrahamrobotics.robot2014.variablestore.Vst;
 
 public class GroundDrive extends Subsystem {
 
-    public static final double ROUGH_POWER_TO_ENCODER_PER_MILLISECOND = -4712.95;
+    /**
+     * Rough power to encoder per millisecond.
+     */
+    public static final double ROUGH_TRANSLATION = -2000;
     public static final double PID_P = 0.5; // Proportional factor
     public static final double PID_I = 0.5; // Integral factor
     public static final double PID_D = 0.0; // Differential factor
@@ -76,9 +79,10 @@ public class GroundDrive extends Subsystem {
             rightSpeed *= 0.5;
         }
         int leftEncoder = Subsystems.instance.encoders.getLeftEncoder();
-        int rightEncoder = Subsystems.instance.encoders.getRightEncoder();
-        double leftPower = leftPid.calculateSpeed(leftSpeed, leftEncoder);
-        double rightPower = rightPid.calculateSpeed(rightSpeed, rightEncoder);
+//        int rightEncoder = Subsystems.instance.encoders.getRightEncoder();
+        double leftPower = leftPid.calculatePower(leftSpeed, leftEncoder);
+//        double rightPower = rightPid.calculatePower(rightSpeed, rightEncoder);
+        double rightPower = -leftPower;
         powerTankDriveRaw(leftPower, rightPower);
     }
 
