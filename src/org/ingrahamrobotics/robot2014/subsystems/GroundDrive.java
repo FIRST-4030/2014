@@ -56,16 +56,26 @@ public class GroundDrive extends Subsystem {
         setDefaultCommand(new RunGroundDrive());
     }
 
-    public void arcadeDrive(double speed, double turn) {
+    public void pidArcadeDrive(double speed, double turn) {
+        double left = speed + turn;
+        double right = speed - turn;
+        pidTankDrive(left, right);
+    }
+
+    public void powerArcadeDrive(double speed, double turn) {
         if (reversed) {
             speed *= -1;
         }
         if (softwareLowSpeed) {
             speed *= 0.5;
         }
-        roboDrive.arcadeDrive(speed, turn);
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftMotor.get());
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightMotor.get());
+        rawPowerArcadeDrive(speed, turn);
+    }
+
+    public void rawPowerArcadeDrive(double speed, double turn) {
+        double left = speed + turn;
+        double right = speed - turn;
+        rawPowerTankDrive(left, right);
     }
 
     public void pidTankDrive(double leftSpeed, double rightSpeed) {
@@ -79,7 +89,7 @@ public class GroundDrive extends Subsystem {
             rightSpeed *= 0.5;
         }
         int leftEncoder = Subsystems.instance.encoders.getLeftEncoder();
-        int rightEncoder = Subsystems.instance.encoders.getRightEncoder() * -1; // Something strange here?
+        int rightEncoder = Subsystems.instance.encoders.getRightEncoder();
         double leftPower = leftPid.calculatePower(leftSpeed, leftEncoder);
         double rightPower = rightPid.calculatePower(rightSpeed, rightEncoder);
         if (leftPower > -0.15 && leftPower < 0.15) {
@@ -88,7 +98,7 @@ public class GroundDrive extends Subsystem {
         if (rightPower > -0.15 && rightPower < 0.15) {
             rightPower = 0;
         }
-        powerTankDriveRaw(leftPower, -rightPower);
+        rawPowerTankDrive(leftPower, rightPower);
     }
 
     /**
@@ -145,7 +155,7 @@ public class GroundDrive extends Subsystem {
             leftSpeed *= 0.5;
             rightSpeed *= 0.5;
         }
-        powerTankDriveRaw(leftSpeed, rightSpeed);
+        rawPowerTankDrive(leftSpeed, rightSpeed);
     }
 
     /**
@@ -160,7 +170,7 @@ public class GroundDrive extends Subsystem {
      * @param leftSpeed Raw speed for the left motor
      * @param rightSpeed Raw speed for the right motor
      */
-    public void powerTankDriveRaw(double leftSpeed, double rightSpeed) {
+    public void rawPowerTankDrive(double leftSpeed, double rightSpeed) {
         if (leftSpeed == 0 && rightSpeed == 0) {
             stop();
         } else {

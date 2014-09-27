@@ -50,9 +50,9 @@ public class AutoStateCommand extends StateCommand {
                 // Reduce faster motor speed proportional to delta encoder count
                 // (Bigger - Smaller) / Smaller == Error wrt smaller distance
                 if (left > right) {
-                    ss.groundDrive.powerTankDriveRaw(1.0 - ((double) (left - right) / (double) right), 1.0);
+                    ss.groundDrive.rawPowerTankDrive(1.0 - ((double) (left - right) / (double) right), 1.0);
                 } else {
-                    ss.groundDrive.powerTankDriveRaw(1.0, 1.0 - ((double) (right - left) / (double) left));
+                    ss.groundDrive.rawPowerTankDrive(1.0, 1.0 - ((double) (right - left) / (double) left));
                 }
 
                 // Stop when any encoder exceeds the distance

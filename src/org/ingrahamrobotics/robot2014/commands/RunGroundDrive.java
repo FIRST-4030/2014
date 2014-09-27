@@ -24,6 +24,7 @@ import org.ingrahamrobotics.robot2014.input.JInput;
 public class RunGroundDrive extends Command {
 
     private final Subsystems ss = Subsystems.instance;
+    private static final boolean TANK = false;
 
     public RunGroundDrive() {
         requires(ss.groundDrive);
@@ -33,15 +34,27 @@ public class RunGroundDrive extends Command {
     }
 
     protected void execute() {
-        double left = JInput.getAxis(AMap.tankDriveLeft);
-        double right = JInput.getAxis(AMap.tankDriveRight);
-        if (left < 0.05 && left > -0.05) {
-            left = 0;
+        if (TANK) {
+            double left = JInput.getAxis(AMap.tankDriveLeft);
+            double right = JInput.getAxis(AMap.tankDriveRight);
+            if (left < 0.05 && left > -0.05) {
+                left = 0;
+            }
+            if (right < 0.05 && right > -0.05) {
+                right = 0;
+            }
+            ss.groundDrive.pidTankDrive(left, right);
+        } else {
+            double speed = JInput.getAxis(AMap.arcadeDriveY);
+            double turn = JInput.getAxis(AMap.arcadeDriveX);
+            if (speed < 0.05 && speed > -0.05) {
+                speed = 0;
+            }
+            if (turn < 0.05 && turn > -0.05) {
+                turn = 0;
+            }
+            ss.groundDrive.pidArcadeDrive(speed, turn);
         }
-        if (right < 0.05 && right > -0.05) {
-            right = 0;
-        }
-        ss.groundDrive.pidTankDrive(left, right);
     }
 
     protected boolean isFinished() {

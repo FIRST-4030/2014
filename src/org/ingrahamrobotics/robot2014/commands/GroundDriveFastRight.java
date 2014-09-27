@@ -86,7 +86,7 @@ public class GroundDriveFastRight extends Command {
                 finished = true;
             }
         }
-        ss.groundDrive.arcadeDrive(0, speed);
+        ss.groundDrive.powerArcadeDrive(0, speed);
     }
 
     protected boolean isFinished() {

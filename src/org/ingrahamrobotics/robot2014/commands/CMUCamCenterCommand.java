@@ -88,7 +88,7 @@ public class CMUCamCenterCommand extends Command {
             }
             ss.turnTable.drive(speed);
         } else {
-            ss.groundDrive.arcadeDrive(0, speed);
+            ss.groundDrive.pidArcadeDrive(0, speed);
         }
     }
 
@@ -110,7 +110,7 @@ public class CMUCamCenterCommand extends Command {
         if (TURN_TABLE) {
             ss.turnTable.drive(0);
         } else {
-            ss.groundDrive.powerTankDriveRaw(0, 0);
+            ss.groundDrive.rawPowerTankDrive(0, 0);
         }
     }
 }
