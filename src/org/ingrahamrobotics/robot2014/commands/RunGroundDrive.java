@@ -33,8 +33,15 @@ public class RunGroundDrive extends Command {
     }
 
     protected void execute() {
-//        ss.groundDrive.arcadeDrive(JInput.getAxis(AMap.arcadeDriveY), JInput.getAxis(AMap.arcadeDriveX));
-        ss.groundDrive.pidTankDrive(JInput.getAxis(AMap.tankDriveLeft), JInput.getAxis(AMap.tankDriveRight));
+        double left = JInput.getAxis(AMap.tankDriveLeft);
+        double right = JInput.getAxis(AMap.tankDriveRight);
+        if (left < 0.05 && left > -0.05) {
+            left = 0;
+        }
+        if (right < 0.05 && right > -0.05) {
+            right = 0;
+        }
+        ss.groundDrive.pidTankDrive(left, right);
     }
 
     protected boolean isFinished() {

@@ -31,17 +31,17 @@ public class GroundDrive extends Subsystem {
     /**
      * Rough power to encoder per millisecond.
      */
-    public static final double ROUGH_TRANSLATION = -2000;
-    public static final double PID_P = 0.5; // Proportional factor
-    public static final double PID_I = 0.5; // Integral factor
+    public static final double ROUGH_TRANSLATION = 10;
+    public static final double PID_P = 0.2; // Proportional factor
+    public static final double PID_I = 0.0; // Integral factor
     public static final double PID_D = 0.0; // Differential factor
     private final Jaguar leftMotor = new Jaguar(Vst.PWM.LEFT_MOTOR_PORT);
     private final Jaguar rightMotor = new Jaguar(Vst.PWM.RIGHT_MOTOR_PORT);
     private final RobotDrive roboDrive;
     private boolean softwareLowSpeed;
     private boolean reversed;
-    private final GroundDrivePid leftPid = new GroundDrivePid();
-    private final GroundDrivePid rightPid = new GroundDrivePid();
+    private final GroundDrivePid leftPid = new GroundDrivePid("left");
+    private final GroundDrivePid rightPid = new GroundDrivePid("right");
 
     public GroundDrive() {
         this.roboDrive = new RobotDrive(leftMotor, rightMotor);
@@ -79,11 +79,16 @@ public class GroundDrive extends Subsystem {
             rightSpeed *= 0.5;
         }
         int leftEncoder = Subsystems.instance.encoders.getLeftEncoder();
-//        int rightEncoder = Subsystems.instance.encoders.getRightEncoder();
+        int rightEncoder = Subsystems.instance.encoders.getRightEncoder() * -1; // Something strange here?
         double leftPower = leftPid.calculatePower(leftSpeed, leftEncoder);
-//        double rightPower = rightPid.calculatePower(rightSpeed, rightEncoder);
-        double rightPower = -leftPower;
-        powerTankDriveRaw(leftPower, rightPower);
+        double rightPower = rightPid.calculatePower(rightSpeed, rightEncoder);
+        if (leftPower > -0.15 && leftPower < 0.15) {
+            leftPower = 0;
+        }
+        if (rightPower > -0.15 && rightPower < 0.15) {
+            rightPower = 0;
+        }
+        powerTankDriveRaw(leftPower, -rightPower);
     }
 
     /**
@@ -161,7 +166,8 @@ public class GroundDrive extends Subsystem {
         } else {
             roboDrive.tankDrive(leftSpeed, rightSpeed);
         }
-//        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftSpeed);
-//        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightSpeed);
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Left", leftSpeed);
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrive:Right", rightSpeed);
     }
+
 }

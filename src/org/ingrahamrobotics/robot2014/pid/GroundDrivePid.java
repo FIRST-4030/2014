@@ -26,7 +26,12 @@ public class GroundDrivePid {
     private double pidAccumulatedError = 0.0; // Accumulated error
     private long lastEncoderTime; // Timestamp to determine time since last update
     private double lastEncoder;
-    private double currentOutputVar;
+    private double currentSpeedVar;
+    private String outputName;
+
+    public GroundDrivePid(String name) {
+        this.outputName = name;
+    }
 
     public double calculatePower(double targetSpeed, int encoderValue) {
         double speed = calculateSpeed(targetSpeed * GroundDrive.ROUGH_TRANSLATION, encoderValue);
@@ -47,17 +52,19 @@ public class GroundDrivePid {
     public double calculateSpeed(double targetSpeed, int encoderValue) {
         long now = System.currentTimeMillis();
         long timePassed = now - lastEncoderTime;
-        if (timePassed < 5) {
+        if (timePassed < 15) {
             // not enough time passed
-            return currentOutputVar;
+            return currentSpeedVar;
         }
         lastEncoderTime = now;
 
-        double actualChange = ((double) (lastEncoder - encoderValue)) * timePassed; // this is now in encoder difference per millisecond rather than encoder difference
+        double actualChange = ((double) (lastEncoder - encoderValue)) / timePassed; // this is now in encoder difference per millisecond rather than encoder difference
+
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrivePid:Difference:" + outputName, "Target:" + targetSpeed + " Actual:" + actualChange + " Current:" + currentSpeedVar
+                + "\nLast Encoder:" + lastEncoder + " Encoder:" + encoderValue);
         lastEncoder = encoderValue;
 
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrivePid:Difference", "Target:" + targetSpeed + " Modifier:" + GroundDrive.ROUGH_TRANSLATION + " Actual:" + actualChange);
-        return pidCalculate(timePassed, targetSpeed, actualChange) / GroundDrive.ROUGH_TRANSLATION;
+        return pidCalculate(timePassed, targetSpeed, actualChange);
     }
 
     private double pidCalculate(long deltaT, double target, double actual) {
@@ -68,7 +75,7 @@ public class GroundDrivePid {
 
         double change = (GroundDrive.PID_P * error) + (GroundDrive.PID_I * pidAccumulatedError) + (GroundDrive.PID_D * derivativeError);
 
-        currentOutputVar += change;
-        return currentOutputVar;
+        currentSpeedVar += change;
+        return currentSpeedVar;
     }
 }
