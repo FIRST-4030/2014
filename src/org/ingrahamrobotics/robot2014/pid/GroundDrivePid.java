@@ -37,12 +37,13 @@ public class GroundDrivePid {
         }
         lastEncoderTime = now;
 
-        double targetChange = targetSpeed * GroundDrive.PID_POWER_TO_ENCODER_PER_MILLISECOND; // this is now in encoder difference per second rather than power
-        double actualChange = (((double) (lastEncoder - encoderValue)) * timePassed) / 1000; // this is now in encoder difference per second rather than encoder difference
+        double targetChange = targetSpeed * GroundDrive.ROUGH_POWER_TO_ENCODER_PER_MILLISECOND; // this is now in encoder difference per second rather than power
+        double actualChange = ((double) (lastEncoder - encoderValue)) * timePassed; // this is now in encoder difference per second rather than encoder difference
         lastEncoder = encoderValue;
 
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrivePid:Difference", "Target:" + targetChange + " Actual:" + actualChange);
-        return pidCalculate(timePassed, targetChange, actualChange) / GroundDrive.PID_POWER_TO_ENCODER_PER_MILLISECOND;
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrivePid:Difference", "Target Speed:" + targetSpeed + "Modifier:" + GroundDrive.ROUGH_POWER_TO_ENCODER_PER_MILLISECOND
+                + " Target:" + targetChange + " Actual:" + actualChange);
+        return pidCalculate(timePassed, targetChange, actualChange) / GroundDrive.ROUGH_POWER_TO_ENCODER_PER_MILLISECOND;
     }
 
     private double pidCalculate(long deltaT, double target, double actual) {
@@ -52,10 +53,14 @@ public class GroundDrivePid {
         pidLastError = error;
 
         double output = (GroundDrive.PID_P * error) + (GroundDrive.PID_I * pidAccumulatedError) + (GroundDrive.PID_D * derivativeError);
-        if (output > 100) {
-            output = 100;
-        } else if (output < -100) {
-            output = -100;
+        double max = GroundDrive.ROUGH_POWER_TO_ENCODER_PER_MILLISECOND;
+        if (max < 0) {
+            max *= -1;
+        }
+        if (output > max) {
+            output = max;
+        } else if (output < -max) {
+            output = -max;
         }
         lastPowerOutput = output;
         return output;

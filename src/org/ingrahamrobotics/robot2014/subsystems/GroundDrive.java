@@ -28,17 +28,17 @@ import org.ingrahamrobotics.robot2014.variablestore.Vst;
 
 public class GroundDrive extends Subsystem {
 
-    public static final double PID_POWER_TO_ENCODER_PER_MILLISECOND = 1 / 5;
-    public static final double PID_P = 25.0; // Proportional factor
-    public static final double PID_I = 1.0; // Integral factor
+    public static final double ROUGH_POWER_TO_ENCODER_PER_MILLISECOND = -4712.95;
+    public static final double PID_P = 0.5; // Proportional factor
+    public static final double PID_I = 0.5; // Integral factor
     public static final double PID_D = 0.0; // Differential factor
     private final Jaguar leftMotor = new Jaguar(Vst.PWM.LEFT_MOTOR_PORT);
     private final Jaguar rightMotor = new Jaguar(Vst.PWM.RIGHT_MOTOR_PORT);
     private final RobotDrive roboDrive;
     private boolean softwareLowSpeed;
     private boolean reversed;
-    private GroundDrivePid leftPid = new GroundDrivePid();
-    private GroundDrivePid rightPid = new GroundDrivePid();
+    private final GroundDrivePid leftPid = new GroundDrivePid();
+    private final GroundDrivePid rightPid = new GroundDrivePid();
 
     public GroundDrive() {
         this.roboDrive = new RobotDrive(leftMotor, rightMotor);
