@@ -25,7 +25,6 @@ public class RunGroundDrive extends Command {
 
     private final Subsystems ss = Subsystems.instance;
     private static final boolean TANK = true;
-    private static final boolean PID = true;
 
     public RunGroundDrive() {
         requires(ss.groundDrive);
@@ -44,7 +43,7 @@ public class RunGroundDrive extends Command {
             if (right < 0.05 && right > -0.05) {
                 right = 0;
             }
-            if (PID) {
+            if (ss.groundDrive.getPidDrive()) {
                 ss.groundDrive.pidTankDrive(left, right);
             } else {
                 ss.groundDrive.powerTankDrive(left, right);
@@ -58,7 +57,7 @@ public class RunGroundDrive extends Command {
             if (turn < 0.05 && turn > -0.05) {
                 turn = 0;
             }
-            if (PID) {
+            if (ss.groundDrive.getPidDrive()) {
                 ss.groundDrive.pidArcadeDrive(speed, turn);
             } else {
                 ss.groundDrive.powerArcadeDrive(speed, turn);

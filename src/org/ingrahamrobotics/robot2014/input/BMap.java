@@ -36,6 +36,8 @@ public class BMap {
     public static final BMap colorTrackingTrigger = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickTop.MIDDLE);
     public static final BMap turntableRangeTrigger = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickTop.BOTTOM);
     public static final BMap disableStops = new BMap(JMap.SHOOTER_JOYSTICK, JMap.Button.JoystickTop.LEFT);
+    public static final BMap enablePidDrive = new BMap(JMap.DRIVE_JOYSTICK1, JMap.Button.JoystickStand.LEFT_TOP);
+    public static final BMap disablePidDrive = new BMap(JMap.DRIVE_JOYSTICK1, JMap.Button.JoystickStand.LEFT_BOTTOM);
     private final int joystick;
     private final int button;
 

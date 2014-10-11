@@ -40,6 +40,7 @@ public class GroundDrive extends Subsystem {
     private final RobotDrive roboDrive;
     private boolean softwareLowSpeed;
     private boolean reversed;
+    private boolean pidDrive;
     private final GroundDrivePid leftPid = new GroundDrivePid("left");
     private final GroundDrivePid rightPid = new GroundDrivePid("right");
 
@@ -54,6 +55,22 @@ public class GroundDrive extends Subsystem {
 
     protected void initDefaultCommand() {
         setDefaultCommand(new RunGroundDrive());
+    }
+
+    /**
+     * Sets an internal 'pid drive' variable. This is *only* used by getPidDrive(), not anywhere
+     * else.
+     */
+    public void setPidDrive(boolean pidDrive) {
+        Output.output(OutputLevel.HIGH, "GroundDrive:PidDrive", pidDrive ? "Enabled" : "Disabled");
+        this.pidDrive = pidDrive;
+    }
+
+    /**
+     * Gets the internal 'pid drive' variable.
+     */
+    public boolean getPidDrive() {
+        return pidDrive;
     }
 
     public void pidArcadeDrive(double speed, double turn) {
@@ -102,8 +119,8 @@ public class GroundDrive extends Subsystem {
     }
 
     /**
-     * Sets the reversed setting. When reversed, the left/right speeds are
-     * switched, and multiplied by -1.
+     * Sets the reversed setting. When reversed, the left/right speeds are switched, and multiplied
+     * by -1.
      *
      * @param reversed The new value for the reversed setting.
      */
@@ -113,8 +130,8 @@ public class GroundDrive extends Subsystem {
     }
 
     /**
-     * Returns the reversed setting value. When reversed, the left/right speeds
-     * are switched, and multiplied by -1.
+     * Returns the reversed setting value. When reversed, the left/right speeds are switched, and
+     * multiplied by -1.
      *
      * @return The current reversed setting.
      */
@@ -138,8 +155,8 @@ public class GroundDrive extends Subsystem {
     /**
      * Power-based tank drive.
      *
-     * The left/right values specified are altered by the "reversed" and
-     * "softwareLowSpeed" settings.
+     * The left/right values specified are altered by the "reversed" and "softwareLowSpeed"
+     * settings.
      *
      * @param leftSpeed Speed for the left motor
      * @param rightSpeed Speed for the right motor
@@ -161,11 +178,10 @@ public class GroundDrive extends Subsystem {
     /**
      * Raw power-based tank drive.
      *
-     * "Raw" means that the leftSpeed/rightSpeed aren't altered by the
-     * "reversed" and "softwareLowSpeed" settings.
+     * "Raw" means that the leftSpeed/rightSpeed aren't altered by the "reversed" and
+     * "softwareLowSpeed" settings.
      *
-     * "power-based" means that this sets the raw power of the motors, rather
-     * than using a PID loop.
+     * "power-based" means that this sets the raw power of the motors, rather than using a PID loop.
      *
      * @param leftSpeed Raw speed for the left motor
      * @param rightSpeed Raw speed for the right motor
