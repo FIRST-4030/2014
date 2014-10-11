@@ -27,7 +27,7 @@ public class GroundDrivePid {
     private long lastEncoderTime; // Timestamp to determine time since last update
     private double lastEncoder;
     private double currentSpeedVar;
-    private String outputName;
+    private final String outputName;
 
     public GroundDrivePid(String name) {
         this.outputName = name;
@@ -60,8 +60,7 @@ public class GroundDrivePid {
 
         double actualChange = ((double) (lastEncoder - encoderValue)) / timePassed; // this is now in encoder difference per millisecond rather than encoder difference
 
-        Output.output(OutputLevel.RAW_MOTORS, "GroundDrivePid:Difference:" + outputName, "Target:" + targetSpeed + " Actual:" + actualChange + " Current:" + currentSpeedVar
-                + "\nLast Encoder:" + lastEncoder + " Encoder:" + encoderValue);
+        Output.output(OutputLevel.RAW_MOTORS, "GroundDrivePid:Difference:" + outputName, "Target:" + targetSpeed + " Actual:" + actualChange + " Current:" + currentSpeedVar);
         lastEncoder = encoderValue;
 
         return pidCalculate(timePassed, targetSpeed, actualChange);
